@@ -37,8 +37,10 @@ public:
     void postOrder(vector<T> &out)
         {postOrder(root, out);}
     void Print() {Print(root);}
+    void CreateBinTree_1(){CreateBinTree_1(root);};
 protected:
     BTNode<T> *root;
+    void CreateBinTree_1(BTNode<T> *&subTree);
     void CreateBinTree(BTNode<T> *&subTree);
     void destory(BTNode<T> *subTree);
     int Height(BTNode<T> *subTree);
@@ -62,6 +64,11 @@ void BinTree<T>::destory(BTNode<T> *subTree) {
 
 template <typename T>
 void BinTree<T>::CreateBinTree(BTNode<T> *&subTree) {
+    
+};
+
+template <typename T>
+void BinTree<T>::CreateBinTree_1(BTNode<T> *&subTree) {
     stack<BTNode<char> *> s;
     subTree = NULL;
     BTNode<char> *p, *t; int k;
@@ -82,7 +89,7 @@ void BinTree<T>::CreateBinTree(BTNode<T> *&subTree) {
         }
         cin >> c;
     }
-}
+};
 
 template <typename T>
 int BinTree<T>::Height(BTNode<T> *subTree) {
@@ -104,9 +111,9 @@ template <typename T>
 BTNode<T> *BinTree<T>::Parent(BTNode<T> *subTree, BTNode<T> *current) {
     if (NULL == subTree) return NULL;
     if (subTree->lc == current || subTree->rc == current) return subTree;
-    BTNode<T> *p;
-    if (NULL != (p=Parent(subTree->lc), current)) return p;
-    else return Parent(subTree->rc, current);
+    BTNode<T> *p = Parent(subTree->lc,current);
+    if (p) return p;
+    else return Parent(subTree->rc,current);
 };
 
 template <typename T>
@@ -116,43 +123,39 @@ void BinTree<T>::preOrder(BTNode<T> *subTree, vector<T> &out) {
         preOrder(subTree->lc, out);
         preOrder(subTree->rc, out);
     }
-}
+};
 
 template <typename T>
 void BinTree<T>::inOrder(BTNode<T> *subTree, vector<T> &out) {
     if (NULL != subTree) {
-        preOrder(subTree->lc, out);
+        inOrder(subTree->lc, out);
         out.push_back(subTree->data);
-        preOrder(subTree->rc, out);
+        inOrder(subTree->rc, out);
     }
-}
+};
 
 template <typename T>
 void BinTree<T>::postOrder(BTNode<T> *subTree, vector<T> &out) {
     if (NULL != subTree) {
-        preOrder(subTree->lc, out);
-        preOrder(subTree->rc, out);
+        postOrder(subTree->lc, out);
+        postOrder(subTree->rc, out);
         out.push_back(subTree->data);
     }
-}
+};
 
 template <typename T>
 void BinTree<T>::Print(BTNode<T> *subTree) {
     if (NULL != subTree) {
-        int x = getLevel(subTree) - 1;
-        while (x--) cout << ' ';
-        cout << subTree->data << endl;
         Print(subTree->lc);
+        int x = getLevel(subTree) - 1;
+        while (x--) cout << '\t';
+        cout << subTree->data << endl;
         Print(subTree->rc);
     }
-}
+};
 
 template <typename T>
 int BinTree<T>::getLevel(BTNode<T> *current) {
     if (root == current) return 1;
-    else {
-        BTNode<T> *p = Parent(current);        
-        cout << p->data << endl;
-        return 1 + getLevel(Parent(current));
-    }
-}
+    else return 1 + getLevel(Parent(current));
+};
