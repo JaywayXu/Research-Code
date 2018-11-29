@@ -15,11 +15,24 @@ struct BTNode {
 template <typename T>
 class BinTree {
 public:
-    BinTree() {root=NULL; CreateBinTree();}
+    BinTree(): root(NULL) {}
     ~BinTree() {destory();}
+    void Print_CinPre() {
+        for (int i=0; i<vecPre.size(); i++) cout << vecPre[i];
+        cout << endl;
+    }
+    void Print_CinIn() {
+        for (int i=0; i<vecIn.size(); i++) cout << vecIn[i];
+        cout << endl;
+    }
+    void Print_CinPost() {
+        for (int i=0; i<vecPost.size(); i++) cout << vecPost[i];
+        cout << endl;
+    }
     void destory() {return destory(root);} //删除所有节点
-    void CreateBinTree() {CreateBinTree(root);} // 前序加中序建立二叉树
-    void CreateBinTree_1(){CreateBinTree_1(root);} // 广义表建立二叉树
+    void CreateBinTree_PreIn(); // 前序加中序建立二叉树
+    void CreateBinTree_PostIn(); // 后序加中序建立二叉树
+    void CreateBinTree_List(); // 广义表建立二叉树
     bool IsEmpty() {return (!root)?true:false;} // 判断是否为空
     int Height() {return Height(root);} // 获取二叉树高度
     int Size() {return Size(root);} // 获取二叉树结点数量
@@ -56,9 +69,10 @@ public:
 
 protected:
     BTNode<T> *root;
-    void CreateBinTree_1(BTNode<T> *&subTree);
-    void CreateBinTree(BTNode<T> *&subTree);
+    vector<T> vecPre, vecIn, vecPost;
     void destory(BTNode<T> *subTree);
+    BTNode<T> *CreateBinTree_PreIn(int preStart, int preEnd, int inStart, int inEnd);
+    BTNode<T> *CreateBinTree_PostIn(int preStart, int postEnd, int inStart, int inEnd);
     int Height(BTNode<T> *subTree);
     int Size(BTNode<T> *subTree);
     BTNode<T> *Parent(BTNode<T> *subTree, BTNode<T> *current);
@@ -82,24 +96,84 @@ void BinTree<T>::destory(BTNode<T> *subTree) {
 };
 
 template <typename T>
-void BinTree<T>::CreateBinTree(BTNode<T> *&subTree) {
-    
+void BinTree<T>::CreateBinTree_PreIn() {
+    destory();
+    vecPre.clear(); vecIn.clear();
+    cout << "前序(';'表示结束)：";
+    T c; cin >> c;
+    while (';' != (char)c) {
+        vecPre.push_back(c);
+        cin >> c;
+    }
+    cout << "中序(';'表示结束)：";
+    cin >> c;
+    while (';' != (char)c) {
+        vecIn.push_back(c);
+        cin >> c;
+    }
+    if(vecPre.size() != vecIn.size()) {
+        cout << "error:前序中序长度不相等！" << endl;
+        return;
+    }
+    root = CreateBinTree_PreIn(0, vecPre.size()-1, 0, vecIn.size()-1);
 };
 
 template <typename T>
-void BinTree<T>::CreateBinTree_1(BTNode<T> *&subTree) {
-    stack<BTNode<T> *> s;
-    subTree = NULL;
-    BTNode<T> *p, *t; int k;
-    T c;
+BTNode<T> *BinTree<T>::CreateBinTree_PreIn(int preStart, int preEnd, int inStart, int inEnd) {
+    if(preStart>preEnd || inStart > inEnd) return NULL;
+    BTNode<T> *p = new BTNode<T>(vecPre[preStart]);
+    for(int i=inStart; i<=inEnd; i++) {
+        if(vecIn[i] == vecPre[preStart]){
+            p->lc = CreateBinTree_PreIn(preStart+1, preStart+i-inStart, inStart, i-1);
+            p->rc = CreateBinTree_PreIn(preStart+i-inStart+1, preEnd, i+1, inEnd);
+        }
+    }
+    return p;
+}
+
+template <typename T>
+void BinTree<T>::CreateBinTree_PostIn() {
+    destory();
+    vecPost.clear(); vecIn.clear();
+    cout << "后序(';'表示结束)：";
+    T c; cin >> c;
+    while (';' != (char)c) {
+        vecPost.push_back(c);
+        cin >> c;
+    }
+    cout << "中序(';'表示结束)：";
     cin >> c;
+    while (';' != (char)c) {
+        vecIn.push_back(c);
+        cin >> c;
+    }
+    if(vecPost.size() != vecIn.size()) {
+        cout << "error:后序中序长度不相等！" << endl;
+        return;
+    }
+    if (vecPre.size()==0 || vecIn.size()==0) return;
+    root = CreateBinTree_PostIn(0, vecPre.size()-1, 0, vecIn.size()-1);
+};
+
+template <typename T>
+BTNode<T> *BinTree<T>::CreateBinTree_PostIn(int postStart, int postEnd, int inStart, int inEnd) {
+    
+}
+
+template <typename T>
+void BinTree<T>::CreateBinTree_List() {
+    destory();
+    stack<BTNode<T> *> s;
+    BTNode<T> *p, *t; int k;
+    cout << "广义表(';'表示结束)：";
+    T c; cin >> c;
     while (';' != (char)c) {
         switch ((char)c) {
             case '(': s.push(p); k=1; break;
             case ')': t=s.top(); s.pop(); break;
             case ',': k=2; break;
             default: p = new BTNode<T>(c);
-                if (NULL == subTree) subTree = p;
+                if (!root) root = p;
                 else if (1 == k) {
                     t = s.top(); t->lc = p;
                 } else {

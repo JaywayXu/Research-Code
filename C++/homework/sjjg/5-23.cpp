@@ -1,12 +1,28 @@
 #include <iostream>
-#include <vector>
 #include "BinTree.h"
 using namespace std;
 
 int main() {
     BinTree<char> a;
-    a.CreateBinTree_1();
+
+    // a.CreateBinTree_PreIn();
+    // a.Print_CinPre();
+    // a.preOrder();
+    // a.Print_CinIn();
+    // a.inOrder();
+    // a.postOrder();
+    // a.Print();
+
+    a.CreateBinTree_PostIn();
+    a.Print_CinPost();
+    a.postOrder();
+    a.Print_CinIn();
+    a.inOrder();
+    a.preOrder();
     a.Print();
+
+    // a.CreateBinTree_List();
+    // a.Print();
 
     // cout << a.Height() << endl;
     // cout << a.Size() << endl;
