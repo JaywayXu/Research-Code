@@ -15,29 +15,45 @@ struct BTNode {
 template <typename T>
 class BinTree {
 public:
-    BinTree() {root=NULL; CreateBinTree(root);}
-    ~BinTree() {destory(root);}
-    bool IsEmpty() {return (NULL==root)?true:false;}
-    BTNode<T> *Parent(BTNode<T> *current) {
-        return (NULL==root || root==current)?NULL:Parent(root, current);
+    BinTree() {root=NULL; CreateBinTree();}
+    ~BinTree() {destory();}
+    void destory() {return destory(root);} //删除所有节点
+    void CreateBinTree() {CreateBinTree(root);} // 前序加中序建立二叉树
+    void CreateBinTree_1(){CreateBinTree_1(root);} // 广义表建立二叉树
+    bool IsEmpty() {return (!root)?true:false;} // 判断是否为空
+    int Height() {return Height(root);} // 获取二叉树高度
+    int Size() {return Size(root);} // 获取二叉树结点数量
+    int getLevel(BTNode<T> *current); // 获取当前节点高度
+    BTNode<T> *Parent(BTNode<T> *current) { // 获取当前节点的父节点指针
+        return (!root || root==current)?NULL:Parent(root, current);
     }
-    BTNode<T> *LeftChild(BTNode<T> *current) {
-        return (NULL!=current)?current->lc:NULL;
+    BTNode<T> *getRoot()const {return root;} // 获取根节点指针
+    void preOrder() { // 前序遍历
+        vector<T> vec;
+        preOrder(root, vec);
+        for (int i=0; i<vec.size(); i++) cout << vec[i];
+        cout << endl;
     }
-    BTNode<T> *RightChild(BTNode<T> *current) {
-        return (NULL!=current)?current->rc:NULL;
+    void inOrder() { // 中序遍历
+        vector<T> vec;
+        inOrder(root, vec);
+        for (int i=0; i<vec.size(); i++) cout << vec[i];
+        cout << endl;
     }
-    int Height() {return Height(root);}
-    int Size() {return Size(root);}
-    BTNode<T> *getRoot()const {return root;}
-    void preOrder(vector<T> &out)
-        {preOrder(root, out);}
-    void inOrder(vector<T> &out)
-        {inOrder(root, out);}
-    void postOrder(vector<T> &out)
-        {postOrder(root, out);}
-    void Print() {Print(root);}
-    void CreateBinTree_1(){CreateBinTree_1(root);};
+    void postOrder() { // 后序遍历
+        vector<T> vec;
+        postOrder(root, vec);
+        for (int i=0; i<vec.size(); i++) cout << vec[i];
+        cout << endl;
+    }
+    void Print() {Print(root);} // 凹入法输出二叉树
+
+    int LeafNodeNum() {return LeafNodeNum(root);} // 5-23(1)获取叶结点数量
+    void Conversion() {return Conversion(root);} // 5-23(2)反转二叉树（交换左右孩子）
+    bool Find_PrintAncestor(T x); // 5-26查找结点并输出所有祖先节点
+    BTNode<T> *Find(T x) {return Find(root ,x);} //查找结点并返回结点指针
+    void PrintAncestor(BTNode<T> *subTree); // 输出所有祖先结点
+
 protected:
     BTNode<T> *root;
     void CreateBinTree_1(BTNode<T> *&subTree);
@@ -50,12 +66,15 @@ protected:
     void inOrder(BTNode<T> *subTree, vector<T> &out);
     void postOrder(BTNode<T> *subTree, vector<T> &out);
     void Print(BTNode<T> *subTree);
-    int getLevel(BTNode<T> *current);
+
+    int LeafNodeNum(BTNode<T> *subTree);
+    void Conversion(BTNode<T> *subTree);
+    BTNode<T> *Find(BTNode<T> *subTree, T x);
 };
 
 template <typename T>
 void BinTree<T>::destory(BTNode<T> *subTree) {
-    if (NULL != subTree) {
+    if (subTree) {
         destory(subTree->lc);
         destory(subTree->rc);
         delete subTree;
@@ -69,17 +88,17 @@ void BinTree<T>::CreateBinTree(BTNode<T> *&subTree) {
 
 template <typename T>
 void BinTree<T>::CreateBinTree_1(BTNode<T> *&subTree) {
-    stack<BTNode<char> *> s;
+    stack<BTNode<T> *> s;
     subTree = NULL;
-    BTNode<char> *p, *t; int k;
-    char c;
+    BTNode<T> *p, *t; int k;
+    T c;
     cin >> c;
-    while (';' != c) {
-        switch (c) {
+    while (';' != (char)c) {
+        switch ((char)c) {
             case '(': s.push(p); k=1; break;
             case ')': t=s.top(); s.pop(); break;
             case ',': k=2; break;
-            default: p = new BTNode<char>(c);
+            default: p = new BTNode<T>(c);
                 if (NULL == subTree) subTree = p;
                 else if (1 == k) {
                     t = s.top(); t->lc = p;
@@ -93,7 +112,7 @@ void BinTree<T>::CreateBinTree_1(BTNode<T> *&subTree) {
 
 template <typename T>
 int BinTree<T>::Height(BTNode<T> *subTree) {
-    if (NULL == subTree) return 0;
+    if (!subTree) return 0;
     else {
         int i = Height(subTree->lc);
         int j = Height(subTree->rc);
@@ -103,22 +122,28 @@ int BinTree<T>::Height(BTNode<T> *subTree) {
 
 template <typename T>
 int BinTree<T>::Size(BTNode<T> *subTree) {
-    if (NULL == subTree) return 0;
+    if (!subTree) return 0;
     else return 1+Size(subTree->lc)+Size(subTree->rc);
 };
 
 template <typename T>
+int BinTree<T>::getLevel(BTNode<T> *current) {
+    if (root == current) return 1;
+    else return 1 + getLevel(Parent(current));
+};
+
+template <typename T>
 BTNode<T> *BinTree<T>::Parent(BTNode<T> *subTree, BTNode<T> *current) {
-    if (NULL == subTree) return NULL;
+    if (!subTree) return NULL;
     if (subTree->lc == current || subTree->rc == current) return subTree;
-    BTNode<T> *p = Parent(subTree->lc,current);
+    BTNode<T> *p = Parent(subTree->lc, current);
     if (p) return p;
-    else return Parent(subTree->rc,current);
+    else return Parent(subTree->rc, current);
 };
 
 template <typename T>
 void BinTree<T>::preOrder(BTNode<T> *subTree, vector<T> &out) {
-    if (NULL != subTree) {
+    if (subTree) {
         out.push_back(subTree->data);
         preOrder(subTree->lc, out);
         preOrder(subTree->rc, out);
@@ -127,7 +152,7 @@ void BinTree<T>::preOrder(BTNode<T> *subTree, vector<T> &out) {
 
 template <typename T>
 void BinTree<T>::inOrder(BTNode<T> *subTree, vector<T> &out) {
-    if (NULL != subTree) {
+    if (subTree) {
         inOrder(subTree->lc, out);
         out.push_back(subTree->data);
         inOrder(subTree->rc, out);
@@ -136,7 +161,7 @@ void BinTree<T>::inOrder(BTNode<T> *subTree, vector<T> &out) {
 
 template <typename T>
 void BinTree<T>::postOrder(BTNode<T> *subTree, vector<T> &out) {
-    if (NULL != subTree) {
+    if (subTree) {
         postOrder(subTree->lc, out);
         postOrder(subTree->rc, out);
         out.push_back(subTree->data);
@@ -145,17 +170,61 @@ void BinTree<T>::postOrder(BTNode<T> *subTree, vector<T> &out) {
 
 template <typename T>
 void BinTree<T>::Print(BTNode<T> *subTree) {
-    if (NULL != subTree) {
-        Print(subTree->lc);
-        int x = getLevel(subTree) - 1;
-        while (x--) cout << '\t';
-        cout << subTree->data << endl;
-        Print(subTree->rc);
+    if (!subTree) return;
+    Print(subTree->lc);
+    int x = getLevel(subTree) - 1;
+    while (x--) cout << '\t';
+    cout << subTree->data << endl;
+    Print(subTree->rc);
+};
+
+template <typename T>
+int BinTree<T>::LeafNodeNum(BTNode<T> *subTree) {
+    if (!subTree) return 0;
+    else if (!subTree->lc && !subTree->rc) return 1;
+    else {
+        int i = LeafNodeNum(subTree->lc);
+        int j = LeafNodeNum(subTree->rc);
+        return i+j;
     }
 };
 
 template <typename T>
-int BinTree<T>::getLevel(BTNode<T> *current) {
-    if (root == current) return 1;
-    else return 1 + getLevel(Parent(current));
+void BinTree<T>::Conversion(BTNode<T> *subTree) {
+    if (subTree) {
+        BTNode<T> *p = subTree->lc;
+        subTree->lc = subTree->rc;
+        subTree->rc = p;
+        Conversion(subTree->lc);
+        Conversion(subTree->rc);
+    }
+};
+
+template <typename T>
+bool BinTree<T>::Find_PrintAncestor(T x) {
+    BTNode<T> *p = Find(root, x);
+    if (!p) return false;
+    PrintAncestor(p);
+};
+
+template <typename T>
+BTNode<T> *BinTree<T>::Find(BTNode<T> *subTree, T x) {
+    if (!subTree) return NULL;
+    if (x == subTree->data) return subTree;
+    else {
+        BTNode<T> *p = Find(subTree->lc, x);
+        if (p) return p;
+        else return Find(subTree->rc, x);
+    }
+};
+
+template <typename T>
+void BinTree<T>::PrintAncestor(BTNode<T> *subTree) {
+    if (!subTree) return;
+    BTNode<T> *p = Parent(root, subTree);
+    if (p != root) {
+        cout  << " <- " << p->data;
+        PrintAncestor(p);
+    }
+    else if (p == root) cout << " <- "<< p->data << endl;
 };
