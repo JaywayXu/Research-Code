@@ -115,6 +115,7 @@ void BinTree<T>::CreateBinTree_PreIn() {
         cout << "error:前序中序长度不相等！" << endl;
         return;
     }
+    if (vecPre.size()==0 || vecIn.size()==0) return;
     root = CreateBinTree_PreIn(0, vecPre.size()-1, 0, vecIn.size()-1);
 };
 
@@ -151,13 +152,21 @@ void BinTree<T>::CreateBinTree_PostIn() {
         cout << "error:后序中序长度不相等！" << endl;
         return;
     }
-    if (vecPre.size()==0 || vecIn.size()==0) return;
-    root = CreateBinTree_PostIn(0, vecPre.size()-1, 0, vecIn.size()-1);
+    if (vecPost.size()==0 || vecIn.size()==0) return;
+    root = CreateBinTree_PostIn(0, vecPost.size()-1, 0, vecIn.size()-1);
 };
 
 template <typename T>
 BTNode<T> *BinTree<T>::CreateBinTree_PostIn(int postStart, int postEnd, int inStart, int inEnd) {
-    
+    if(postStart > postEnd || inStart > inEnd) return NULL;
+    BTNode<T> *p = new BTNode<T>(vecPost[postEnd]);
+    for(int i=inStart; i<=inEnd; i++) {
+        if(vecIn[i] == vecPost[postEnd]) {
+            p->lc = CreateBinTree_PostIn(postStart, postStart-inStart+i-1, inStart, i-1);
+            p->rc = CreateBinTree_PostIn(postStart-inStart+i, postEnd-1, i+1, inEnd);
+        }
+    }
+    return p;
 }
 
 template <typename T>
@@ -240,16 +249,16 @@ void BinTree<T>::postOrder(BTNode<T> *subTree, vector<T> &out) {
         postOrder(subTree->rc, out);
         out.push_back(subTree->data);
     }
-};
+};  
 
 template <typename T>
 void BinTree<T>::Print(BTNode<T> *subTree) {
     if (!subTree) return;
-    Print(subTree->lc);
+    Print(subTree->rc);
     int x = getLevel(subTree) - 1;
     while (x--) cout << '\t';
     cout << subTree->data << endl;
-    Print(subTree->rc);
+    Print(subTree->lc);
 };
 
 template <typename T>

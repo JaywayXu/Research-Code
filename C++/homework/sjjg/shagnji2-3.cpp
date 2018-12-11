@@ -5,18 +5,14 @@ using namespace std;
 int main() {
     BinTree<char> a;
 
-    // a.CreateBinTree_PreIn();
-    // a.Print_CinPre();
-    // a.preOrder();
-    // a.Print_CinIn();
-    // a.inOrder();
-    // a.postOrder();
-    // a.Print();
+    a.CreateBinTree_PreIn();
+    a.preOrder();
+    a.inOrder();
+    a.postOrder();
+    a.Print();
 
     a.CreateBinTree_PostIn();
-    a.Print_CinPost();
     a.postOrder();
-    a.Print_CinIn();
     a.inOrder();
     a.preOrder();
     a.Print();
