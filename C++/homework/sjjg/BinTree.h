@@ -97,7 +97,7 @@ void BinTree<T>::destory(BTNode<T> *subTree) {
 
 template <typename T>
 void BinTree<T>::CreateBinTree_PreIn() {
-    destory();
+    destory(); root = NULL;
     vecPre.clear(); vecIn.clear();
     cout << "前序(';'表示结束)：";
     T c; cin >> c;
@@ -134,7 +134,7 @@ BTNode<T> *BinTree<T>::CreateBinTree_PreIn(int preStart, int preEnd, int inStart
 
 template <typename T>
 void BinTree<T>::CreateBinTree_PostIn() {
-    destory();
+    destory(); root = NULL;
     vecPost.clear(); vecIn.clear();
     cout << "后序(';'表示结束)：";
     T c; cin >> c;
@@ -171,7 +171,7 @@ BTNode<T> *BinTree<T>::CreateBinTree_PostIn(int postStart, int postEnd, int inSt
 
 template <typename T>
 void BinTree<T>::CreateBinTree_List() {
-    destory();
+    destory(); root = NULL;
     stack<BTNode<T> *> s;
     BTNode<T> *p, *t; int k;
     cout << "广义表(';'表示结束)：";
