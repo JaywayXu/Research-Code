@@ -142,6 +142,10 @@ bool AVLTree<T>::Remove(AVLNode<T> *&ptr, T x) {
         else pr->right = q;
         while (!st.empty()) {
             pr = st.top(); st.pop();
+            if (!pr->left && !pr->right) {
+                pr->bf = 0;
+                continue;
+            }
             if (pr->right == q) pr->bf--;
             else pr->bf++;
             if (!st.empty()) {
