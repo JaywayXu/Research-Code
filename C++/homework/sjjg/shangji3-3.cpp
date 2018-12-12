@@ -23,7 +23,6 @@ int main() {
             case 3: {
                 int x; cout << "Input data: "; cin >> x;
                 avl.Search(x)? cout<<"True\n": cout<<"False\n";
-                avl.Print();
             };break;
             case 4: {
                 int x; cout << "Input data: "; cin >> x;
