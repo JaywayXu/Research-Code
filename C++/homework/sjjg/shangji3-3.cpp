@@ -14,7 +14,7 @@ int main() {
         cin >> num;
         if (num == 0) break;
         switch (num) {
-            case 1: avl.Init();cout<<"Succeed!\n"; avl.Print(); 9break;
+            case 1: avl.Init();cout<<"Succeed!\n"; avl.Print(); break;
             case 2: {
                 int x; cout << "Input data: "; cin >> x;
                 avl.Insert(x)? cout<<"Succeed\n": cout<<"Failed\n";
