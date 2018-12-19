@@ -20,7 +20,7 @@ public:
     ~AVLTree() {destory(root);}
     void Init();
     bool Search(const T x) {return Search(x, root)? true: false;}
-    bool Insert(T &el) {return Insert(root, el);}
+    bool Insert(T el) {return Insert(root, el);}
     bool Remove(T x) {return Remove(root, x);}
     void Print() {Print(root);}
 
@@ -28,7 +28,7 @@ protected:
     AVLNode<T> *root;
     void destory(AVLNode<T> *&ptr);
     AVLNode<T> *Search(T x, AVLNode<T> *&ptr);
-    bool Insert(AVLNode<T> *&ptr, T &el);
+    bool Insert(AVLNode<T> *&ptr, T el);
     bool Remove(AVLNode<T> *&ptr, T x);
     void Print(AVLNode<T> *ptr);
     void RotateL(AVLNode<T> *&ptr);
@@ -72,7 +72,7 @@ AVLNode<T> *AVLTree<T>::Search(T x, AVLNode<T> *&ptr) {
 };
 
 template <typename T>
-bool AVLTree<T>::Insert(AVLNode<T> *&ptr, T &el) {
+bool AVLTree<T>::Insert(AVLNode<T> *&ptr, T el) {
     AVLNode<T> *pr = NULL, *p = ptr, *q; int d;
     stack<AVLNode<T> *> st;
     while (p) {

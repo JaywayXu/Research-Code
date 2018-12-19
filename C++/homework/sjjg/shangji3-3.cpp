@@ -7,7 +7,6 @@ int main() {
     AVLTree<int> avl;
     int num;
     while (1) {
-        system("cls");
         cout << "1: Initial tree;   2: Insert data;\n"
              << "3: Search data;    4: Remove data;\n"
              << "5: Print tree;     0: Exit;\nInput: ";

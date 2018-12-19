@@ -6,10 +6,11 @@ using namespace std;
 template <typename T>
 struct BTNode {
     T data;
+    int count;
     BTNode<T> *lc, *rc;
-    BTNode(): lc(NULL), rc(NULL) {}
+    BTNode(): lc(NULL), rc(NULL), count(1) {}
     BTNode(T x, BTNode<T> *l=NULL, BTNode<T> *r=NULL)
-        :data(x), lc(l), rc(r) {}
+        :data(x), lc(l), rc(r), count(1) {}
 };
 
 template <typename T>
@@ -62,10 +63,13 @@ public:
     void Print() {Print(root);} // 凹入法输出二叉树
 
     int LeafNodeNum() {return LeafNodeNum(root);} // 5-23(1)获取叶结点数量
-    void Conversion() {return Conversion(root);} // 5-23(2)反转二叉树（交换左右孩子）
+    void Conversion() {Conversion(root);} // 5-23(2)反转二叉树（交换左右孩子）
     bool Find_PrintAncestor(T x); // 5-26查找结点并输出所有祖先节点
     BTNode<T> *Find(T x) {return Find(root ,x);} //查找结点并返回结点指针
     void PrintAncestor(BTNode<T> *subTree); // 输出所有祖先结点
+    bool IsBst() {return (IsBst(root) == 0)? true: false;} // 判断是否有序
+    void Insert(T tdata) {Insert(tdata, root);} // 插入结点，存在则count++
+    void RemoveMax(); // 删除最大结点
 
 protected:
     BTNode<T> *root;
@@ -84,6 +88,8 @@ protected:
     int LeafNodeNum(BTNode<T> *subTree);
     void Conversion(BTNode<T> *subTree);
     BTNode<T> *Find(BTNode<T> *subTree, T x);
+    int IsBst(BTNode<T> *subTree);
+    void Insert(T tdata, BTNode<T> *&subTree);
 };
 
 template <typename T>
@@ -311,3 +317,62 @@ void BinTree<T>::PrintAncestor(BTNode<T> *subTree) {
     }
     else if (p == root) cout << " <- "<< p->data << endl;
 };
+
+template <typename T>
+int BinTree<T>::IsBst(BTNode<T> *subTree) {
+    if (!subTree) return 0;
+    else {
+        if (subTree->lc && subTree->rc) {
+            if (subTree->lc->data < subTree->data && subTree->data < subTree->rc->data)
+                return IsBst(subTree->lc)+IsBst(subTree->rc);
+            else return 1+IsBst(subTree->lc)+IsBst(subTree->rc);
+        }
+        else if (subTree->lc && !subTree->rc) {
+            if (subTree->lc->data < subTree->data)
+                return IsBst(subTree->lc);
+            else return 1+IsBst(subTree->lc);
+        }
+        else if (!subTree->lc && subTree->rc) {
+            if (subTree->data < subTree->rc->data) 
+                return IsBst(subTree->rc);
+            else return 1+IsBst(subTree->rc);
+        }
+        else return 0;
+    }
+}
+
+template <typename T>
+void BinTree<T>::Insert(T tdata, BTNode<T> *&subTree) {
+    if (!subTree) subTree = new BTNode<T>(tdata);
+    else {
+        if (subTree->data == tdata) subTree->count++;
+        else if (tdata < subTree->data)
+            Insert(tdata, subTree->lc);
+        else Insert(tdata, subTree->rc);
+    }
+}
+
+template <typename T>
+void BinTree<T>::RemoveMax() {
+    BTNode<T> *subTree = root;
+    if (!subTree) return;
+    stack<BTNode<T> *> st;
+    while(subTree->rc) {
+        st.push(subTree);
+        subTree = subTree->rc;
+    }
+    if (subTree->lc) {
+        if (st.empty()) {
+            root = subTree->lc;
+        } else {
+            st.top()->rc = subTree->lc;
+        }
+    } else {
+        if (st.empty()) {
+            root = NULL;
+        } else {
+            st.top()->rc = NULL;
+        }
+    }
+    delete subTree;
+}
