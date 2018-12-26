@@ -18,11 +18,11 @@ class AVLTree {
 public:
     AVLTree(): root(NULL) {}
     ~AVLTree() {destory(root);}
-    void Init();
-    bool Search(const T x) {return Search(x, root)? true: false;}
-    bool Insert(T el) {return Insert(root, el);}
-    bool Remove(T x) {return Remove(root, x);}
-    void Print() {Print(root);}
+    void Init(); // 初始化树
+    bool Search(const T x) {return Search(x, root)? true: false;} // 查找
+    bool Insert(T el) {return Insert(root, el);} // 插入
+    bool Remove(T x) {return Remove(root, x);}  //删除
+    void Print() {Print(root);}  // 输出
 
 protected:
     AVLNode<T> *root;
