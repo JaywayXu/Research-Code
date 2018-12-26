@@ -4,9 +4,8 @@ using namespace std;
 
 int main() {
     MSTree mt;
+    mt.Print_Graph();
     mt.Kruskal();
-    mt.Print_Graph();
     mt.Prim();
-    mt.Print_Graph();
     return 0;
 }

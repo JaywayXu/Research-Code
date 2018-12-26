@@ -1,10 +1,12 @@
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 using namespace std;
 
 #define MAXEDGE 20
 #define MAXVEX 20
 #define INFINITY 65535
+#define FILENAME "mst.txt"
 
 struct Graph {
 	int arc[MAXVEX][MAXVEX];
@@ -18,6 +20,7 @@ struct Edge {
 class MSTree {
 protected:
     Graph *G;
+	ofstream ofile;
 public:
     MSTree();
     ~MSTree();
@@ -30,10 +33,12 @@ public:
 };
 
 MSTree::MSTree() {
+	ofile.open(FILENAME, ios::out);
     G = new Graph();
     int i, j;
+	int a, b, c; 
 
-    cout << "边数，顶点数:";
+    cout << "边数，顶点数：";
     cin >> G->numEdges >> G->numVertexes;
 
 	for (i = 0; i < G->numVertexes; i++) {
@@ -45,31 +50,24 @@ MSTree::MSTree() {
 		}
 	}
 
-    //TODO: 输入邻接矩阵
-	G->arc[0][1]=10;
-	G->arc[0][5]=11; 
-	G->arc[1][2]=18; 
-	G->arc[1][8]=12; 
-	G->arc[1][6]=16; 
-	G->arc[2][8]=8; 
-	G->arc[2][3]=22; 
-	G->arc[3][8]=21; 
-	G->arc[3][6]=24; 
-	G->arc[3][7]=16;
-	G->arc[3][4]=20;
-	G->arc[4][7]=7; 
-	G->arc[4][5]=26; 
-	G->arc[5][6]=17; 
-	G->arc[6][7]=19; 
+	cout << "输入边集(顶点从0 ~ n-1)：" << endl;
+	for (i = 0; i < G->numEdges; i++) {
+		cin >> a >> b >> c;
+		G->arc[a][b] = c;
+	}
+
 	for(i = 0; i < G->numVertexes; i++) {
-		for(j = i; j < G->numVertexes; j++) {
-			G->arc[j][i] =G->arc[i][j];
+		for(j = 0; j < G->numVertexes; j++) {
+			if (G->arc[i][j]!=0 && G->arc[i][j]!=INFINITY)
+				G->arc[j][i] =G->arc[i][j];
 		}
 	}
+	cout << endl;
 }
 
 MSTree::~MSTree() {
     delete G;
+	ofile.close();
 }
 
 void MSTree::Swapn(Edge *edges,int i, int j) {
@@ -132,18 +130,21 @@ void MSTree::Kruskal(){
 	for (i = 0; i < G->numVertexes; i++)
 		parent[i] = 0; // 初始化数组值为0
 
-	cout << "打印最小生成树：\n";
+	cout << "打印最小生成树(Kruskal)：\n";
 	for (i = 0; i < G->numEdges; i++) { // 循环每一条边
 		n = Find(parent,edges[i].begin);
 		m = Find(parent,edges[i].end);
 		if (n != m) { // 假如n与m不等，说明此边没有与现有的生成树形成环路
 			parent[n] = m;	// 将此边的结尾顶点放入下标为起点的parent中
 							// 表示此顶点已经在生成树集合中
-			cout << edges[i].begin << " " << edges[i].end << " " << edges[i].weight << endl;
+			cout << setw(3) << edges[i].begin << setw(3) << edges[i].end << setw(3) << edges[i].weight << endl;
+			ofile << setw(3) << edges[i].begin << setw(3) << edges[i].end << setw(3) << edges[i].weight << endl;
             sum += edges[i].weight;
 		}
 	}
     cout << "总权值："  << sum << endl;
+	cout << endl;
+	ofile << endl;
 }
 
 void MSTree::Prim() {
@@ -159,6 +160,7 @@ void MSTree::Prim() {
 		lowcost[i] = G->arc[0][i];	/* 将v0顶点与之有边的权值存入数组 */
 		adjvex[i] = 0;					/* 初始化都为v0的下标 */
 	}
+	cout << "打印最小生成树(Prim)：\n";
 	for(i = 1; i < G->numVertexes; i++)
 	{
 		min = INFINITY;	/* 初始化最小权值为∞， */
@@ -173,7 +175,8 @@ void MSTree::Prim() {
 			}
 			j++;
 		}
-		cout << adjvex[k] << " " << k << " " << G->arc[adjvex[k]][k] << endl;/* 打印当前顶点边中权值最小的边 */
+		cout << setw(3) << adjvex[k] << setw(3) << k << setw(3) << G->arc[adjvex[k]][k] << endl;/* 打印当前顶点边中权值最小的边 */
+		ofile << setw(3) << adjvex[k] << setw(3) << k << setw(3) << G->arc[adjvex[k]][k] << endl;
         sum += G->arc[adjvex[k]][k];
 		lowcost[k] = 0;/* 将当前顶点的权值设置为0,表示此顶点已经完成任务 */
 		for(j = 1; j < G->numVertexes; j++)	/* 循环所有顶点 */
@@ -186,9 +189,11 @@ void MSTree::Prim() {
 		}
 	}
     cout << "总权值：" << sum << endl;
+	cout << endl;
 }
 
 void MSTree::Print_Graph() {
+	cout << "打印图的邻接矩阵：" << endl;
     for (int i = 0; i < G->numVertexes; i++) {
 		for (int j = 0; j < G->numVertexes; j++) {
             if (G->arc[i][j] == INFINITY)
@@ -198,4 +203,5 @@ void MSTree::Print_Graph() {
 		}
         cout << endl;
 	}
+	cout << endl;
 }
