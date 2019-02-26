@@ -13,6 +13,15 @@ struct Graph {
 	int numVertexes, numEdges;
 };
 
+int InDegree(Graph G, int v) {
+	int sum = 0;
+	for (int i=0; i<G.numVertexes; i++) {
+		if (G.arc[i][v] != INFINITY && G.arc[i][v] != 0)
+			sum += 1;
+	}
+	return sum;
+}
+
 struct Edge {
     int begin, end, weight;
 };
@@ -150,20 +159,16 @@ void MSTree::Prim() {
 	lowcost[0] = 0;// 初始化第一个权值为0，即v0加入生成树 
 			// lowcost的值为0，在这里就是此下标的顶点已经加入生成树 
 	adjvex[0] = 0;			// 初始化第一个顶点下标为0 
-	for(i = 1; i < G->numVertexes; i++)	// 循环除下标为0外的全部顶点 
-	{
+	for(i = 1; i < G->numVertexes; i++)	{ // 循环除下标为0外的全部顶点 
 		lowcost[i] = G->arc[0][i];	// 将v0顶点与之有边的权值存入数组 
 		adjvex[i] = 0;					// 初始化都为v0的下标 
 	}
 	cout << "最小生成树(Prim)：\n";
-	for(i = 1; i < G->numVertexes; i++)
-	{
+	for(i = 1; i < G->numVertexes; i++) {
 		min = INFINITY;	// 初始化最小权值为∞
 		j = 1;k = 0;
-		while(j < G->numVertexes)	// 循环全部顶点 
-		{
-			if(lowcost[j]!=0 && lowcost[j] < min)// 保存最小权值到min
-			{	
+		while(j < G->numVertexes) { // 循环全部顶点
+			if(lowcost[j]!=0 && lowcost[j] < min) { // 保存最小权值到min
 				min = lowcost[j];
 				k = j;
 			}
@@ -173,10 +178,8 @@ void MSTree::Prim() {
 		ofile << setw(3) << adjvex[k] << setw(3) << k << setw(3) << G->arc[adjvex[k]][k] << endl;
         sum += G->arc[adjvex[k]][k];
 		lowcost[k] = 0;// 将当前顶点的权值设置为0,表示此顶点已经完成任务 
-		for(j = 1; j < G->numVertexes; j++)	// 循环所有顶点 
-		{
-			if(lowcost[j]!=0 && G->arc[k][j] < lowcost[j]) 
-			{// 如果下标为k顶点各边权值小于此前这些顶点未被加入生成树权值 
+		for(j = 1; j < G->numVertexes; j++)	{ // 循环所有顶点 
+			if(lowcost[j]!=0 && G->arc[k][j] < lowcost[j]) { // 如果下标为k顶点各边权值小于此前这些顶点未被加入生成树权值 
 				lowcost[j] = G->arc[k][j];// 将较小的权值存入lowcost相应位置 
 				adjvex[j] = k;				// 将下标为k的顶点存入adjvex 
 			}
