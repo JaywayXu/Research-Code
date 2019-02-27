@@ -3,3 +3,4 @@ include/
 OTHER/
 *.exe
 *.o
+*.class
