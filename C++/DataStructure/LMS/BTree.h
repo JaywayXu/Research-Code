@@ -3,7 +3,7 @@
 
 const int DEGREE = 4; //B数的度，这里是2-3-4树
 const int DATA_MAX = DEGREE - 1;
-const int DATA_MIN = 1;
+const int DATA_MIN = 1; //结点的最小度数
 const int CHILD_MAX = DATA_MAX + 1;
 const int CHILD_MIN = DATA_MIN + 1;
 
@@ -31,11 +31,11 @@ public:
     bool insert(T &data);
     bool remove(T &data);
     void display() {displayInConcavo(root, DATA_MAX*10);}
-    bool contain(T &data) {return search(root, data);}
+    bool contain(T &data) {T *t; return search(root, data, t);}
     void clear() {recursive_clear(root); root = NULL;}
 
 private:
-    bool search(BNode<T> *pNode, T &data);
+    bool search(BNode<T> *pNode, T &data, T *&get);
 
     void insertNonFull(BNode<T> *pNode, T &data); //非满结点插入
     void recursive_remove(BNode<T> *pNode, T &data);
@@ -56,7 +56,10 @@ private:
 template <typename T>
 bool BTree<T>::insert(T &data) {
     if (contain(data)) { //检查该关键字是否已经存在
-        return false;
+        T *t;
+        search(root, data, t);
+        t->amountNow++;
+        t->amountSum++;
     } else {
         if (root == NULL) { //检查是否为空树
             root = new BNode<T>();
@@ -75,7 +78,8 @@ bool BTree<T>::insert(T &data) {
 
 template <typename T>
 bool BTree<T>::remove(T &data) {
-    if (!search(root, data)) { //不存在
+    T *t;
+    if (!search(root, data, t)) { //不存在
         return false;
     }
     if (root->num == 1) { //特殊情况处理
@@ -97,19 +101,20 @@ bool BTree<T>::remove(T &data) {
 }
 
 template <typename T>
-bool BTree<T>::search(BNode<T> *pNode, T &data) {
+bool BTree<T>::search(BNode<T> *pNode, T &data, T *&get) {
     if (pNode==NULL) { //检测节点指针是否为空，或该节点是否为叶子节点
         return false;
     } else {
         int i;
         for (i=0; i<pNode->num && data>*(pNode->bData+i); ++i); //找到使data<=pNode->bData[i]成立的最小下标i
         if (i<pNode->num && data==pNode->bData[i]) {
+            get = &(pNode->bData[i]);
             return true;
         } else {
             if (pNode->isLeaf) { //检查该节点是否为叶子节点
                 return false;
             } else {
-                return search(pNode->pChild[i], data);
+                return search(pNode->pChild[i], data, get);
             }
         }
     }
@@ -293,7 +298,7 @@ void BTree<T>::displayInConcavo(BNode<T> *pNode, int count) {
             for (j=count; j>=0; --j) {
                 cout<<"-";
             }
-            cout<<pNode->bData[i]<<"-"<<endl;
+            cout<<pNode->bData[i]<<endl;
         }
         if (!pNode->isLeaf) {
             displayInConcavo(pNode->pChild[i], count-6);
