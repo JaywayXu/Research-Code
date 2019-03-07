@@ -33,6 +33,7 @@ public:
     void display() {displayInConcavo(root, DATA_MAX*10);}
     bool contain(T &data) {T *t; return search(root, data, t);}
     void clear() {recursive_clear(root); root = NULL;}
+    bool get(T &data, T *&get) {return search(root, data, get);}
 
 private:
     bool search(BNode<T> *pNode, T &data, T *&get);
@@ -56,10 +57,7 @@ private:
 template <typename T>
 bool BTree<T>::insert(T &data) {
     if (contain(data)) { //检查该关键字是否已经存在
-        T *t;
-        search(root, data, t);
-        t->amountNow++;
-        t->amountSum++;
+        return false;
     } else {
         if (root == NULL) { //检查是否为空树
             root = new BNode<T>();
@@ -81,6 +79,12 @@ bool BTree<T>::remove(T &data) {
     T *t;
     if (!search(root, data, t)) { //不存在
         return false;
+    } else if (t->amountNow < t->amountSum) {
+        cout << "该书还有" << t->amountSum - t->amountNow << "本未归还！" << endl
+            << "已清空仓库剩余书！" << endl;
+        t->amountSum = t->amountNow;
+        t->amountNow = 0;
+        return true;
     }
     if (root->num == 1) { //特殊情况处理
         if (root->isLeaf) {

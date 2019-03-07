@@ -15,6 +15,7 @@ public:
     int amountSum; // ×Ü¿â´æÁ¿
 
     Book() :key(0), name("none"), author("none"), amountNow(0), amountSum(0) {}
+    Book(int k) :key(k) {}
     Book(int k, string n, string a, int an, int as) 
         :key(k), name(n), author(a), amountNow(an), amountSum(as) {}
 
@@ -24,7 +25,7 @@ public:
     bool operator==(Book &t);
 
     friend ostream &operator<<(ostream& out, Book& t)
-    { out << t.key << " " << t.amountNow; return out;}
+    { out << t.key << ":" << t.amountNow << "/" << t.amountSum; return out;}
 };
 
 Book &Book::operator=(Book &t) {
