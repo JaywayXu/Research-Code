@@ -25,7 +25,8 @@ public:
     bool operator==(Book &t);
 
     friend ostream &operator<<(ostream& out, Book& t)
-    { out << t.key << ":" << t.amountNow << "/" << t.amountSum; return out;}
+    { out << t.key << "; " << t.name << "; " << t.author << "; "
+        << t.amountNow << "/" << t.amountSum; return out;}
 };
 
 Book &Book::operator=(Book &t) {

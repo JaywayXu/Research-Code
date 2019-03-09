@@ -1,15 +1,16 @@
 #ifndef BTREE_H
 #define BTREE_H
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 const int DEGREE = 4; //B数的度，这里是2-3-4树
 const int DATA_MAX = DEGREE - 1;
 const int DATA_MIN = 1; //结点的最小度数
 const int CHILD_MAX = DATA_MAX + 1;
 const int CHILD_MIN = DATA_MIN + 1;
-
-#include <iostream>
-
-using namespace std;
 
 template <typename T>
 class BNode {
@@ -30,12 +31,14 @@ public:
     
     bool insert(T &data);
     bool remove(T &data);
-    void display() {displayInConcavo(root, DATA_MAX*10);}
+    void display() {displayInConcavo(root, 13*5);}
     bool contain(T &data) {T *t; return search(root, data, t);}
     void clear() {recursive_clear(root); root = NULL;}
     bool get(T &data, T *&get) {return search(root, data, get);}
+    void printAuthor(string a) {return printAuthor(root, a);}
 
 private:
+    void printAuthor(BNode<T> *pNode, string a);
     bool search(BNode<T> *pNode, T &data, T *&get);
 
     void insertNonFull(BNode<T> *pNode, T &data); //非满结点插入
@@ -82,8 +85,10 @@ bool BTree<T>::remove(T &data) {
     } else if (t->amountNow < t->amountSum) {
         cout << "该书还有" << t->amountSum - t->amountNow << "本未归还！" << endl
             << "已清空仓库剩余书！" << endl;
-        t->amountSum = t->amountNow;
-        t->amountNow = 0;
+        if (t->amountNow > 0) { 
+            t->amountSum = t->amountSum - t->amountNow;
+            t->amountNow = 0;
+        }
         return true;
     }
     if (root->num == 1) { //特殊情况处理
@@ -102,6 +107,25 @@ bool BTree<T>::remove(T &data) {
     }
     recursive_remove(root, data);
     return true;
+}
+
+template <typename T>
+void BTree<T>::printAuthor(BNode<T> *pNode, string a) {
+    if (pNode==NULL) { //检测节点指针是否为空，或该节点是否为叶子节点
+        return;
+    } else {
+        for (int i=0; i<pNode->num; ++i) {
+            if (a == pNode->bData[i].author) {
+                cout << pNode->bData[i] << endl;
+            }
+        }
+        if (pNode->isLeaf) { //检查该节点是否为叶子节点
+            return;
+        } else {
+            for (int i=0; i<=pNode->num; ++i)
+                printAuthor(pNode->pChild[i], a);
+        }
+    }
 }
 
 template <typename T>
@@ -297,7 +321,7 @@ void BTree<T>::displayInConcavo(BNode<T> *pNode, int count) {
         int i, j;
         for (i=0; i<pNode->num; ++i) {
             if (!pNode->isLeaf) {
-                displayInConcavo(pNode->pChild[i], count-6);
+                displayInConcavo(pNode->pChild[i], count-13);
             }
             for (j=count; j>=0; --j) {
                 cout<<"-";
@@ -305,7 +329,7 @@ void BTree<T>::displayInConcavo(BNode<T> *pNode, int count) {
             cout<<pNode->bData[i]<<endl;
         }
         if (!pNode->isLeaf) {
-            displayInConcavo(pNode->pChild[i], count-6);
+            displayInConcavo(pNode->pChild[i], count-13);
         }
     }
 }
