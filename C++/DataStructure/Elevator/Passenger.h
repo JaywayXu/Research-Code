@@ -1,25 +1,52 @@
 #ifndef PASSENGER_H
 #define PASSENGER_H
 
+#include <iostream>
+
+using namespace std;
+
 class Passenger {
+private:
+	int id;
+	int nowFloor;
+	int goFloor;
+	int whenWait;
+	int waitTime;
+
 public:
-    Passenger(int f, int w) :go_floor(f), wait_time(w), this_time(0) {}
-    Passenger() {}
+	Passenger() :id(0), nowFloor(0), goFloor(0), whenWait(0), waitTime(0) {}
 
-    Passenger &operator=(Passenger &t);
+	void setData(int id1);
 
-    int go_floor;
-    int wait_time;
-    int this_time;
+	void setID(int id1) {id = id1;}
+	void setNowFloor(int nowFloor1) {nowFloor = nowFloor1;}
+	void setGoFloor(int goFloor1) {goFloor = goFloor1;}
+	void setWhenWait(int whenWait1) {whenWait = whenWait1;}
+	void setWaitTime(int waitTime1) {waitTime = waitTime1;}
+
+	int getID()const {return id;}
+	int getNowFloor()const {return nowFloor;}
+	int getGoFloor()const {return goFloor;}
+	int getWhenWait()const {return whenWait;}
+	int getWaitTime()const {return waitTime;}
 };
 
-Passenger &Passenger::operator=(Passenger &t) {
-    if (this != &t) {
-        this->go_floor = t.go_floor;
-        this->wait_time = t.wait_time;
-        this->this_time = t.this_time;
-    }
-    return *this;
+void Passenger::setData(int id1) {
+	id = id1; int i = 1;
+	while (i) {
+		cout << "请输入第" << id << "位乘客的信息" << endl;
+		cout << "该乘客目前在哪一层："; cin >> nowFloor;
+		cout << "该乘客去哪一层："; cin >> goFloor;
+		cout << "该乘客何时上电梯："; cin >> whenWait;
+		cout << "改乘客最大等待时间："; cin >> waitTime;
+		if (nowFloor > 9 || nowFloor < 0) {
+			cout << "乘客目前的楼层有误，请重输入！" << endl;
+		}
+		if (goFloor > 9 || goFloor < 0) {
+			cout << "乘客要去的楼层有误，请重输入！" << endl;
+		}
+		else i = 0;
+	}
 }
 
 #endif // PASSENGER_H
