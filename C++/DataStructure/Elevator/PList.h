@@ -18,6 +18,9 @@ public:
 	PList();
 	~PList();
 
+	Node *getHead() {return head;}
+	Node *getTail() {return tail;}
+
 	bool empty() {return (!head->next)? true: false;}
 	void append(Passenger data);
 	void remove(int id);
