@@ -60,22 +60,26 @@ void PList::remove(int id) { //data为节点所存储的数据，查到就删除
 			tail = head;
 			delete ptemp;
 			ptemp = NULL;
+			return;
 		} else { //如果是多个节点
 			head->next = ptemp->next;
 			delete ptemp;
 			ptemp = NULL;
+			return;
 		}
 	}
-	while (ptemp != NULL) {
+	while (ptemp->next != NULL) {
 		if (ptemp->next->data.getID() == id) {
 			if (ptemp->next == tail) {
 				delete ptemp->next;
 				ptemp->next = NULL;
 				tail = ptemp;
+				return;
 			} else {
 				Node *t = ptemp->next;
 				ptemp->next = ptemp->next->next;
 				delete t;
+				return;
 			}
 		}
 		ptemp = ptemp->next;

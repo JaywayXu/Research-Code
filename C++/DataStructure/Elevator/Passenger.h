@@ -17,6 +17,7 @@ public:
 	Passenger() :id(0), nowFloor(0), goFloor(0), whenWait(0), waitTime(0) {}
 
 	void setData(int id1);
+	void setData(int id1, int nowFloor1, int goFloor1, int whenWait1, int waitTime1);
 
 	void setID(int id1) {id = id1;}
 	void setNowFloor(int nowFloor1) {nowFloor = nowFloor1;}
@@ -36,9 +37,9 @@ void Passenger::setData(int id1) {
 	while (i) {
 		cout << "请输入第" << id << "位乘客的信息" << endl;
 		cout << "该乘客目前在哪一层："; cin >> nowFloor;
-		cout << "该乘客去哪一层："; cin >> goFloor;
+		cout << "该乘客去哪一层："; cin >> goFloor;                                                                                                                          
 		cout << "该乘客何时上电梯："; cin >> whenWait;
-		cout << "改乘客最大等待时间："; cin >> waitTime;
+		cout << "该乘客最大等待时间："; cin >> waitTime;
 		if (nowFloor > 9 || nowFloor < 0) {
 			cout << "乘客目前的楼层有误，请重输入！" << endl;
 		}
@@ -47,6 +48,14 @@ void Passenger::setData(int id1) {
 		}
 		else i = 0;
 	}
+}
+
+void Passenger::setData(int id1, int nowFloor1, int goFloor1, int whenWait1, int waitTime1) {
+	id = id1;
+	nowFloor = nowFloor1;
+	goFloor = goFloor1;
+	whenWait = whenWait1;
+	waitTime = waitTime1;
 }
 
 #endif // PASSENGER_H
