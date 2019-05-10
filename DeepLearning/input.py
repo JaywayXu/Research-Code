@@ -10,7 +10,7 @@ train_dataset.close()
 x = x[0:3]
 print(x[0].shape)
 
-for i in xn:
+for i in x:
     im=Image.fromarray(i[:,:,0])
     im.show()
 

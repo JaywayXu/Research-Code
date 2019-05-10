@@ -14,7 +14,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 
 import numpy as np
-def load_data(path='/home/lyc/Desktop/deeplearning-py/mnist.npz'):
+def load_data(path='./mnist.npz'):
     """Loads the MNIST dataset.
     # Arguments
         path: path where to cache the dataset locally

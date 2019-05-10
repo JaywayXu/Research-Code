@@ -4,3 +4,5 @@ OTHER/
 *.exe
 *.o
 *.class
+*.model
+*.h5

@@ -1,4 +1,4 @@
-﻿import os
+﻿``import os
 import numpy as np
 import matplotlib.pyplot as plt
 import h5py
@@ -51,7 +51,7 @@ def get_files(file_dir):
     
     return image_list,label_list
 
-train_dir = '/home/lyc/Desktop/deeplearning-py/clock'
+train_dir = './clock'
 image_list,label_list = get_files(train_dir)
 
 test_num = 600
