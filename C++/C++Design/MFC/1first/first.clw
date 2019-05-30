@@ -15,9 +15,9 @@ Class3=CFirstView
 Class4=CMainFrame
 Class9=CAboutDlg
 
-ResourceCount=7
-Resource1=IDD_ABOUTBOX
-Resource2=IDR_MAINFRAME
+ResourceCount=2
+Resource1=IDR_MAINFRAME
+Resource2=IDD_ABOUTBOX
 
 [CLS:CFirstApp]
 Type=0
@@ -105,6 +105,7 @@ CommandCount=14
 
 [TB:IDR_MAINFRAME]
 Type=1
+Class=?
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_SAVE
