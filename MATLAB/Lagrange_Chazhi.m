@@ -1,9 +1,11 @@
 function [py0] = Lagrange_Chazhi(x)
 %LAGRANGE插值求温度
 
+%时间和温度
 X = [6 8 10 12 14 16 18];
 Y = [18 20 22 25 30 28 24];
 
+%求解
 n = length(X);
 L = zeros(n,n);
 for k = 1:n
@@ -26,15 +28,13 @@ for k = 1:n
     py0 = py0+px0.^(k-1)*C(n+1-k);
 end
 
+%绘图
+%原数据点
+scatter(X,Y);
+hold on;
+%插值出的函数
 plot(px,py);
 hold on;
-plot([10.5,10.5],ylim);
-hold on;
-plot([16.5,16.5],ylim);
-hold on;
-py01 = px*0+py0(1);
-plot(px,py01);
-hold on;
-py02 = px*0+py0(2);
-plot(px,py02);
+%求解点
+scatter(px0,py0,'g');
 end
