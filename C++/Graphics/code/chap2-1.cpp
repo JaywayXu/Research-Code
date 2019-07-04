@@ -1,4 +1,4 @@
-#include <gl/glut.h>
+#include <GL/glut.h>
 void Initial(void)
 {
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);      //设置窗口背景颜色为白色
