@@ -13,15 +13,15 @@ Class2=CSGMS_MFCDlg
 
 ResourceCount=7
 Resource1=IDR_MAINFRAME
-Resource2=IDD_SEARCH_DIALOG
+Resource2=IDD_DEL_DIALOG
 Class3=ADD
-Resource3=IDD_SGMS_MFC_DIALOG
+Resource3=IDD_HANGE_DIALOG
 Class4=Del
-Resource4=IDD_HANGE_DIALOG
+Resource4=IDD_ADD_DIALOG
 Class5=Change
-Resource5=IDD_ADD_DIALOG
+Resource5=IDD_SEARCH_DIALOG
 Class6=Search
-Resource6=IDD_DEL_DIALOG
+Resource6=IDD_SGMS_MFC_DIALOG
 Class7=SORT
 Resource7=IDD_SORT_DIALOG
 
