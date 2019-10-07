@@ -1,10 +1,3 @@
-'''Trains a simple convnet on the MNIST dataset.
-
-Gets to 99.25% test accuracy after 12 epochs
-(there is still a lot of margin for parameter tuning).
-16 seconds per epoch on a GRID K520 GPU.
-'''
-
 from __future__ import print_function
 import keras
 from keras.datasets import mnist
@@ -15,16 +8,6 @@ from keras import backend as K
 
 import numpy as np
 def load_data(path='./mnist.npz'):
-    """Loads the MNIST dataset.
-    # Arguments
-        path: path where to cache the dataset locally
-            (relative to ~/.keras/datasets).
-    # Returns
-        Tuple of Numpy arrays: `(x_train, y_train), (x_test, y_test)`.
-    path = get_file(path,
-                    origin='https://s3.amazonaws.com/img-datasets/mnist.npz',
-                    file_hash='8a61469f7ea1b51cbae51d4f78837e45')
-    """
     f = np.load(path)
     x_train, y_train = f['x_train'], f['y_train']
     x_test, y_test = f['x_test'], f['y_test']
@@ -83,6 +66,7 @@ model.fit(x_train, y_train,
           epochs=epochs,
           verbose=1,
           validation_data=(x_test, y_test))
+model.save('mnist-CNN.model')
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
