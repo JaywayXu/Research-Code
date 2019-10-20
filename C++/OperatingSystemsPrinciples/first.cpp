@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <iomanip>
 #include "que.h"
+
 using namespace std;
 
 class work
@@ -55,7 +57,7 @@ void work::run(int type)
                 int zz = now_t - r1->arr_t;
                 zz_t += zz;
                 dzz_t += (double)zz / (double)r1->run_t;
-                cout << r1->name << "在" << now_t << "s运行完成" << endl;
+                cout << setw(2) << now_t << "s" << setw(5) << r1->name << "     Finished Finished Finished Finished" << endl;
                 r1 = NULL;
             }
         }
@@ -66,7 +68,7 @@ void work::run(int type)
                 int zz = now_t - r2->arr_t;
                 zz_t += zz;
                 dzz_t += (double)zz / (double)r2->run_t;
-                cout << r2->name << "在" << now_t << "s运行完成" << endl;
+                cout << setw(2) << now_t << "s" << setw(5) << r2->name << "     Finished Finished Finished Finished" << endl;
                 r2 = NULL;
             }
         }
@@ -76,7 +78,7 @@ void work::run(int type)
         {
             node d = waitq.pop();
             readyq.push(d.name, d.arr_t, d.run_t);
-            cout << d.name << "在第" << now_t << "s等待" << endl;
+            cout << setw(2) << now_t << "s" << setw(5) << d.name << "     start to Wait" << endl;
         }
 
         //就绪队列排序
@@ -103,7 +105,7 @@ void work::run(int type)
                 node d = readyq.pop();
                 r1 = &d;
                 r1->in_t = now_t;
-                cout << r1->name << "在第" << now_t << "s用r1运行" << endl;
+                cout << setw(2) << now_t << "s" << setw(5) << r1->name << "     run with process 1" << endl;
                 //两个进程都有空闲且就绪队列有数据
                 if (readyq.v.size())
                 {
@@ -112,7 +114,7 @@ void work::run(int type)
                         node d = readyq.pop();
                         r2 = &d;
                         r2->in_t = now_t;
-                        cout << r2->name << "在第" << now_t << "s用r2运行" << endl;
+                        cout << setw(2) << now_t << "s" << setw(5) << r2->name << "     run with process 2" << endl;
                     }
                 }
             }
@@ -121,13 +123,14 @@ void work::run(int type)
                 node d = readyq.pop();
                 r2 = &d;
                 r2->in_t = now_t;
-                cout << r2->name << "在第" << now_t << "s用r2运行" << endl;
+                cout << setw(2) << now_t << "s" << setw(5) << r2->name << "     run with process 2" << endl;
             }
         }
     }
     zz_t /= N;
     dzz_t /= N;
-    cout << zz_t << " " << dzz_t << endl;
+    cout << "周转时间:      "<< zz_t << endl
+        << "带权周转时间:  " <<dzz_t << endl;
 }
 
 int main()
