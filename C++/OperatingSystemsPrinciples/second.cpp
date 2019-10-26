@@ -11,9 +11,9 @@ private:
     int N;
     que waitq;
     node *r;
-    int now_num; //µ±Ç°´ÅµÀ
+    int now_num; //å½“å‰ç£é“
     double ave_num;
-    int f; //·½Ïò
+    int f; //æ–¹å‘
 
 public:
     work();
@@ -24,8 +24,8 @@ work::work()
 {
     r = NULL;
     N = 14;
-    char name[N] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'}; //×÷ÒµÃû×Ö
-    int num[N] = {30, 50, 100, 180, 20, 90, 150, 70, 80, 10, 160, 120, 40, 110};           //µ½´ïÊ±¼ä
+    char name[N] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'}; //ä½œä¸šåå­—
+    int num[N] = {30, 50, 100, 180, 20, 90, 150, 70, 80, 10, 160, 120, 40, 110};           //åˆ°è¾¾æ—¶é—´
     for (int i = 0; i < N; i++)
     {
         waitq.push(name[i], num[i]);
@@ -34,12 +34,12 @@ work::work()
 
 void work::run(int type)
 {
-    f = 1; //³¯Ôö´óµÄ·½ÏòÒÆ¶¯
+    f = 1; //æœå¢å¤§çš„æ–¹å‘ç§»åŠ¨
     ave_num = 0;
     now_num = 90;
     while (waitq.v.size())
     {
-        //Ñ¡ÔñÏÂÒ»¸öÒªµ½´ïµÄ´ÅµÀ
+        //é€‰æ‹©ä¸‹ä¸€ä¸ªè¦åˆ°è¾¾çš„ç£é“
         switch (type)
         {
         case 0:
@@ -70,11 +70,13 @@ int main()
     while (1)
     {
         int type;
-        cout << "0: ÏÈÀ´ÏÈ·şÎñ" << endl
-             << "1: ×î½üÑ°µÀÓÅÏÈ" << endl
-             << "2: µçÌİµ÷¶È" << endl
-             << "ÊäÈëÒªÊ¹ÓÃµÄ·½·¨£º";
+        cout << "0: å…ˆæ¥å…ˆæœåŠ¡" << endl
+             << "1: æœ€è¿‘å¯»é“ä¼˜å…ˆ" << endl
+             << "2: ç”µæ¢¯è°ƒåº¦" << endl
+             << "3: é€€å‡º" << endl
+             << "è¾“å…¥è¦ä½¿ç”¨çš„æ–¹æ³•ï¼š";
         cin >> type;
+        if (type == 3) return 0;
         work w;
         w.run(type);
     }

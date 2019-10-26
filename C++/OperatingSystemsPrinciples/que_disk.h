@@ -40,7 +40,7 @@ node que::pop()
 }
 
 void que::choose_short(int now_num)
-{ //×î¶Ì¾àÀëÓÅÏÈ£¬°Ñ×î¶Ì¾àÀëµÄ´ÅµÀ·ÅÔÚ¶ÓÁĞ¿ªÊ¼
+{ //æœ€çŸ­è·ç¦»ä¼˜å…ˆï¼ŒæŠŠæœ€çŸ­è·ç¦»çš„ç£é“æ”¾åœ¨é˜Ÿåˆ—å¼€å§‹
     int n = v.size();
     int j = 0;
     int min = 999;
@@ -59,7 +59,7 @@ void que::choose_short(int now_num)
 }
 
 void que::choose_elevator(int now_num, int &f)
-{ //µçÌİµ÷¶ÈÑ¡Ôñ£¬Ñ¡ÔñÔÚÔËĞĞ·½Ïò×î½üµÄ
+{ //ç”µæ¢¯è°ƒåº¦é€‰æ‹©ï¼Œé€‰æ‹©åœ¨è¿è¡Œæ–¹å‘æœ€è¿‘çš„
     int n = v.size();
     if (f == 1)
     {
@@ -77,7 +77,7 @@ void que::choose_elevator(int now_num, int &f)
             }
         }
         if (min == min_t)
-        { //¸Ä±ä·½Ïò
+        { //æ”¹å˜æ–¹å‘
             f = 0;
             goto f2;
         }
@@ -101,7 +101,7 @@ void que::choose_elevator(int now_num, int &f)
             }
         }
         if (min == min_t)
-        { //¸Ä±ä·½Ïò
+        { //æ”¹å˜æ–¹å‘
             f = 1;
             goto f1;
         }

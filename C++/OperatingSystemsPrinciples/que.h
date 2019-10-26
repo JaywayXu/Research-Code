@@ -6,9 +6,9 @@ class node
 {
 public:
     char name;
-    int arr_t; //µ½´ïÊ±¼ä
-    int run_t; //ÔËĞĞÊ±¼ä
-    int in_t; //¿ªÊ¼ÔËĞĞµÄÊ±¼ä
+    int arr_t; //åˆ°è¾¾æ—¶é—´
+    int run_t; //è¿è¡Œæ—¶é—´
+    int in_t; //å¼€å§‹è¿è¡Œçš„æ—¶é—´
 
     node() : name('*'), arr_t(0), run_t(0), in_t(0){};
     node(char n, int a, int r) : name(n), arr_t(a), run_t(r), in_t(0){};
@@ -45,7 +45,7 @@ node que::pop()
 }
 
 void que::sort_fcfs()
-{ //ÏÈÀ´ÏÈ·şÎñÅÅĞò
+{ //å…ˆæ¥å…ˆæœåŠ¡æ’åº
     int n = v.size();
     for (int i = 0; i < n - 1; i++)
     {
@@ -62,7 +62,7 @@ void que::sort_fcfs()
 }
 
 void que::sort_sjf()
-{ //¶Ì×÷ÒµÓÅÏÈÅÅĞò
+{ //çŸ­ä½œä¸šä¼˜å…ˆæ’åº
     int n = v.size();
     for (int i = 0; i < n - 1; i++)
     {
@@ -79,7 +79,7 @@ void que::sort_sjf()
 }
 
 void que::sort_hrrn(int now_t)
-{ //ÏìÓ¦±È¸ßÅÅĞò
+{ //å“åº”æ¯”é«˜æ’åº
     int n = v.size();
     for (int i = 0; i < n - 1; i++)
     {

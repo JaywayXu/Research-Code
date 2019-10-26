@@ -25,8 +25,8 @@ public:
 work::work()
 {
     N = 10;
-    char name[N] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'}; //×÷ÒµÃû×Ö
-    int arr_t[N] = {0, 2, 5, 7, 12, 15, 4, 6, 8, 10}; //µ½´ïÊ±¼ä
+    char name[N] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'}; //ä½œä¸šåå­—
+    int arr_t[N] = {0, 2, 5, 7, 12, 15, 4, 6, 8, 10}; //åˆ°è¾¾æ—¶é—´
     int run_t[N] = {7, 10, 20, 30, 40, 8, 8, 20, 10, 12};
     for (int i = 0; i < N; i++)
     {
@@ -49,7 +49,7 @@ void work::run(int type)
     waitq.sort_fcfs();
     for (now_t = 0; waitq.v.size() || readyq.v.size() || r1 || r2; now_t++)
     {
-        //ÒÑÍê³ÉµÄ½ø³ÌÍË³ö
+        //å·²å®Œæˆçš„è¿›ç¨‹é€€å‡º
         if (r1)
         {
             if (r1->in_t + r1->run_t <= now_t)
@@ -73,7 +73,7 @@ void work::run(int type)
             }
         }
 
-        //µÈ´ı¶ÓÁĞÂú×ãÊ±¼äµÄ½øÈë¾ÍĞ÷¶ÓÁĞ
+        //ç­‰å¾…é˜Ÿåˆ—æ»¡è¶³æ—¶é—´çš„è¿›å…¥å°±ç»ªé˜Ÿåˆ—
         if (waitq.v[0].arr_t == now_t)
         {
             node d = waitq.pop();
@@ -81,7 +81,7 @@ void work::run(int type)
             cout << setw(2) << now_t << "s" << setw(5) << d.name << "     start to Wait" << endl;
         }
 
-        //¾ÍĞ÷¶ÓÁĞÅÅĞò
+        //å°±ç»ªé˜Ÿåˆ—æ’åº
         switch (type)
         {
         case 0:
@@ -97,16 +97,16 @@ void work::run(int type)
             break;
         }
 
-        //¾ÍĞ÷¶ÓÁĞ×÷Òµ½øÈëÔËĞĞ
+        //å°±ç»ªé˜Ÿåˆ—ä½œä¸šè¿›å…¥è¿è¡Œ
         if (readyq.v.size())
         {
             if (!r1)
-            { //r1½ø³Ì¿ÕÏĞ
+            { //r1è¿›ç¨‹ç©ºé—²
                 node d = readyq.pop();
                 r1 = &d;
                 r1->in_t = now_t;
                 cout << setw(2) << now_t << "s" << setw(5) << r1->name << "     run with process 1" << endl;
-                //Á½¸ö½ø³Ì¶¼ÓĞ¿ÕÏĞÇÒ¾ÍĞ÷¶ÓÁĞÓĞÊı¾İ
+                //ä¸¤ä¸ªè¿›ç¨‹éƒ½æœ‰ç©ºé—²ä¸”å°±ç»ªé˜Ÿåˆ—æœ‰æ•°æ®
                 if (readyq.v.size())
                 {
                     if (!r2)
@@ -119,7 +119,7 @@ void work::run(int type)
                 }
             }
             else if (!r2)
-            { //r2½ø³Ì¿ÕÏĞ
+            { //r2è¿›ç¨‹ç©ºé—²
                 node d = readyq.pop();
                 r2 = &d;
                 r2->in_t = now_t;
@@ -129,8 +129,8 @@ void work::run(int type)
     }
     zz_t /= N;
     dzz_t /= N;
-    cout << "ÖÜ×ªÊ±¼ä:      "<< zz_t << endl
-        << "´øÈ¨ÖÜ×ªÊ±¼ä:  " <<dzz_t << endl;
+    cout << "å‘¨è½¬æ—¶é—´:      "<< zz_t << endl
+        << "å¸¦æƒå‘¨è½¬æ—¶é—´:  " <<dzz_t << endl;
 }
 
 int main()
@@ -138,11 +138,13 @@ int main()
     while (1)
     {
         int type;
-        cout << "0: ÏÈÀ´ÏÈ·şÎñ" << endl
-             << "1: ¶Ì×÷ÒµÓÅÏÈ" << endl
-             << "2: ÏìÓ¦±È¸ßÓÅÏÈ" << endl
-             << "ÊäÈëÒªÊ¹ÓÃµÄ·½·¨£º";
+        cout << "0: å…ˆæ¥å…ˆæœåŠ¡" << endl
+             << "1: çŸ­ä½œä¸šä¼˜å…ˆ" << endl
+             << "2: å“åº”æ¯”é«˜ä¼˜å…ˆ" << endl
+             << "3: é€€å‡º" << endl
+             << "è¾“å…¥è¦ä½¿ç”¨çš„æ–¹æ³•ï¼š";
         cin >> type;
+        if (type == 3) return 0;
         work w;
         w.run(type);
     }
