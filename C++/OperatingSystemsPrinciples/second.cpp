@@ -76,7 +76,8 @@ int main()
              << "3: 退出" << endl
              << "输入要使用的方法：";
         cin >> type;
-        if (type == 3) return 0;
+        if (type == 3)
+            return 0;
         work w;
         w.run(type);
     }

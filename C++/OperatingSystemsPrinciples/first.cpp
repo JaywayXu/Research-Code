@@ -26,7 +26,7 @@ work::work()
 {
     N = 10;
     char name[N] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'}; //作业名字
-    int arr_t[N] = {0, 2, 5, 7, 12, 15, 4, 6, 8, 10}; //到达时间
+    int arr_t[N] = {0, 2, 5, 7, 12, 15, 4, 6, 8, 10};                  //到达时间
     int run_t[N] = {7, 10, 20, 30, 40, 8, 8, 20, 10, 12};
     for (int i = 0; i < N; i++)
     {
@@ -129,8 +129,8 @@ void work::run(int type)
     }
     zz_t /= N;
     dzz_t /= N;
-    cout << "周转时间:      "<< zz_t << endl
-        << "带权周转时间:  " <<dzz_t << endl;
+    cout << "周转时间:      " << zz_t << endl
+         << "带权周转时间:  " << dzz_t << endl;
 }
 
 int main()
@@ -144,7 +144,8 @@ int main()
              << "3: 退出" << endl
              << "输入要使用的方法：";
         cin >> type;
-        if (type == 3) return 0;
+        if (type == 3)
+            return 0;
         work w;
         w.run(type);
     }

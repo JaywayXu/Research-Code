@@ -8,7 +8,7 @@ public:
     char name;
     int arr_t; //到达时间
     int run_t; //运行时间
-    int in_t; //开始运行的时间
+    int in_t;  //开始运行的时间
 
     node() : name('*'), arr_t(0), run_t(0), in_t(0){};
     node(char n, int a, int r) : name(n), arr_t(a), run_t(r), in_t(0){};
