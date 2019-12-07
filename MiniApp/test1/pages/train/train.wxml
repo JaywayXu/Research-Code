@@ -1,0 +1,81 @@
+<view class='separator'></view>
+<view class="page__hd">
+    <text class="page__title">行前培训</text>
+</view>
+<view class="page__hd">
+  <view class="page">
+    <view class="page__hd">
+      <navigator url="./pre_train/LiuFu">
+        <button type="primary">
+          留服行前培训
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./pre_train/GangAo">
+        <button type="primary">
+          学在港澳
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./pre_train/TuanDui">
+        <button type="primary">
+          主题团队培训
+        </button>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view class='separator'></view>
+<view class="page__hd">
+    <text class="page__title">语言培训</text>
+</view>
+<view class="page__hd">
+  <view class="page">
+    <view class="page__hd">
+      <navigator url="./language_train/PETS_5">
+        <button type="primary">
+          PETS-5
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./language_train/ChuanDa">
+        <button type="primary">
+          川大公派出国
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./language_train/IELTS">
+        <button type="primary">
+          雅思培训
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./language_train/TOEFL">
+        <button type="primary">
+          托福培训
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./language_train/Other">
+        <button type="primary">
+          其他语言培训
+        </button>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view class='separator'></view>
+<view class="page__hd">
+  <navigator url="./language_train/BaoMing">
+    <button type="default">
+      报名统计
+    </button>
+  </navigator>
+</view>
+<view class='separator'></view>

@@ -1,0 +1,21 @@
+.answer-title{
+   padding: 30rpx 40rpx;
+   background: #ffffff;
+   font-size: 40rpx;
+   color: #454545;
+   line-height: 44rpx;
+}
+
+.answer-content{
+    padding: 30rpx 40rpx;
+    background: #ffffff;
+}
+.answer-content text{
+    font-size: 32rpx;
+    color: #454545;
+    line-height: 44rpx;
+}
+.answer-content image{
+    width: 100%;
+    margin: 20rpx 0;
+}

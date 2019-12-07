@@ -1,0 +1,60 @@
+<view class='separator'></view>
+<view class="page__hd">
+    <text class="page__title">考点介绍</text>
+</view>
+<view class="page__hd">
+  <view class="page">
+    <view class="page__hd">
+      <navigator url="../article/article?key=ielts_test">
+        <button type="primary">
+          雅思考点
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./test_introduce/GuoCai">
+        <button type="primary">
+          国才考点
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./test_introduce/ShangHaiGaoKou">
+        <button type="primary">
+          上海高口考点
+        </button>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view class='separator'></view>
+<view class="page__hd">
+    <text class="page__title">项目介绍</text>
+</view>
+<view class="page__hd">
+  <view class="page">
+    <view class="page__hd">
+      <navigator url="./project_introduce/ZhongWaiFu">
+        <button type="primary">
+          中外服
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./project_introduce/IDP">
+        <button type="primary">
+          IDP
+        </button>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view class='separator'></view>
+<view class="page__hd">
+  <navigator url="../article/article?key=about_us">
+    <button type="default">
+      关于我们
+    </button>
+  </navigator>
+</view>
+<view class='separator'></view>

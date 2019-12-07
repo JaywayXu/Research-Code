@@ -1,0 +1,26 @@
+.page {
+    min-height: 100%;
+    flex: 1;
+    background-color: #fff;
+    font-size: 18px;
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    overflow: hidden;
+}
+.page__hd{
+    padding: 12px;
+}
+.page__title{
+    display: block;
+    font-size: 23px;
+}
+.page__text{
+  text-indent: 32px;
+  text-align: left;
+  letter-spacing: 3px;
+  padding: 8px;
+}
+.separator{
+ height: 4px;
+ width:20rem;
+  background-color: #F3F3F3
+}

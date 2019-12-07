@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/introduce/introduce",
+    "pages/train/train",
+    "pages/policy/policy",
+    "pages/article/article"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "中心",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#2ecc71",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "icons/introduce_s.png",
+        "iconPath": "icons/introduce.png",
+        "pagePath": "pages/introduce/introduce",
+        "text": "介绍"
+      },
+      {
+        "selectedIconPath": "icons/train_s.png",
+        "iconPath": "icons/train.png",
+        "pagePath": "pages/train/train",
+        "text": "培训"
+      },
+      {
+        "selectedIconPath": "icons/policy_s.png",
+        "iconPath": "icons/policy.png",
+        "pagePath": "pages/policy/policy",
+        "text": "政策"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

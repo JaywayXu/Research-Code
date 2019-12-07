@@ -1,0 +1,37 @@
+<view class='separator'></view>
+<view class="page__hd">
+    <text class="page__title">出国政策</text>
+</view>
+<view class="page__hd">
+  <view class="page">
+    <view class="page__hd">
+      <navigator url="./policy_/SCS">
+        <button type="primary">
+          SCS申请
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./policy_/QianZheng">
+        <button type="primary">
+          签证服务
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./policy_/DangAn">
+        <button type="primary">
+          档案存放
+        </button>
+      </navigator>
+    </view>
+    <view class="page__hd">
+      <navigator url="./policy_/Other">
+        <button type="default">
+          其他政策
+        </button>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view class='separator'></view>

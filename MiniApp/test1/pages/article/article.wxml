@@ -1,0 +1,11 @@
+<view class='answer-title'>
+{{text.title}}
+</view>
+
+<view class="answer-content">
+  <text>{{text.content}}</text>
+  <image mode="widthFix" src="{{text.img[0]}}"></image>
+  <text>{{text.img_text[0]}}</text>
+  <image mode="widthFix" src="{{text.img[1]}}"></image>
+  <text>{{text.img_text[1]}}</text>
+</view>
