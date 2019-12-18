@@ -1,3 +1,7 @@
+# 题目：罗马尼亚度假问题（GUI版）
+# 作者：李延炽
+# 时间：2019/12/8
+
 from tkinter import *
 from tkinter.messagebox import *
 from functools import cmp_to_key
@@ -5,19 +9,19 @@ import time
 import copy
 
 #全局变量
-time_wait = 0.5
+time_wait = 0.5  #每动态访问一个路径的时间间隔
 N = 0  #节点个数
 MIN = 0  #路径最小值
 MAX = 1000  #路径最大值
-Founation = [
+Founation = [  #启发函数
     366, 0, 160, 242, 161, 176, 77, 151, 226, 244, 241, 234, 380, 100, 193,
     253, 329, 80, 199, 374
 ]
-Nation = [
+Nation = [  #节点名
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'O', 'P', 'R',
     'S', 'T', 'U', 'V', 'Z'
 ]
-# Nation = [
+# Nation = [ #节点名
 #     'Arad', 'Bucharest', 'Craiova', 'Drobeta', 'Eforie', 'Fagaras', 'Giurgiu',
 #     'Hirsova', 'Iasi', 'Lugoj', 'Mehadia', 'Neamt', 'Oradea', 'Pitesti',
 #     'RimnicuVilcea', 'Sibiu', 'Timisoara', 'Urzicen', 'Vaslui', 'Zerind'
