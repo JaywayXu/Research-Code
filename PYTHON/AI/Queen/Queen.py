@@ -8,7 +8,7 @@ import math
 # 全局变量
 N = 8  #棋盘、皇后数量
 Queen = [0 for i in range(N)]  #皇后位置
-one_block_size = 30  #棋盘每个格的像素宽度
+one_block_size = 20  #棋盘每个格的像素宽度
 
 # 回溯法全局变量
 count_sum = 0  #所有情况统计计数
@@ -21,24 +21,19 @@ max_x = 10  #每行棋盘数
 is_success = False  #只输出一种情况的成功判断条件
 
 # 遗传算法全局变量
-group_num = 40  #种群中个体的个数
+group_num = 60  #种群中个体的个数
 population = []  #种群
 adaptive = []  #种群的适应值
-max_iter_genetic = 3000  #迭代最大次数
+max_iter_genetic = 2000  #迭代最大次数
 
 # 爬山法全局变量
 max_iter_climb = 200  #迭代最大次数
 
 # 模拟退火算法全局变量
 max_temperature = 5  #初始温度
-nt_multiple = 0.99  #一次迭代降低的温度倍数
-min_temperature = 1e-1000  #结束温度
+nt_multiple = 0.98  #一次迭代降低的温度倍数
+min_temperature = 1e-100  #结束温度
 temperature = max_temperature
-
-# 窗口
-window = Tk()
-window.title("N皇后问题")
-window.geometry("1020x760")
 
 
 # 全局函数
@@ -499,6 +494,11 @@ def climb_Queen():
     showinfo(title="信息", message=info)  #弹出信息框
 
 
+# 窗口
+window = Tk()
+window.title("N皇后问题")
+window.geometry("820x660")
+
 # 控件
 frame = Frame(window)
 canvas = Canvas(frame, scrollregion=(0, 0, 1600, 20000))
@@ -508,15 +508,15 @@ label_input = Label(window, text='数量：')
 entry_input = Entry(window)
 btn_back_every = Button(window,
                         text="回溯法(全部情况)",
-                        width=18,
+                        width=16,
                         command=back_every_Queen)
 btn_back_single = Button(window,
                          text="回溯法(一种情况)",
-                         width=18,
+                         width=16,
                          command=back_single_Queen)
-btn_genetic = Button(window, text="遗传算法", width=18, command=genetic_Queen)
-btn_anneal = Button(window, text="模拟退火算法", width=18, command=anneal_Queen)
-btn_climb = Button(window, text="爬山法", width=18, command=climb_Queen)
+btn_genetic = Button(window, text="遗传算法", width=16, command=genetic_Queen)
+btn_anneal = Button(window, text="模拟退火算法", width=16, command=anneal_Queen)
+btn_climb = Button(window, text="爬山法", width=16, command=climb_Queen)
 
 # 显示控件
 frame.grid(row=0, column=0, columnspan=7)
@@ -524,7 +524,7 @@ xbar.pack(side=BOTTOM, fill=X)
 xbar.config(command=canvas.xview)
 ybar.pack(side=RIGHT, fill=Y)
 ybar.config(command=canvas.yview)
-canvas.config(width=1000, height=700)
+canvas.config(width=800, height=600)
 canvas.config(yscrollcommand=ybar.set)
 canvas.pack(side=LEFT, expand=True, fill=BOTH)
 label_input.grid(row=1, column=0)
