@@ -36,7 +36,7 @@ Canvas_line = []  #画布上线的句柄存储(按照邻接矩阵)
 Canvas_line_list = []  #画布上线的句柄存储(按照顺序)
 
 #读取文件到图的邻接矩阵
-with open('D:\CODE\PYTHON\AI\data.txt', 'r') as of:
+with open('data.txt', 'r') as of:
     for line in of:
         line = line.replace('\n', '')
         linestr = line.split(',')
@@ -52,7 +52,7 @@ window.geometry("500x355")
 #画布
 canvas = Canvas(window, width=500, height=300)
 #导入图片到画布
-image_file = PhotoImage(file='D:\CODE\PYTHON\AI\Graph.png')
+image_file = PhotoImage(file='graph.png')
 image = canvas.create_image(250, 0, anchor='n', image=image_file)
 #画布上标记线
 for i in range(0, N):
