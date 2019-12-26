@@ -8,7 +8,7 @@ import math
 # 全局变量
 N = 8  #棋盘、皇后数量
 Queen = [0 for i in range(N)]  #皇后位置
-one_block_size = 20  #棋盘每个格的像素宽度
+one_block_size = 21  #棋盘每个格的像素宽度
 
 # 回溯法全局变量
 count_sum = 0  #所有情况统计计数
@@ -76,14 +76,11 @@ def print_one_canvas(Queen):
         y = one_block_size + i * one_block_size
         point1 = [x + 2, y + 2]
         point2 = [x + one_block_size - 2, y + one_block_size - 2]
-        if (Queen[i] + i) % 2 == 0:  #遇到黑块
-            out_color = 'white'
-        else:
-            out_color = 'black'
         canvas.create_oval(point1 + point2,
-                           fill='gray',
-                           outline=out_color,
+                           fill='black',
                            tags="oval")
+        canvas.create_image(x+1,y+1, anchor='nw', image=image_queen, tags="oval")
+
     window.update_idletasks()  #屏幕刷新
 
 
@@ -502,6 +499,7 @@ window.geometry("820x660")
 # 控件
 frame = Frame(window)
 canvas = Canvas(frame, scrollregion=(0, 0, 1600, 20000))
+image_queen = PhotoImage(file='queen.png')
 xbar = Scrollbar(frame, orient=HORIZONTAL)
 ybar = Scrollbar(frame, orient=VERTICAL)
 label_input = Label(window, text='数量：')
