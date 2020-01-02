@@ -2,7 +2,7 @@ from enum import IntEnum
 from random import randint
 import time
 
-AI_SEARCH_DEPTH = 2  #搜索层数
+AI_SEARCH_DEPTH = 4  #搜索层数
 AI_LIMITED_MOVE_NUM = 8  #
 
 
@@ -135,7 +135,7 @@ class ChessAI():  #五子棋AI类
         return moves
 
     def __search(self, board, turn, depth, alpha=SCORE_MIN, beta=SCORE_MAX):
-        '''递归搜索下棋点'''
+        '''递归搜索下棋点，Alpha-beta剪枝算法'''
         score = self.evaluate(board, turn)
         if depth <= 0 or abs(score) >= SCORE_FIVE:
             return score

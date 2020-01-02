@@ -1,3 +1,7 @@
+# 题目：罗马尼亚度假问题（GUI版）
+# 作者：李延炽
+# 时间：2019/12/8
+
 from tkinter import *
 from tkinter.messagebox import *
 from functools import cmp_to_key
@@ -14,18 +18,12 @@ Founation = [  #启发函数
     253, 329, 80, 199, 374
 ]
 Nation = [  #节点名
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'O', 'P', 'R',
-    'S', 'T', 'U', 'V', 'Z'
+    '武汉大学', '华中师范大学', '武汉理工大学', '华中农业大学', '中国地质大学', '中南民族大学', '中南财经政法大学',
+    '华中科技大学'
 ]
-# Nation = [ #节点名
-#     'Arad', 'Bucharest', 'Craiova', 'Drobeta', 'Eforie', 'Fagaras', 'Giurgiu',
-#     'Hirsova', 'Iasi', 'Lugoj', 'Mehadia', 'Neamt', 'Oradea', 'Pitesti',
-#     'RimnicuVilcea', 'Sibiu', 'Timisoara', 'Urzicen', 'Vaslui', 'Zerind'
-# ]
-Nation_point = [[34, 82], [324, 236], [185, 273], [103, 263], [476, 268],
-                [236, 122], [299, 289], [449, 215], [393, 69], [103, 188],
-                [106, 225], [329, 40], [71, 8], [250, 199], [167, 159],
-                [143, 114], [37, 159], [377, 215], [426, 127], [50, 45]]
+
+Nation_point = [[637, 159], [465, 683], [199, 671], [455, 1213], [1135, 461],
+                [1015, 1009], [919, 1189], [1231, 613]]
 Graph = []  #图的临接矩阵
 Canvas_point = []  #画布上点的句柄存储
 Canvas_line = []  #画布上线的句柄存储(按照邻接矩阵)
@@ -40,42 +38,16 @@ with open('data.txt', 'r') as of:
 N = len(Graph[0])
 Canvas_line = copy.deepcopy(Graph)
 
-#GUI窗口
-window = Tk()
-window.title("Roma")
-window.geometry("500x355")
-
-#画布
-canvas = Canvas(window, width=500, height=300)
-#导入图片到画布
-image_file = PhotoImage(file='graph.png')
-image = canvas.create_image(250, 0, anchor='n', image=image_file)
-#画布上标记线
-for i in range(0, N):
-    for j in range(i + 1, N):
-        if int(Graph[i][j]) > MIN and int(Graph[i][j]) < MAX:
-            cl = canvas.create_line(Nation_point[i] + Nation_point[j],
-                                    width=4,
-                                    fill='green')
-            Canvas_line[i][j] = cl
-            Canvas_line[j][i] = cl
-            Canvas_line_list.append(cl)
-#画布上标记圆
-for i in Nation_point:
-    cp = canvas.create_oval([ii - 8 for ii in i] + [ii + 8 for ii in i],
-                            fill='yellow')
-    Canvas_point.append(cp)
-
 
 #处理函数
 def clear():
     '''清屏'''
     #线
     for i in Canvas_line_list:
-        canvas.itemconfig(i, fill='green')
+        canvas.itemconfig(i, fill='white')
     #圆
     for i in Canvas_point:
-        canvas.itemconfig(i, fill='yellow')
+        canvas.itemconfig(i, fill='white')
 
 
 def BFS():
@@ -92,8 +64,8 @@ def BFS():
     End = Nation.index(get_end_name)
 
     #初始点和结束点颜色变化
-    canvas.itemconfig(Canvas_point[Start], fill='red')
-    canvas.itemconfig(Canvas_point[End], fill='red')
+    canvas.itemconfig(Canvas_point[Start], fill='yellow')
+    canvas.itemconfig(Canvas_point[End], fill='yellow')
     window.update_idletasks()
     time.sleep(time_wait)
 
@@ -147,9 +119,9 @@ def BFS():
         x = father[x]
 
         #输出结果路径和点
-        canvas.itemconfig(Canvas_point[old_x], fill='red')
-        canvas.itemconfig(Canvas_point[x], fill='red')
-        canvas.itemconfig(Canvas_line[old_x][x], fill='red')
+        canvas.itemconfig(Canvas_point[old_x], fill='yellow')
+        canvas.itemconfig(Canvas_point[x], fill='yellow')
+        canvas.itemconfig(Canvas_line[old_x][x], fill='yellow')
 
         if x == Start:
             road.append(x)
@@ -177,8 +149,8 @@ def DFS():
     End = Nation.index(get_end_name)
 
     #初始点和结束点颜色变化
-    canvas.itemconfig(Canvas_point[Start], fill='red')
-    canvas.itemconfig(Canvas_point[End], fill='red')
+    canvas.itemconfig(Canvas_point[Start], fill='yellow')
+    canvas.itemconfig(Canvas_point[End], fill='yellow')
     window.update_idletasks()
     time.sleep(time_wait)
 
@@ -232,9 +204,9 @@ def DFS():
         x = father[x]
 
         #输出结果路径和点
-        canvas.itemconfig(Canvas_point[old_x], fill='red')
-        canvas.itemconfig(Canvas_point[x], fill='red')
-        canvas.itemconfig(Canvas_line[old_x][x], fill='red')
+        canvas.itemconfig(Canvas_point[old_x], fill='yellow')
+        canvas.itemconfig(Canvas_point[x], fill='yellow')
+        canvas.itemconfig(Canvas_line[old_x][x], fill='yellow')
 
         if x == Start:
             road.append(x)
@@ -261,8 +233,8 @@ def Greedy():
     End = Nation.index(get_end_name)
 
     #初始点和结束点颜色变化
-    canvas.itemconfig(Canvas_point[Start], fill='red')
-    canvas.itemconfig(Canvas_point[End], fill='red')
+    canvas.itemconfig(Canvas_point[Start], fill='yellow')
+    canvas.itemconfig(Canvas_point[End], fill='yellow')
     window.update_idletasks()
     time.sleep(time_wait)
 
@@ -355,9 +327,9 @@ def Greedy():
             return
 
         #输出结果路径和点
-        canvas.itemconfig(Canvas_point[old_x], fill='red')
-        canvas.itemconfig(Canvas_point[x], fill='red')
-        canvas.itemconfig(Canvas_line[old_x][x], fill='red')
+        canvas.itemconfig(Canvas_point[old_x], fill='yellow')
+        canvas.itemconfig(Canvas_point[x], fill='yellow')
+        canvas.itemconfig(Canvas_line[old_x][x], fill='yellow')
 
         if x == Start:
             road.append(x)
@@ -384,8 +356,8 @@ def Astar():
     End = Nation.index(get_end_name)
 
     #初始点和结束点颜色变化
-    canvas.itemconfig(Canvas_point[Start], fill='red')
-    canvas.itemconfig(Canvas_point[End], fill='red')
+    canvas.itemconfig(Canvas_point[Start], fill='yellow')
+    canvas.itemconfig(Canvas_point[End], fill='yellow')
     window.update_idletasks()
     time.sleep(time_wait)
 
@@ -454,9 +426,9 @@ def Astar():
         x = father[x]
 
         #输出结果路径和点
-        canvas.itemconfig(Canvas_point[old_x], fill='red')
-        canvas.itemconfig(Canvas_point[x], fill='red')
-        canvas.itemconfig(Canvas_line[old_x][x], fill='red')
+        canvas.itemconfig(Canvas_point[old_x], fill='yellow')
+        canvas.itemconfig(Canvas_point[x], fill='yellow')
+        canvas.itemconfig(Canvas_line[old_x][x], fill='yellow')
 
         if x == Start:
             road.append(x)
@@ -469,26 +441,67 @@ def Astar():
     showinfo(title="信息", message=info)
 
 
-#文本框、输入框和按钮控件
+#GUI窗口
+window = Tk()
+window.title("光谷地区高校VRP问题Demo")
+
+frame = Frame(window)
+
+#画布
+canvas = Canvas(frame, scrollregion=(0, 0, 1600, 1280))
+xbar = Scrollbar(frame, orient=HORIZONTAL)
+ybar = Scrollbar(frame, orient=VERTICAL)
+#导入图片到画布
+image_file = PhotoImage(file='graph.png')
+image = canvas.create_image(0, 0, anchor='nw', image=image_file)
+#画布上标记线
+for i in range(0, N):
+    for j in range(i + 1, N):
+        if int(Graph[i][j]) > MIN and int(Graph[i][j]) < MAX:
+            cl = canvas.create_line(Nation_point[i] + Nation_point[j],
+                                    width=4,
+                                    fill='white')
+            Canvas_line[i][j] = cl
+            Canvas_line[j][i] = cl
+            Canvas_line_list.append(cl)
+#画布上标记圆
+for i in Nation_point:
+    cp = canvas.create_oval([ii - 8 for ii in i] + [ii + 8 for ii in i],
+                            fill='white')
+    Canvas_point.append(cp)
+
+empty_label_1 = Label(window, text=' ')
+empty_label_2 = Label(window, text=' ')
 start_label = Label(window, text='开始点：')
 end_label = Label(window, text='结束点：')
-start_entry = Entry(window, width=8)
-end_entry = Entry(window, width=8)
-BFS_button = Button(window, text="广度优先", width=8, command=BFS)
-DFS_button = Button(window, text="深度优先", width=8, command=DFS)
-Greedy_button = Button(window, text="贪婪算法", width=8, command=Greedy)
-Astar_button = Button(window, text="A*算法", width=8, command=Astar)
+start_entry = Entry(window, width=30)
+start_entry.insert(END, "中国地质大学")
+end_entry = Entry(window, width=30)
+end_entry.insert(END, "华中农业大学")
+BFS_button = Button(window, text="广度优先", width=20, command=BFS)
+DFS_button = Button(window, text="深度优先", width=20, command=DFS)
+Greedy_button = Button(window, text="贪婪算法", width=20, command=Greedy)
+Astar_button = Button(window, text="A*算法", width=20, command=Astar)
 
 #显示控件
-canvas.grid(row=0, column=0, columnspan=6)
-start_label.grid(row=1, column=0)
-end_label.grid(row=2, column=0)
-start_entry.grid(row=1, column=1)
-end_entry.grid(row=2, column=1)
-BFS_button.grid(row=1, column=2, rowspan=2)
-DFS_button.grid(row=1, column=3, rowspan=2)
-Greedy_button.grid(row=1, column=4, rowspan=2)
-Astar_button.grid(row=1, column=5, rowspan=2)
+frame.grid(row=0, column=0, columnspan=7)
+xbar.pack(side=BOTTOM, fill=X)
+xbar.config(command=canvas.xview)
+ybar.pack(side=RIGHT, fill=Y)
+ybar.config(command=canvas.yview)
+canvas.config(width=1000, height=700)
+canvas.config(yscrollcommand=ybar.set)
+canvas.pack(side=LEFT, expand=True, fill=BOTH)
+empty_label_1.grid(row=1, column=0)
+empty_label_2.grid(row=2, column=0)
+start_label.grid(row=1, column=1)
+end_label.grid(row=2, column=1)
+start_entry.grid(row=1, column=2)
+end_entry.grid(row=2, column=2)
+BFS_button.grid(row=1, column=3, rowspan=2)
+DFS_button.grid(row=1, column=4, rowspan=2)
+Greedy_button.grid(row=1, column=5, rowspan=2)
+Astar_button.grid(row=1, column=6, rowspan=2)
 
 #运行
 window.mainloop()
