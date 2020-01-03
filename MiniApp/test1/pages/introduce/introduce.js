@@ -67,7 +67,7 @@ Page({
   submit: function() {
     var that = this;
     wx.request({
-      url: 'http://ishanjierenyi.com/cgi-bin/index.py?acc_nbr=1',
+      url: 'https://www.baidu.com',
       // data: {
       //   acc_nbr: JSON.stringify("ls"),
       //   grade1: JSON.stringify(0),  //将数据格式转为JSON
