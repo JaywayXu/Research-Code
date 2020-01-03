@@ -1,6 +1,6 @@
-# 题目：罗马尼亚度假问题（GUI版）
+# 题目：VRP
 # 作者：李延炽
-# 时间：2019/12/8
+# 时间：
 
 from tkinter import *
 from tkinter.messagebox import *
