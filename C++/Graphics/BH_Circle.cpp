@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <GL/glut.h>
 
 #define POINT_SIZE 5
