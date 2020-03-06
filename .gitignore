@@ -1,8 +1,11 @@
+*
+!*.*
+!*/
 .vscode/
-include/
-OTHER/
 *.exe
 *.o
+*.out
 *.class
 *.model
 *.h5
+._*

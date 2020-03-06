@@ -1,7 +1,7 @@
-import MySQLdb
+import pymysql
 
 # 连接数据库
-db = MySQLdb.connect("localhost", "root", "0017", "Library", charset='utf8')
+db = pymysql.connect("localhost", "root", "lyc12030017", "Library", charset='utf8')
 print("数据库已连接")
 # 获取操作游标
 cursor = db.cursor()

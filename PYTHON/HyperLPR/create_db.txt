@@ -1,0 +1,16 @@
+CREATE SCHEMA `CarApp` DEFAULT CHARACTER SET utf8 ;
+
+CREATE TABLE `CarApp`.`Car` (
+  `car_id` VARCHAR(25) NOT NULL,
+  `username` VARCHAR(30) NOT NULL,
+  `phone` VARCHAR(11) NOT NULL,
+  `addr` VARCHAR(120) NOT NULL,
+  `ctime` DATE NOT NULL,
+  PRIMARY KEY (`car_id`));
+
+CREATE TABLE `CarApp`.`Info` (
+  `order_id` INT NOT NULL AUTO_INCREMENT,
+  `car_id` VARCHAR(25) NOT NULL,
+  `status` INT NOT NULL,
+  `order_time` DATE,
+  PRIMARY KEY (`order_id`));
