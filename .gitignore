@@ -1,11 +1,8 @@
 *
 !*.*
-!*/
 *.exe
 *.o
 *.out
 *.class
-*.model
-*.h5
 ._*
 *.py[cod]
