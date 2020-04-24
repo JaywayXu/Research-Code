@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}">
+</head>
+    <body>
+        <div>
+            <form method="post" action="http://127.0.0.1:5000/getRecognize" enctype="multipart/form-data">
+            <input type="file" size="25" name="photo"/>
+            <br>
+            <input type="text" class="txt_input" name="name" style="margin-top:15px;"/>
+            <input type="submit" value="提交" class="button-new" style="margin-top:15px;"/>
+            </form>
+            <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
+            <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
+        </div>
+    </body>
+</html>

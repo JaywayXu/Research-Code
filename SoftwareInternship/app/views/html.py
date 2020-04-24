@@ -30,7 +30,7 @@ def lot_singUp():
 
 @app.route('/Lot/user/changeUser.html')
 def lot_user_changeUser():
-    return render_template('Lot/Lot/user/changeUser.html')
+    return render_template('Lot/user/changeUser.html')
 
 
 @app.route('/Lot/user/changeUserCar.html')
@@ -51,3 +51,7 @@ def regist_in():
 @app.route('/Regist/out.html')
 def regist_out():
     return render_template('/Regist/out.html')
+
+# @app.route('/img.html')
+# def img():
+#     return render_template('/img.html')

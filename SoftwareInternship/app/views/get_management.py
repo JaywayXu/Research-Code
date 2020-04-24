@@ -3,9 +3,23 @@ from app import app
 from . import database
 import pymysql
 import json
+# from . import recgnize
 
+# rec = recgnize.Rec()
 
 # ----------ManagementSystem----------
+
+# @app.route('/getRecognize', methods=['POST', 'GET'])
+# def getRecognize():
+#     '''获取识别结果'''
+#     # 获取图片
+#     img = request.files['photo']
+#     file_path = './app/static/image/' + img.filename
+#     img.save(file_path)
+#     cid = rec.getCID(file_path)
+#     print(cid)
+#     return "{'CID': '%s'}" % (cid)
+
 
 @app.route('/getLotCars', methods=['POST', 'GET'])
 def getLotCars():
