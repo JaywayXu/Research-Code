@@ -16,7 +16,7 @@ def getRecognize():
     '''获取识别结果'''
     # 获取图片
     img = request.files['file']
-    file_path = './app/static/image/' + img.filename
+    file_path = './app/static/image/' + img.filename  # 部署到服务器要改成绝对路径
     img.save(file_path)
     cid, confidence = rec.getPredict(file_path)
     j = {}

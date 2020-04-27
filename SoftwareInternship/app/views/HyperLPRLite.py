@@ -3,9 +3,11 @@
 
 import cv2
 import numpy as np
+import tensorflow as tf
 from tensorflow.keras import backend as K
 from tensorflow.keras.models import *
 from tensorflow.keras.layers import *
+from tensorflow.python.keras.backend import set_session
 
 chars = [u"京", u"沪", u"津", u"渝", u"冀", u"晋", u"蒙", u"辽", u"吉", u"黑", u"苏", u"浙", u"皖", u"闽", u"赣", u"鲁", u"豫", u"鄂", u"湘", u"粤", u"桂",
          u"琼", u"川", u"贵", u"云", u"藏", u"陕", u"甘", u"青", u"宁", u"新", u"0", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"A",
@@ -16,10 +18,21 @@ chars = [u"京", u"沪", u"津", u"渝", u"冀", u"晋", u"蒙", u"辽", u"吉",
 
 class LPR():  # 定义LPR大类，整个大类在main.py中都会运行
     def __init__(self, model_detection, model_finemapping, model_seq_rec):  # 对目标检测，初步定位和精细定位进行声明
+        self.sess = tf.Session()
+        self.graph = tf.get_default_graph()
+        set_session(self.sess)
         self.watch_cascade = cv2.CascadeClassifier(model_detection)
         self.modelFineMapping = self.model_finemapping()
         self.modelFineMapping.load_weights(model_finemapping)
         self.modelSeqRec = self.model_seq_rec(model_seq_rec)
+        # 先预测一遍，避免多进程出错
+        with self.graph.as_default():
+            set_session(self.sess)
+            x = np.ones((16,66,3))
+            self.modelFineMapping.predict(np.array([x]))[0]
+            set_session(self.sess)
+            y = np.ones((164,48,3))
+            self.modelSeqRec.predict(np.array([y]))
 
     def computeSafeRegion(self, shape, bounding_rect):  # 设定车牌安全区域计算函数，防止车牌划定的边界过大或过小
         top = bounding_rect[1]  # y
@@ -136,7 +149,9 @@ class LPR():  # 定义LPR大类，整个大类在main.py中都会运行
         resized = cv2.resize(image, (66, 16))  # 将原来车牌图像resize大小：66*16*3
         # 将原来灰度图颜色通道[0, 255]转化为float类型[0,1]
         resized = resized.astype(np.float)/255
-        res_raw = self.modelFineMapping.predict(np.array([resized]))[0]
+        with self.graph.as_default():
+            set_session(self.sess)
+            res_raw = self.modelFineMapping.predict(np.array([resized]))[0]
         res = res_raw*image.shape[1]
         res = res.astype(np.int)
         H, T = res
@@ -156,7 +171,9 @@ class LPR():  # 定义LPR大类，整个大类在main.py中都会运行
         x_tempx = src
         x_temp = cv2.resize(x_tempx, (164, 48))
         x_temp = x_temp.transpose(1, 0, 2)
-        y_pred = self.modelSeqRec.predict(np.array([x_temp]))
+        with self.graph.as_default():
+            set_session(self.sess)
+            y_pred = self.modelSeqRec.predict(np.array([x_temp]))
         y_pred = y_pred[:, 2:, :]
         return self.fastdecode(y_pred)
 

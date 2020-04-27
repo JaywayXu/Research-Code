@@ -12,7 +12,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 class Rec():
     '''预测类，调用HyperLPR'''
 
-    def __init__(self, mod_path='./app/static/recmod/'):
+    def __init__(self, mod_path='./app/static/recmod/'):  # 部署到服务器要改成绝对路径
         # 初始化，读取模型
         self.mod_path = mod_path
         self.fontC = ImageFont.truetype(
@@ -33,7 +33,7 @@ class Rec():
 # 测试
 if __name__ == '__main__':
     mod_path = '../static/recmod/'
-    rec = Rec(mod_path = mod_path)
+    rec = Rec(mod_path=mod_path)
     img_path = '../static/image/demo.jpg'
     cid = rec.getPredict(img_path)
     print(cid)
