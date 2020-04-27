@@ -33,7 +33,7 @@ class Rec():
 # 测试
 if __name__ == '__main__':
     mod_path = '../static/recmod/'
-    rec = Rec(mod_path)
-    img_path = '../static/image/x.jpg'
+    rec = Rec(mod_path = mod_path)
+    img_path = '../static/image/demo.jpg'
     cid = rec.getPredict(img_path)
     print(cid)
