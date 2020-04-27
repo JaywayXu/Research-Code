@@ -12,14 +12,26 @@
 
 <body>
     <div style="margin-top: 20px;margin-left: 20px;">
-        <form class="layui-form layui-form-pane" action="">
+        <form class="layui-form layui-form-pane" lay-filter="Demo">
             <div class="layui-form-item">
-                <label class="layui-form-label">车牌号</label>
+                <label class="layui-form-label">车牌预测</label>
+                <button type="button" name="photo" class="layui-btn" id="upload_img">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">预测车牌号</label>
                 <div class="layui-input-inline">
-                    <input name="CID" required lay-verify="required" placeholder="请输入车牌号" autocomplete="off"
+                    <input readonly name="CID" required lay-verify="required" placeholder="预测车牌号" autocomplete="off"
                         class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">*必填项</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">预测可信度</label>
+                <div class="layui-input-inline">
+                    <input readonly name="cfds" lay-verify="required" placeholder="预测可信度" autocomplete="off"
+                        class="layui-input">
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">本次花费</label>
@@ -40,9 +52,34 @@
     <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
     <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
     <script>
-        layui.use(['jquery', 'form'], function (args) {
+        layui.use(['jquery', 'form', 'upload'], function (args) {
             var $ = layui.jquery;
             var form = layui.form;
+            var upload = layui.upload;
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#upload_img', //绑定元素
+                accept: 'images',
+                url: ip_url + "getRecognize", //上传接口
+                done: function (data) {
+                    if (data) {
+                        var cid = data.CID;
+                        var confidence = data.confidence;
+                        form.val("Demo", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                            "CID": cid,
+                            "cfds": confidence
+                        });
+                        layer.msg("预测成功！");
+                    }
+                    else {
+                        layer.msg("预测失败！");
+                    }
+                }
+                , error: function () {
+                    layer.msg("预测失败！");
+                }
+            });
 
             //监听提交
             form.on('submit(formDemo)', function (subdata) {

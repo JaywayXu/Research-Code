@@ -1,5 +1,9 @@
+# -*- coding:utf-8 -*-
+# 数据库信息存储
+
 import pymysql
 
+# 服务器
 # Loginfo = {
 #     'USER': 'root',
 #     'PSWD': 'tcqkjjhhh123',
@@ -8,6 +12,7 @@ import pymysql
 #     'DBNAME': 'ParkingLot'
 # }
 
+# 本地测试
 Loginfo = {
     'USER': 'root',
     'PSWD': '0017',
@@ -18,6 +23,7 @@ Loginfo = {
 
 
 def connect_mysql():
+    '''连接数据库'''
     db = pymysql.connect(
         host=Loginfo['HOST'],
         port=Loginfo['PORT'],
@@ -30,5 +36,6 @@ def connect_mysql():
 
 
 def close_mysql(db, cursor):
+    '''断开数据库'''
     cursor.close()
     db.close()

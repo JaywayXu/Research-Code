@@ -16,7 +16,7 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                        <img src="{{ url_for('static', filename='image/user.jpg') }}" class="layui-nav-img">
                         管理员
                     </a>
                     <dl class="layui-nav-child">
@@ -43,6 +43,8 @@
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">进出登记</a>
                         <dl class="layui-nav-child">
+                            <dd><a href="./Regist/autoIn.html" target="main-frame">自动入库</a></dd>
+                            <dd><a href="./Regist/autoOut.html" target="main-frame">自动出库</a></dd>
                             <dd><a href="./Regist/in.html" target="main-frame">手动入库</a></dd>
                             <dd><a href="./Regist/out.html" target="main-frame">手动出库</a></dd>
                         </dl>

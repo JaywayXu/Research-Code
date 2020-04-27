@@ -23,6 +23,7 @@
         layui.use(['jquery',], function (args) {
             var $ = layui.jquery;
 
+            //获取用户
             $.ajax({
                 url: ip_url + "getUsers",
                 type: 'get',
@@ -39,6 +40,7 @@
                 }
             })
 
+            //显示表格数据
             function showtable(mydata) {
                 var element = layui.element;
                 var table = layui.table;
@@ -67,7 +69,7 @@
                     var layEvent = obj.event; //获得 lay-event 对应的值
                     var tr = obj.tr; //获得当前行 tr 的DOM对象
                     switch (layEvent) {
-                        case 'charge':
+                        case 'charge': //充值
                             layer.open({
                                 type: 2,
                                 content: './user/chargeBalance.html',
@@ -78,7 +80,7 @@
                                 }
                             });
                             break;
-                        case 'change':
+                        case 'change': //修改信息
                             layer.open({
                                 type: 2,
                                 content: './user/changeUser.html',
@@ -89,7 +91,7 @@
                                 }
                             });
                             break;
-                        case 'usercar':
+                        case 'usercar': //绑定车牌号
                             layer.open({
                                 type: 2,
                                 content: './user/changeUserCar.html',
@@ -100,7 +102,7 @@
                                 }
                             });
                             break;
-                        case 'deluser':
+                        case 'deluser': //删除
                             $.ajax({
                                 url: ip_url + "delUser",
                                 type: 'get',

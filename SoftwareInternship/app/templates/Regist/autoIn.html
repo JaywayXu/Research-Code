@@ -12,26 +12,30 @@
 
 <body>
     <div style="margin-top: 20px;margin-left: 20px;">
-        <form class="layui-form layui-form-pane" action="">
+        <form class="layui-form layui-form-pane" lay-filter="Demo">
             <div class="layui-form-item">
-                <label class="layui-form-label">车牌号</label>
-                <div class="layui-input-inline">
-                    <input name="CID" required lay-verify="required" placeholder="请输入车牌号" autocomplete="off"
-                        class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">*必填项</div>
+                <label class="layui-form-label">车牌预测</label>
+                <button type="button" name="photo" class="layui-btn" id="upload_img">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">本次花费</label>
+                <label class="layui-form-label">预测车牌号</label>
                 <div class="layui-input-inline">
-                    <input name="Cost" required lay-verify="required" placeholder="单位（元）" autocomplete="off"
+                    <input readonly name="CID" required lay-verify="required" placeholder="预测车牌号" autocomplete="off"
                         class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">*必填项</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">预测可信度</label>
+                <div class="layui-input-inline">
+                    <input readonly name="cfds" lay-verify="required" placeholder="预测可信度" autocomplete="off"
+                        class="layui-input">
+                </div>
             </div>
             <div class="layui-form-item ">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">入库</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -40,16 +44,41 @@
     <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
     <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
     <script>
-        layui.use(['jquery', 'form'], function (args) {
+        layui.use(['jquery', 'form', 'upload'], function (args) {
             var $ = layui.jquery;
             var form = layui.form;
+            var upload = layui.upload;
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#upload_img', //绑定元素
+                accept: 'images',
+                url: ip_url + "getRecognize", //上传接口
+                done: function (data) {
+                    if (data) {
+                        var cid = data.CID;
+                        var confidence = data.confidence;
+                        form.val("Demo", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                            "CID": cid,
+                            "cfds": confidence
+                        });
+                        layer.msg("预测成功！");
+                    }
+                    else {
+                        layer.msg("预测失败！");
+                    }
+                }
+                , error: function () {
+                    layer.msg("预测失败！");
+                }
+            });
 
             //监听提交
             form.on('submit(formDemo)', function (subdata) {
                 console.log(JSON.stringify(subdata.field));
                 var is_success = false;
                 $.ajax({
-                    url: ip_url + "letCarOut",
+                    url: ip_url + "letCarIn",
                     type: 'get',
                     async: false,
                     data: subdata.field,
@@ -59,10 +88,10 @@
                             var result = data.result
                             console.log(result); //打印请求返回的结果
                             if (result) { //结果为true
-                                layer.msg("出库成功！");
+                                layer.msg("入库成功！");
                                 is_success = true;
                             } else {
-                                layer.msg("库中无此车，出库失败！");
+                                layer.msg("库中已存在，入库失败！");
                             }
                         }
                         else {

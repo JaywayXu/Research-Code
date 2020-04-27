@@ -1,11 +1,12 @@
+# -*- coding:utf-8 -*-
+# UerMiniAPP的路由
+
 from flask import request
 from app import app
 from . import database
 import pymysql
 import json
 
-
-# ----------UerMiniAPP----------
 
 @app.route('/signIn', methods=['POST', 'GET'])
 def signIn():

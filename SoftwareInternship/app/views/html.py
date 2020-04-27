@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+# templates html文件定向
+
 from app import app
 from flask import render_template
 
@@ -52,6 +55,12 @@ def regist_in():
 def regist_out():
     return render_template('/Regist/out.html')
 
-# @app.route('/img.html')
-# def img():
-#     return render_template('/img.html')
+
+@app.route('/Regist/autoIn.html')
+def regist_autoIn():
+    return render_template('/Regist/autoIn.html')
+
+
+@app.route('/Regist/autoOut.html')
+def regist_autoOut():
+    return render_template('/Regist/autoOut.html')

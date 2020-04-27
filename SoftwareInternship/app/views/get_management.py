@@ -1,24 +1,53 @@
+# -*- coding:utf-8 -*-
+# ManagementSystem的路由
+
 from flask import request
 from app import app
 from . import database
 import pymysql
 import json
-# from . import recgnize
+from . import recgnize
 
-# rec = recgnize.Rec()
+rec = recgnize.Rec()  # 获取识别对象
 
-# ----------ManagementSystem----------
 
-# @app.route('/getRecognize', methods=['POST', 'GET'])
-# def getRecognize():
-#     '''获取识别结果'''
-#     # 获取图片
-#     img = request.files['photo']
-#     file_path = './app/static/image/' + img.filename
-#     img.save(file_path)
-#     cid = rec.getCID(file_path)
-#     print(cid)
-#     return "{'CID': '%s'}" % (cid)
+@app.route('/getRecognize', methods=['POST', 'GET'])
+def getRecognize():
+    '''获取识别结果'''
+    # 获取图片
+    img = request.files['file']
+    file_path = './app/static/image/' + img.filename
+    img.save(file_path)
+    cid, confidence = rec.getPredict(file_path)
+    j = {}
+    j['CID'] = cid
+    j['confidence'] = confidence
+    j = json.dumps(j)
+    return j
+
+
+@app.route('/getLotNum', methods=['POST', 'GET'])
+def getLotNum():
+    '''获取车位库存'''
+    db, cursor = database.connect_mysql()
+
+    # 数据库
+    sql = "SELECT Num FROM Lot WHERE LID='MAIN'"
+    try:
+        cursor.execute(sql)  # 执行
+        data = cursor.fetchall()  # 获取查询结果
+        if data:
+            fields = cursor.description  # 获取字段名
+
+            result = {}
+            result[fields[0][0]] = data[0][0]
+
+            j = json.dumps(result)  # 转为json
+            return j
+        else:
+            return "false"
+    finally:
+        database.close_mysql(db, cursor)
 
 
 @app.route('/getLotCars', methods=['POST', 'GET'])
