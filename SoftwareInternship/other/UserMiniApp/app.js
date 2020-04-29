@@ -37,7 +37,8 @@ App({
     userInfo: null,
     UID: '1',
     Upswd: '1',
-    ipname: 'http://127.0.0.1:5000/'
+    // ipname: 'http://127.0.0.1:5000/'
     // ipname: 'http://dashenbangmang.com:8000/'
+    ipname: 'http://39.99.195.34:8000/'
   }
 })
