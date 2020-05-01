@@ -6,9 +6,9 @@ from app import app
 from . import database
 import pymysql
 import json
-from . import recgnize
+from . import recognize
 
-rec = recgnize.Rec()  # 获取识别对象
+rec = recognize.Rec()  # 获取识别对象
 
 
 @app.route('/getRecognize', methods=['POST', 'GET'])
