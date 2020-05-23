@@ -1,0 +1,23 @@
+2020.03.02
+需要测试的图片保存在image_rec中，命名时不要只用数字，路径不要有中文
+运行为main.py，将imread和speedtest后的图片名字修改即可
+HyperLPRLite.py会作为一整个大类函数出现在main.py中
+训练好的权重保存在model文件夹中，权重训练源码在hyperlpr_py3文件夹中，数据库可参考开源数据集https://github.com/detectRecog/CCPD
+
+使用前检查python3的包有没有装全，编辑器可用pycharm
+pip install Keras -i http://pypi.douban.com/simple
+pip install Theano -i http://pypi.douban.com/simple
+pip install Numpy -i http://pypi.douban.com/simple
+pip install Scipy  -i http://pypi.douban.com/simple
+pip install opencv-python -i http://pypi.douban.com/simple
+pip install scikit-image -i http://pypi.douban.com/simple
+pip install pillow -i http://pypi.douban.com/simple
+pip install tensorflow -i http://pypi.douban.com/simple
+
+代码算法步骤：
+1. opencv  Cascade 检测车牌大致位置
+2. 拟合车牌的上下边界
+3. CNN Regression回归车牌左右边界
+4. 车牌校正倾斜
+5. CNN滑动窗切割字符
+6. CNN识别字符

@@ -1,0 +1,363 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (中国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\SGMS_MFC.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\SGMS_MFC.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SGMS_MFC_DIALOG DIALOGEX 0, 0, 271, 266
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "学生成绩管理系统"
+FONT 9, "宋体"
+BEGIN
+    PUSHBUTTON      "退出",IDCANCEL,18,238,50,14
+    GROUPBOX        "菜单",IDC_STATIC,7,7,78,252
+    PUSHBUTTON      "读取文件",IDC_BUTTON_Read,18,34,50,14
+    PUSHBUTTON      "写入文件",IDC_BUTTON_Write,18,53,50,14
+    PUSHBUTTON      "录入记录",IDC_BUTTON_Add,18,98,50,14
+    PUSHBUTTON      "删除记录",IDC_BUTTON_Del,18,120,50,14
+    PUSHBUTTON      "修改记录",IDC_BUTTON_Change,18,142,50,14
+    PUSHBUTTON      "统计分析",IDC_BUTTON_Analyse,18,186,50,14
+    GROUPBOX        "显示",IDC_STATIC,84,7,180,252
+    LISTBOX         IDC_LIST,84,30,179,229,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "文件操作",IDC_STATIC,7,19,69,56
+    GROUPBOX        "成绩记录操作",IDC_STATIC,7,84,69,150
+    PUSHBUTTON      "成绩排序",IDC_BUTTON_Sort,18,208,50,14
+    PUSHBUTTON      "查找记录",IDC_BUTTON_Search,18,164,50,14
+    LTEXT           "学号         姓名      数学  物理  英语",IDC_STATIC,86,
+                    19,159,10
+END
+
+IDD_ADD_DIALOG DIALOG DISCARDABLE  0, 0, 100, 178
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "录入"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "关闭",IDCANCEL,25,150,50,14
+    GROUPBOX        "输入数据",IDC_STATIC,7,7,86,109
+    EDITTEXT        IDC_EDIT_Num,46,20,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_Name,46,38,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_Math,46,56,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_Physics,46,74,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_English,46,92,40,14,ES_AUTOHSCROLL
+    CTEXT           "学号",IDC_STATIC,14,19,21,14,SS_CENTERIMAGE
+    CTEXT           "数学",IDC_STATIC,14,55,21,14,SS_CENTERIMAGE
+    CTEXT           "物理",IDC_STATIC,14,73,21,14,SS_CENTERIMAGE
+    CTEXT           "英语",IDC_STATIC,14,91,21,14,SS_CENTERIMAGE
+    CTEXT           "姓名",IDC_STATIC,14,36,21,14,SS_CENTERIMAGE
+    PUSHBUTTON      "添加",IDC_BUTTON1,25,124,50,14
+END
+
+IDD_DEL_DIALOG DIALOG DISCARDABLE  0, 0, 100, 255
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "删除"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "关闭",IDCANCEL,25,228,50,14
+    GROUPBOX        "显示数据",IDC_STATIC,7,84,86,109
+    EDITTEXT        IDC_EDIT_Num,46,97,40,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_Name,46,116,40,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_Math,46,133,40,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_Physics,46,151,40,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_English,46,169,40,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    CTEXT           "学号",IDC_STATIC,14,97,21,14,SS_CENTERIMAGE
+    CTEXT           "数学",IDC_STATIC,14,132,21,14,SS_CENTERIMAGE
+    CTEXT           "物理",IDC_STATIC,14,151,21,14,SS_CENTERIMAGE
+    CTEXT           "英语",IDC_STATIC,14,169,21,14,SS_CENTERIMAGE
+    CTEXT           "姓名",IDC_STATIC,14,113,21,14,SS_CENTERIMAGE
+    PUSHBUTTON      "删除",IDC_BUTTON1,25,201,50,14
+    GROUPBOX        "查找数据",IDC_STATIC,7,7,86,73
+    CTEXT           "输入学号或姓名",IDC_STATIC,17,23,64,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_IN,25,38,50,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "查找",IDC_BUTTON3,29,59,41,14
+END
+
+IDD_HANGE_DIALOG DIALOG DISCARDABLE  0, 0, 100, 256
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "修改"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "关闭",IDCANCEL,25,228,50,14
+    GROUPBOX        "修改数据",IDC_STATIC,7,84,86,109
+    EDITTEXT        IDC_EDIT_Num,46,97,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_Name,46,116,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_Math,46,133,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_Physics,46,151,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_English,46,169,40,14,ES_AUTOHSCROLL
+    CTEXT           "学号",IDC_STATIC,14,97,21,14,SS_CENTERIMAGE
+    CTEXT           "数学",IDC_STATIC,14,132,21,14,SS_CENTERIMAGE
+    CTEXT           "物理",IDC_STATIC,14,151,21,14,SS_CENTERIMAGE
+    CTEXT           "英语",IDC_STATIC,14,169,21,14,SS_CENTERIMAGE
+    CTEXT           "姓名",IDC_STATIC,14,113,21,14,SS_CENTERIMAGE
+    PUSHBUTTON      "修改",IDC_BUTTON1,25,201,50,14
+    GROUPBOX        "查找数据",IDC_STATIC,7,7,86,73
+    CTEXT           "输入学号或姓名",IDC_STATIC,17,23,64,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_IN,25,38,50,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "查找",IDC_BUTTON3,29,59,41,14
+END
+
+IDD_SEARCH_DIALOG DIALOG DISCARDABLE  0, 0, 185, 246
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "查找"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "关闭",IDCANCEL,67,222,50,14
+    LISTBOX         IDC_LIST,7,132,171,87,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "学号         姓名      数学  物理  英语",IDC_STATIC,7,
+                    121,162,10
+    GROUPBOX        "显示",IDC_STATIC,7,110,171,109
+    GROUPBOX        "学号或姓名查找",IDC_STATIC,7,29,73,59
+    CTEXT           "[可模糊查找]",IDC_STATIC,13,47,56,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_IN,18,64,50,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "查找",IDC_BUTTON3,56,94,72,14
+    COMBOBOX        IDC_COMBO_MENU,7,7,122,42,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "成绩分段查找",IDC_STATIC,92,29,86,59
+    COMBOBOX        IDC_COMBO_DATA,114,40,48,65,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_MIN,102,70,28,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MAX,142,70,28,14,ES_AUTOHSCROLL
+    LTEXT           "最低分",IDC_STATIC,102,60,25,8,SS_CENTERIMAGE
+    LTEXT           "最高分",IDC_STATIC,142,60,25,8,SS_CENTERIMAGE
+    PUSHBUTTON      "确认",IDC_BUTTON_Yes,128,7,50,12
+END
+
+IDD_SORT_DIALOG DIALOG DISCARDABLE  0, 0, 64, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "排序"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "关闭",IDCANCEL,7,109,50,14
+    PUSHBUTTON      "按规定",IDC_X,7,9,50,14
+    PUSHBUTTON      "按学号",IDC_NUM,7,29,50,14
+    PUSHBUTTON      "按数学",IDC_MATH,7,49,50,14
+    PUSHBUTTON      "按物理",IDC_PHYSICS,7,69,50,14
+    PUSHBUTTON      "按英语",IDC_ENGLISH,7,89,50,14
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "SGMS_MFC Microsoft 基础类应用程序\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "SGMS_MFC\0"
+            VALUE "LegalCopyright", "版权所有 (C) 2018\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "SGMS_MFC.EXE\0"
+            VALUE "ProductName", "SGMS_MFC 应用程序\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_SGMS_MFC_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 259
+    END
+
+    IDD_ADD_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 93
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 171
+    END
+
+    IDD_DEL_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 93
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 248
+    END
+
+    IDD_HANGE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 93
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 249
+    END
+
+    IDD_SEARCH_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 178
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 239
+    END
+
+    IDD_SORT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 57
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 123
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_SEARCH_DIALOG DLGINIT
+BEGIN
+    IDC_COMBO_MENU, 0x403, 17, 0
+0x2e31, 0xa7d1, 0xc5ba, 0xcdba, 0xd5d0, 0xfbc3, 0xe9b2, 0xd2d5, "\000" 
+    IDC_COMBO_MENU, 0x403, 19, 0
+0x2e32, 0xb4b0, 0xd5d5, 0xc9b3, 0xa8bc, 0xd6b7, 0xceb6, 0xe9b2, 0xd2d5, 
+"\000" 
+    IDC_COMBO_DATA, 0x403, 7, 0
+0x2e31, 0xfdca, 0xa7d1, "\000" 
+    IDC_COMBO_DATA, 0x403, 7, 0
+0x2e32, 0xefce, 0xedc0, "\000" 
+    IDC_COMBO_DATA, 0x403, 7, 0
+0x2e33, 0xa2d3, 0xefd3, "\000" 
+    IDC_COMBO_DATA, 0x403, 7, 0
+0x2e34, 0xbdc6, 0xf9be, "\000" 
+    0
+END
+
+#endif    // Chinese (中国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\SGMS_MFC.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
