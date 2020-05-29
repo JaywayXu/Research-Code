@@ -14,7 +14,8 @@ def tcplink(sock, addr):
     print("已建立连接 %s:%s" % addr)
     receivedData = sock.recv(1000).decode('utf-8')
     print("收到：%s" % receivedData)
-    sock.send(receivedData.encode('utf-8'))
+    reply = 'received：%s' % receivedData
+    sock.send(reply.encode('utf-8'))
     sock.close()
     print('已断开连接 %s:%s' % addr)
 
