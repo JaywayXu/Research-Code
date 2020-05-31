@@ -1,5 +1,6 @@
 0 net1
-2 net2
-5 net2
-4 net3
+1 net2
+2 net3
 3 net4
+4 net5
+5 net6
