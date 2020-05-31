@@ -2,5 +2,5 @@
     "git.ignoreLimitWarning": true,
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/ml/bin/python"
+    "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/ml/bin/python",
 }
