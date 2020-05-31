@@ -1,4 +1,26 @@
 
+def inputRouterGraph():
+    '''从命令行获取路由器连接图'''
+    graph = []
+    print("输入路由器连接图：")
+    getInput = input()
+    while getInput != 'end':
+        graph.append(getInput.split(' '))  # 按照空格分割，加入图
+        getInput = input()
+    return graph
+
+
+def inputInitTable():
+    '''从命令行获取初始路由器连接的网络'''
+    table = []
+    print("输入初始路由器连接的网络：")
+    getInput = input()
+    while getInput != 'end':
+        table.append(getInput.split(' '))  # 按照空格分割，加入图
+        getInput = input()
+    return table
+
+
 def readRouterGraph(fileName):
     '''从文件读取路由器连接图'''
     graph = []
@@ -11,7 +33,7 @@ def readRouterGraph(fileName):
 
 
 def readInitTable(fileName):
-    '''从文件读取初始路由表连接的网络'''
+    '''从文件读取初始路由器连接的网络'''
     table = []
     with open(fileName, 'r') as of:
         for line in of:
@@ -91,12 +113,14 @@ class RIP:
 
 
 if __name__ == '__main__':
+    # rGraph = inputRouterGraph()
+    # iTable = inputInitTable()
     rGraph = readRouterGraph('routers.txt')
     iTable = readInitTable('tables.txt')
-    # print(rGraph)
-    # print(iTable)
+
     rip = RIP(rGraph, iTable)
     rip.printTables()
+
     while 1:
         input()  # 暂停
         rip.update()
