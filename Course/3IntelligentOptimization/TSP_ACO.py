@@ -2,9 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+from pylab import mpl
+mpl.rcParams['font.sans-serif'] = ['FangSong']  # 指定默认字体
+mpl.rcParams['axes.unicode_minus'] = False  # 解决保存图像是负号'-'显示为方块的问题
+
 
 class ACO:
-    def __init__(self, coordinates=np.zeros((0)), distMatrix=np.zeros((0)), numAnt=30, alpha=1, beta=8, rho=0.1, iterMax=50):
+    def __init__(self, coordinates=np.zeros((0)), distMatrix=np.zeros((0)), numAnt=20, alpha=1, beta=8, rho=0.1, method=1, iterMax=60):
         '''蚁群优化算法初始化'''
         # 获取城市的距离矩阵
         self.coordinates = coordinates  # 城市坐标矩阵
@@ -20,8 +24,8 @@ class ACO:
         self.beta = beta  # 启发函数重要程度因子
         self.rho = rho  # 信息素的挥发速度
         self.iterMax = iterMax  # 迭代最大次数
+        self.method = method  # 1为蚁量，2为蚁密
         self.Q = 1  # 重要程度常数
-        self.method = 1  # 1为蚁量，2为蚁密
 
         # 统计参数
         self.lengthAver = np.zeros(self.iterMax)  # 各代路径的平均长度
@@ -48,8 +52,8 @@ class ACO:
                     coordinates[i] - coordinates[j])
         return distMatrix
 
-    def getBest_Path_Length_Time(self):
-        '''获取最好的路径和长度'''
+    def getBest_LengthNp_Time(self):
+        '''开始运行，获取最短长度集合、运行时间'''
         t_start = time.time()  # 开始计时
         # 进入迭代
         iter = 0
@@ -61,7 +65,7 @@ class ACO:
             self.changePheromone(iter)  # 更新信息素
             iter += 1
         t_end = time.time()  # 结束计时
-        return self.pathBest[-1], self.lengthBest[-1], t_end-t_start
+        return self.lengthBest, t_end-t_start
 
     def putAnts(self):
         '''随机产生各个蚂蚁的起点城市'''
@@ -93,6 +97,7 @@ class ACO:
                                ).cumsum()  # 累加：[0.1, 0.6, 0.3]->[0.1, 0.7, 1.0]
             rand = np.random.rand()  # 0-1之间的均匀分布
             # 求第一个大于rand元素的下标：rand=0.3->[0.1, 0.2, 0.4, 1.0] -> [[2, 3]] -> 2
+            # print(cumsumProbTrans)
             k = listUnvisited[(np.where(cumsumProbTrans > rand)[0])[0]]
             self.pathTable[i, j] = k  # 蚂蚁走过的路径添加到路径表中
             unvisited.remove(k)  # 在访问城市set中删除该城市
@@ -139,49 +144,77 @@ class ACO:
         '''画出路径长度迭代图'''
         # 平均路径长度
         fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(12, 10))
-        axes[0].plot(self.lengthAver, 'k', marker=u'')
-        axes[0].set_title('Average Length')
-        axes[0].set_xlabel(u'iteration')
+        axes[0].plot(self.lengthAver, 'b', marker=u'')
+        axes[0].set_title(u'平均路径长度')
+        axes[0].set_xlabel(u'迭代')
         # 最短路径长度
-        axes[1].plot(self.lengthBest, 'k', marker=u'')
-        axes[1].set_title('Best Length')
-        axes[1].set_xlabel(u'iteration')
+        axes[1].plot(self.lengthBest, 'b', marker=u'')
+        axes[1].set_title(u'最短路径长度')
+        axes[1].set_xlabel(u'迭代')
         plt.show()
+        plt.close()
 
     def drawBestRoute(self):
         '''画出最优路径图'''
         if not self.coordinates.any():
             return False
         bestpath = self.pathBest[-1]
-        plt.plot(self.coordinates[:, 0],
-                 self.coordinates[:, 1], 'r.', marker=u'$\cdot$')
-        plt.xlim([np.min(self.coordinates[:, 0])-10,
-                  np.max(self.coordinates[:, 0])+10])
-        plt.ylim([np.min(self.coordinates[:, 1])-10,
-                  np.max(self.coordinates[:, 1])+10])
 
+        title = u"最短路径图-TSP节点数量：%s" % (self.numCity)
+        plt.figure(title)
+
+        # 设置坐标轴范围
+        # plt.xlim([np.min(self.coordinates[:, 0])-20,
+        #           np.max(self.coordinates[:, 0])+20])
+        # plt.ylim([np.min(self.coordinates[:, 1])-20,
+        #           np.max(self.coordinates[:, 1])+20])
+
+        # 画连线
         for i in range(self.numCity - 1):
             m = int(bestpath[i])
             n = int(bestpath[i + 1])
             plt.plot([self.coordinates[m][0], self.coordinates[n][0]], [
-                     self.coordinates[m][1], self.coordinates[n][1]], 'k')
+                     self.coordinates[m][1], self.coordinates[n][1]], 'b', zorder=1)
         plt.plot([self.coordinates[int(bestpath[0])][0], self.coordinates[int(n)][0]],
-                 [self.coordinates[int(bestpath[0])][1], self.coordinates[int(n)][1]], 'b')
-        ax = plt.gca()
-        ax.set_title("Best Path, length is % s" % self.lengthBest[-1])
-        ax.set_xlabel('X axis')
-        ax.set_ylabel('Y_axis')
-        plt.show()
+                 [self.coordinates[int(bestpath[0])][1], self.coordinates[int(n)][1]], 'b', zorder=1)
+
+        # 画点
+        plt.scatter(
+            self.coordinates[:, 0], self.coordinates[:, 1], c='k', marker='.', zorder=2)
+
+        plt.title(title)
+        plt.xlabel(u"最短路径长度：%8.8s" % self.lengthBest[-1])
+        plt.savefig('./TSP_ACO_IMG/%s.jpg' % (title))
+        #plt.show()
+        plt.close()
 
 
 if __name__ == '__main__':
-    testCoordinates = np.array([[565, 575], [25, 185], [345, 750], [945, 685], [845, 655], [880, 660], [25, 230], [525, 1000], [580, 1175], [650, 1130], [1605, 620], [1220, 580], [1465, 200], [1530, 5], [845, 680], [725, 370], [145, 665], [415, 635], [510, 875], [560, 365], [300, 465], [520, 585], [480, 415], [835, 625], [975, 580], [
-        1215, 245], [1320, 315], [1250, 400], [660, 180], [410, 250], [420, 555], [575, 665], [1150, 1160], [700, 580], [685, 595], [685, 610], [770, 610], [795, 645], [720, 635], [760, 650], [475, 960], [95, 260], [875, 920], [700, 500], [555, 815], [830, 485], [1170, 65], [830, 610], [605, 625], [595, 360], [1340, 725], [1740, 245]])
-
-    testDistMat = np.array([[1, 1, 1], [2, 2, 2], [3, 3, 3]])
-
-    x = ACO(coordinates=testCoordinates)
+    # testCoordinates = np.array([[565, 575], [25, 185], [345, 750], [945, 685], [845, 655], [880, 660], [25, 230], [525, 1000], [580, 1175], [650, 1130], [1605, 620], [1220, 580], [1465, 200], [1530, 5], [845, 680], [725, 370], [145, 665], [415, 635], [510, 875], [560, 365], [300, 465], [520, 585], [480, 415], [835, 625], [975, 580], [
+    #     1215, 245], [1320, 315], [1250, 400], [660, 180], [410, 250], [420, 555], [575, 665], [1150, 1160], [700, 580], [685, 595], [685, 610], [770, 610], [795, 645], [720, 635], [760, 650], [475, 960], [95, 260], [875, 920], [700, 500], [555, 815], [830, 485], [1170, 65], [830, 610], [605, 625], [595, 360], [1340, 725], [1740, 245]])
+    # testDistMat = np.array([[1, 1, 1], [2, 2, 2], [3, 3, 3]])
+    # x = ACO(coordinates=testCoordinates)
     # x = ACO(distMatrix=testDistMat)
-    print(x.getBest_Path_Length_Time())
-    x.drawLengthIter()
-    x.drawBestRoute()
+    # bestLengthNp, bestTime = x.getBest_LengthNp_Time()
+    # print(bestLengthNp[-1], bestTime)
+    # x.drawLengthIter()
+    # x.drawBestRoute()
+
+    testCoordinatesList = [[[128, 839], [329, 127], [192, 405], [127, 252], [737, 227], [562, 597], [965, 537], [685, 889], [586, 512], [11, 264], [
+        580, 595], [216, 187], [477, 144], [882, 8], [359, 346], [912, 205], [758, 396], [331, 211], [73, 628], [816, 530]],
+        [[509, 921], [553, 203], [528, 916], [846, 251], [306, 499], [861, 953], [372, 485], [840, 285], [232, 358], [499, 772], [314, 843], [515, 198], [
+            507, 415], [379, 317], [624, 967], [409, 230], [443, 838], [932, 919], [672, 244], [326, 487], [614, 692], [368, 73], [329, 314], [243, 160]],
+        [[105, 484], [367, 837], [434, 802], [42, 426], [652, 803], [394, 352], [673, 624], [598, 851], [453, 54], [999, 520], [505, 146], [715, 752], [428, 648], [897, 140], [
+            388, 385], [581, 278], [109, 663], [301, 616], [932, 445], [301, 498], [405, 363], [266, 352], [83, 289], [553, 362], [43, 113], [725, 710], [563, 754], [810, 54]],
+        [[212, 647], [439, 919], [848, 116], [354, 583], [512, 550], [992, 714], [647, 368], [618, 280], [750, 407], [84, 988], [224, 880], [413, 603], [987, 632], [266, 501], [249, 128], [613, 413], [
+            704, 626], [487, 577], [42, 362], [699, 391], [443, 68], [101, 40], [621, 514], [452, 251], [988, 825], [264, 537], [690, 79], [279, 588], [727, 928], [906, 591], [39, 268], [615, 139]],
+        [[696, 619], [473, 903], [36, 181], [255, 341], [241, 433], [152, 183], [881, 907], [37, 188], [421, 416], [465, 357], [541, 899], [368, 205], [496, 449], [98, 553], [828, 182], [104, 656], [465, 56], [486, 559], [
+            547, 438], [717, 766], [671, 675], [844, 399], [549, 90], [265, 619], [958, 905], [762, 713], [610, 589], [129, 679], [846, 778], [915, 396], [291, 798], [205, 12], [647, 624], [665, 88], [107, 417], [488, 770]],
+        [[121, 72], [798, 687], [618, 450], [203, 937], [894, 871], [541, 10], [801, 172], [963, 283], [87, 173], [588, 444], [266, 68], [56, 157], [220, 407], [281, 13], [31, 887], [526, 223], [957, 15], [769, 506], [940, 494], [733, 954], [
+            124, 176], [866, 181], [381, 945], [676, 899], [526, 520], [275, 811], [307, 673], [582, 174], [523, 664], [506, 812], [89, 124], [990, 651], [949, 412], [337, 327], [186, 623], [912, 211], [243, 537], [871, 623], [256, 364], [260, 654]]]
+
+    for i in testCoordinatesList:
+        aco = ACO(coordinates=np.array(i))
+        bestLengthNp, bestTime = aco.getBest_LengthNp_Time()
+        print(bestLengthNp[-1], bestTime)
+        aco.drawBestRoute()
