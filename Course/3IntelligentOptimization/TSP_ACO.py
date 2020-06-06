@@ -8,7 +8,7 @@ mpl.rcParams['axes.unicode_minus'] = False  # 解决保存图像是负号'-'显�
 
 
 class ACO:
-    def __init__(self, coordinates=np.zeros((0)), distMatrix=np.zeros((0)), numAnt=20, alpha=1, beta=8, rho=0.1, method=1, iterMax=60):
+    def __init__(self, coordinates=np.zeros((0)), distMatrix=np.zeros((0)), numAnt=20, alpha=1, beta=8, rho=0.3, method=1, iterMax=60):
         '''蚁群优化算法初始化'''
         # 获取城市的距离矩阵
         self.coordinates = coordinates  # 城市坐标矩阵

@@ -245,7 +245,7 @@ class ACOManage:
             self.drawTimeIter(timeIter, title, xLabel, yLabel, labelList[1:])
 
     def drawLengthIter(self, lengthNpIter, title, xLabel, yLabel, labelList):
-        '''画出最短路径迭代图'''
+        '''画出最短路径迭代收敛图'''
         plt.figure(title)
         handleList = []
         for i in range(len(lengthNpIter)):
