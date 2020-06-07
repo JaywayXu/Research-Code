@@ -1,45 +1,180 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "cppjieba/include/cppjieba/Jieba.hpp"
 using namespace std;
 
-int main(int argc, char const *argv[])
-{
-    //è¯»å–a.txt
-    ifstream in;
-    in.open("a.txt");
-    string s[1000];
-    int i = 1;
-    while (!in.eof())
+const char *const DICT_PATH = "cppjieba/dict/jieba.dict.utf8";
+const char *const HMM_PATH = "cppjieba/dict/hmm_model.utf8";
+const char *const USER_DICT_PATH = "cppjieba/dict/user.dict.utf8";
+const char *const IDF_PATH = "cppjieba/dict/idf.utf8";
+const char *const STOP_WORD_PATH = "cppjieba/dict/stop_words.utf8";
+
+const int readFilesNum = 3;                                // ¶ÁÈ¡ÎÄ¼şµÄ¸öÊı
+const string readFiles[] = {"a1.txt", "a2.txt", "a3.txt"}; // ¶ÁÈ¡µÄÎÄ¼ş
+const string writeFile = "b.txt";                          // Ğ´ÈëµÄÎÄ¼ş
+const int topk = 5;                                        // ¹Ø¼ü´ÊµÄ×îµÍÆµ
+
+class InvertedIndexPoint
+{ // µ¹ÅÅË÷Òı½ÚµãÀà
+public:
+    string keyword;         // ¹Ø¼ü´Ê
+    vector<string> fileVec; // ¶ÔÓ¦ÎÄ¼şvector
+    InvertedIndexPoint() {} // Ä¬ÈÏ¹¹Ôìº¯Êı
+    InvertedIndexPoint(string keyword, string filename)
+    { // ¸ù¾İ´«½øµÄkeywordºÍ×î³õµÄfilename´´½¨
+        this->keyword = keyword;
+        fileVec.push_back(filename);
+    }
+    void appendFile(string file)
+    { // Ìí¼ÓË÷ÒıµÄÎÄ¼ş
+        // Èç¹û´æÔÚ
+        for (int i = 0; i < fileVec.size(); i++)
+        {
+            if (file.compare(fileVec[i]) == 0)
+            { // ÕÒµ½ÁËÏàÍ¬ÎÄ¼ş
+                return;
+            }
+        }
+        fileVec.push_back(file);
+    }
+};
+
+class InvertedIndexList
+{ // µ¹ÅÅË÷ÒıÀà
+public:
+    vector<InvertedIndexPoint> list;                     //½Úµãvector
+    int getIndex(string keyword);                        // ²éÕÒË÷ÒıÊÇ·ñ´æÔÚ£¬´æÔÚÔò·µ»Ø¶ÔÓ¦ÏÂ±ê
+    void addKeyFile(string keyword, string filename);    // Ìí¼Ó¹Ø¼ü´ÊºÍ¶ÔÓ¦ÎÄ¼ş
+    void getFilesVec(string keyword, vector<string> &v); // ²éÕÒ¹Ø¼ü´ÊËùÔÚµÄÎÄ¼ş
+    void printToFile(string filename);                   // ´òÓ¡Êä³ö
+};
+
+int InvertedIndexList::getIndex(string keyword)
+{ // ²éÕÒË÷ÒıÊÇ·ñ´æÔÚ£¬´æÔÚÔò·µ»Ø¶ÔÓ¦ÏÂ±ê£¬²»´æÔÚ·µ»Ø-1
+    for (int i = 0; i < list.size(); i++)
     {
-        in >> s[i];
-        i++;
+        if (!keyword.compare(list[i].keyword)) // ÏàµÈ
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void InvertedIndexList::addKeyFile(string keyword, string filename)
+{ // Ìí¼Ó¹Ø¼ü´ÊºÍ¶ÔÓ¦ÎÄ¼ş
+    int index = getIndex(keyword);
+    if (index != -1)
+    { // Èç¹ûµ±Ç°´æÔÚkeyword£¬ÔòÌí¼ÓÎÄ¼ş
+        list[index].appendFile(filename);
+    }
+    else
+    { // Èç¹û²»´æÔÚkeyword£¬Ôò´´½¨Ë÷Òı
+        InvertedIndexPoint p(keyword, filename);
+        list.push_back(p);
+    }
+}
+
+void InvertedIndexList::getFilesVec(string keyword, vector<string> &v)
+{ // ²éÕÒ¹Ø¼ü´ÊËùÔÚµÄÎÄ¼ş
+    int index = getIndex(keyword);
+    if (index != -1)
+    {
+        // ¿½±´vector
+        for (int i = 0; i < list[index].fileVec.size(); i++)
+        {
+            v.push_back(list[index].fileVec[i]);
+        }
+    }
+}
+
+void InvertedIndexList::printToFile(string filename)
+{ // Êä³öµ½ÎÄ¼ş
+    ofstream out;
+    out.open(filename);
+
+    for (int i = 0; i < list.size(); i++)
+    {
+        out << list[i].keyword << ":";
+        for (int j = 0; j < list[i].fileVec.size(); j++)
+        {
+            out << " " << list[i].fileVec[j];
+        }
+        out << endl;
     }
 
-    const char *const DICT_PATH = "cppjieba/dict/jieba.dict.utf8";
-    const char *const HMM_PATH = "cppjieba/dict/hmm_model.utf8";
-    const char *const USER_DICT_PATH = "cppjieba/dict/user.dict.utf8";
-    const char *const IDF_PATH = "cppjieba/dict/idf.utf8";
-    const char *const STOP_WORD_PATH = "cppjieba/dict/stop_words.utf8";
-    //åˆ›å»ºjiebaç±»
+    out.close();
+}
+
+void extractFileKeywords(cppjieba::Jieba &jieba, vector<cppjieba::KeywordExtractor::Word> &keywords, string filename)
+{ // ¶ÔÎÄ¼ş½øĞĞ¹Ø¼ü´Ê·ÖÎö£¬·µ»Ø¹Ø¼ü´ÊÊı×é
+    // ¶ÁÈ¡ÎÄ¼ş
+    ifstream in;
+    in.open(filename);
+    string readString, s;
+    while (!in.eof())
+    {
+        in >> s;
+        readString += s;
+    }
+    in.close();
+
+    jieba.extractor.Extract(readString, keywords, topk); // Ö´ĞĞ¹Ø¼ü´ÊÌáÈ¡
+}
+
+int main(int argc, char const *argv[])
+{
+    // ´´½¨jiebaÀà
     cppjieba::Jieba jieba(DICT_PATH,
                           HMM_PATH,
                           USER_DICT_PATH,
                           IDF_PATH,
                           STOP_WORD_PATH);
 
-    //è¾“å‡ºåˆ°b.txt
-    ofstream out;
-    out.open("b.txt");
-    for (int j = 1; j < i; j++)
+    // ´´½¨µ¹ÅÅË÷Òı¶ÔÏó
+    InvertedIndexList iil;
+
+    // ¶ÔÃ¿¸öÎÄ¼ş½øĞĞ¹Ø¼ü´Ê·ÖÎö
+    for (int i = 0; i < readFilesNum; i++)
     {
-        vector<string> words; //è·å–åˆ†è¯çš„vecotr
+        vector<cppjieba::KeywordExtractor::Word> fileKeywords;  // »ñÈ¡¹Ø¼ü´ÎµÄvector
+        extractFileKeywords(jieba, fileKeywords, readFiles[i]); // ¶ÔÎÄ¼ş·ÖÎö¹Ø¼ü´Ê
 
-        jieba.Cut(s[j], words, true); //æ‰§è¡Œåˆ†è¯
+        for (int j = 0; j < fileKeywords.size(); j++)
+        {
+            iil.addKeyFile(fileKeywords[j].word, readFiles[i]); // Ìí¼Ó¹Ø¼ü´ÊºÍÎÄ¼şÃû
 
-        out << limonp::Join(words.begin(), words.end(), "/") << endl;
+            // // ²âÊÔgetFilesVec
+            // vector<string> v;
+            // iil.getFilesVec(fileKeywords[j].word, v);
+            // ofstream testo;
+            // testo.open("x.txt", ios::app);
+            // testo << fileKeywords[j].word << ":";
+            // for (int x = 0; x < v.size(); x++)
+            // {
+            //     if (v.size() > 0)
+            //     {
+            //         testo << " " << v[x];
+            //     }
+            // }
+            // testo << endl;
+            // testo.close();
+        }
+
+        // // Ã¿¸öÎÄ¼şµÄ¹Ø¼ü´ÊÊä³ö²âÊÔ
+        // ofstream out;
+        // out.open("x.txt", ios::app);
+        // for (int j = 0; j < fileKeywords.size(); j++)
+        // {
+        //     out << fileKeywords[j].word << " ";
+        // }
+        // out << endl;
+        // out.close();
     }
+
+    iil.printToFile(writeFile); // Êä³öµ±Ç°µ¹ÅÅË÷Òı
 
     return 0;
 }
