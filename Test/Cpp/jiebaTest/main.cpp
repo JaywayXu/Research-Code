@@ -12,9 +12,9 @@ const char *const IDF_PATH = "cppjieba/dict/idf.utf8";
 const char *const STOP_WORD_PATH = "cppjieba/dict/stop_words.utf8";
 
 const int readFilesNum = 3;                                // 读取文件的个数
-const string readFiles[] = {"a1.txt", "a2.txt", "a3.txt"}; // 读取的文件
-const string writeFile = "b.txt";                          // 写入的文件
-const int topk = 5;                                        // 关键词的最低频
+const string readFiles[] = {"C3-Art0002.txt", "C3-Art0003.txt", "C3-Art0005.txt"}; // 读取的文件
+const string writeFile = "output.txt";                          // 写入的文件
+const int topk = 100;                                        // 越高关键词越多
 
 class InvertedIndexPoint
 { // 倒排索引节点类
@@ -146,21 +146,21 @@ int main(int argc, char const *argv[])
         {
             iil.addKeyFile(fileKeywords[j].word, readFiles[i]); // 添加关键词和文件名
 
-            // // 测试getFilesVec
-            // vector<string> v;
-            // iil.getFilesVec(fileKeywords[j].word, v);
-            // ofstream testo;
-            // testo.open("x.txt", ios::app);
-            // testo << fileKeywords[j].word << ":";
-            // for (int x = 0; x < v.size(); x++)
-            // {
-            //     if (v.size() > 0)
-            //     {
-            //         testo << " " << v[x];
-            //     }
-            // }
-            // testo << endl;
-            // testo.close();
+            // 测试getFilesVec
+            vector<string> v;
+            iil.getFilesVec(fileKeywords[j].word, v);
+            ofstream testo;
+            testo.open("x.txt", ios::app);
+            testo << fileKeywords[j].word << ":";
+            for (int x = 0; x < v.size(); x++)
+            {
+                if (v.size() > 0)
+                {
+                    testo << " " << v[x];
+                }
+            }
+            testo << endl;
+            testo.close();
         }
 
         // // 每个文件的关键词输出测试
