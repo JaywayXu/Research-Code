@@ -11,10 +11,10 @@ const char *const USER_DICT_PATH = "cppjieba/dict/user.dict.utf8";
 const char *const IDF_PATH = "cppjieba/dict/idf.utf8";
 const char *const STOP_WORD_PATH = "cppjieba/dict/stop_words.utf8";
 
-const int readFilesNum = 3;                                // 读取文件的个数
+const int readFilesNum = 3;                                                        // 读取文件的个数
 const string readFiles[] = {"C3-Art0002.txt", "C3-Art0003.txt", "C3-Art0005.txt"}; // 读取的文件
-const string writeFile = "output.txt";                          // 写入的文件
-const int topk = 100;                                        // 越高关键词越多
+const string writeFile = "output.txt";                                             // 写入的文件
+const int topk = 100;                                                              // 越高关键词越多
 
 class InvertedIndexPoint
 { // 倒排索引节点类
@@ -29,14 +29,14 @@ public:
     }
     void appendFile(string file)
     { // 添加索引的文件
-        // 如果存在
-        for (int i = 0; i < fileVec.size(); i++)
-        {
-            if (file.compare(fileVec[i]) == 0)
-            { // 找到了相同文件
-                return;
-            }
-        }
+        // // 如果存在
+        // for (int i = 0; i < fileVec.size(); i++)
+        // {
+        //     if (file.compare(fileVec[i]) == 0)
+        //     { // 找到了相同文件
+        //         return;
+        //     }
+        // }
         fileVec.push_back(file);
     }
 };
@@ -82,11 +82,12 @@ void InvertedIndexList::getFilesVec(string keyword, vector<string> &v)
     int index = getIndex(keyword);
     if (index != -1)
     {
-        // 拷贝vector
-        for (int i = 0; i < list[index].fileVec.size(); i++)
-        {
-            v.push_back(list[index].fileVec[i]);
-        }
+        // // 拷贝vector
+        // for (int i = 0; i < list[index].fileVec.size(); i++)
+        // {
+        //     v.push_back(list[index].fileVec[i]);
+        // }
+        v = list[index].fileVec;
     }
 }
 
