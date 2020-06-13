@@ -5,9 +5,9 @@
 经营: C3-Art0002.txt
 出书: C3-Art0002.txt
 工作: C3-Art0002.txt
-图书: C3-Art0002.txt
 定价: C3-Art0002.txt
 非理性: C3-Art0002.txt
+图书: C3-Art0002.txt
 销售: C3-Art0002.txt
 读者: C3-Art0002.txt C3-Art0003.txt C3-Art0005.txt
 编辑: C3-Art0002.txt
@@ -25,12 +25,11 @@
 认为: C3-Art0002.txt C3-Art0005.txt
 各项: C3-Art0002.txt
 责编: C3-Art0002.txt
-1970: C3-Art0002.txt
-年净: C3-Art0002.txt
-20: C3-Art0002.txt
-40: C3-Art0002.txt
-1990: C3-Art0002.txt
 25: C3-Art0002.txt
+20: C3-Art0002.txt
+1970: C3-Art0002.txt
+1990: C3-Art0002.txt
+年净: C3-Art0002.txt
 书中: C3-Art0002.txt
 应该: C3-Art0002.txt
 杰出: C3-Art0002.txt
@@ -48,7 +47,6 @@
 了解: C3-Art0002.txt
 现金: C3-Art0002.txt
 问题: C3-Art0002.txt C3-Art0005.txt
-复印: C3-Art0002.txt
 熟悉: C3-Art0002.txt
 必须: C3-Art0002.txt C3-Art0005.txt
 方程式: C3-Art0002.txt
@@ -93,11 +91,13 @@
 准确: C3-Art0002.txt C3-Art0003.txt
 工作人员: C3-Art0002.txt
 之内: C3-Art0002.txt
+决算表: C3-Art0002.txt
 若干套: C3-Art0002.txt
 好几本: C3-Art0002.txt
-决算表: C3-Art0002.txt
 库存: C3-Art0002.txt
-研究: C3-Art0002.txt C3-Art0003.txt
+提好: C3-Art0002.txt
+专业书: C3-Art0002.txt
+甜酸苦辣: C3-Art0002.txt
 朱自清: C3-Art0003.txt
 散文: C3-Art0003.txt
 艺术: C3-Art0003.txt C3-Art0005.txt
@@ -110,6 +110,7 @@
 主体: C3-Art0003.txt
 理想: C3-Art0003.txt
 评论者: C3-Art0003.txt
+研究: C3-Art0003.txt
 阐释: C3-Art0003.txt
 作家: C3-Art0003.txt
 感觉: C3-Art0003.txt C3-Art0005.txt
