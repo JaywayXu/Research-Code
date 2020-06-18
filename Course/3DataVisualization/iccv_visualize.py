@@ -80,6 +80,7 @@ class ICCV_Visualize:
         wordcloud.to_file('word_cloud.jpg')  # 保存图片
         plt.close()
 
+
     def draw_word_pie(self):
         '''绘制热点词汇饼图'''
         w_dict = self.word_dict
@@ -195,7 +196,7 @@ class ICCV_Visualize:
         plt.close()
 
     def draw_author_bar(self):
-        '''绘制每个热门作者的出现次数和论文数量柱状图'''
+        '''绘制热门作者论文数柱状图'''
         author_dict = self.author_dict
         # 取频率最高的前15个
         author_list = sorted(
@@ -248,7 +249,7 @@ class ICCV_Visualize:
             plt.text(rect.get_x() + rect.get_width() / 2, height +
                      3, str(height), ha="center", va="bottom")
         plt.grid(axis="y")
-        plt.title("作者数分布直方图")
+        plt.title("作者数分布柱状图")
         plt.xlabel('作者数量')
         plt.ylabel("论文个数")
         plt.text(14, 235, '最大作者数：%d' % author_num_max)
@@ -313,7 +314,7 @@ class ICCV_Visualize:
             plt.text(rect.get_x() + rect.get_width() / 2, height +
                      3, str(height), ha="center", va="bottom")
         plt.grid(axis="y")
-        plt.title("标题单词数分布直方图")
+        plt.title("标题单词数分布柱状图")
         plt.xlabel('标题单词数量')
         plt.ylabel("论文个数")
         plt.text(16, 177, '最大单词数：%d' % title_num_max)
