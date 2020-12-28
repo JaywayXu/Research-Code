@@ -1,0 +1,2 @@
+it is fputs str
+it is fputs str
