@@ -5,7 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb)Launch(Mac)",
+            "name": "Octave(matlab)_Launch",
+            "type": "OctaveDebugger",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.m",
+            "octave": "octave-cli",
+            "sourceFolder": "${fileDirname}/",
+            "workingDirectory": "${workspaceFolder}",
+            "autoTerminate": true
+        },
+        {
+            "name": "(lldb)C++_Launch(Mac)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}.o",
@@ -18,7 +28,7 @@
             "preLaunchTask": "build"
         },
         {
-            "name": "(gdb)Launch(Win)",
+            "name": "(gdb)C++_Launch(Win)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}.o",
@@ -39,7 +49,7 @@
             "preLaunchTask": "build"
         },
         {
-            "name": "Python: 当前文件",
+            "name": "Python_Launch",
             "type": "python",
             "request": "launch",
             "program": "${file}",
