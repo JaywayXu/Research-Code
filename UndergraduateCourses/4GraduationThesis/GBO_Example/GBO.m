@@ -1,28 +1,25 @@
-%---------------------------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------------
 %  Author, inventor and programmer: Iman Ahmadianfar,
 %  Assistant Professor, Department of Civil Engineering, Behbahan Khatam Alanbia University of Technology, Behbahan, Iran
-
 %  Researchgate: https://www.researchgate.net/profile/Iman_Ahmadianfar
-
 %  e-Mail: im.ahmadian@gmail.com, i.ahmadianfar@bkatu.ac.ir,
-%---------------------------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------------
 %  Co-author:
 %             Omid Bozorg-Haddad(OBHaddad@ut.ac.ir)
 %             Xuefeng Chu(xuefeng.chu@ndsu.edu) 
-%---------------------------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------------
 % Please refer to the main paper:
 % Gradient-Based Optimizer: A New Metaheuristic Optimization Algorithm
 % SIman Ahmadianfar, Omid Bozorg-Haddad, Xuefeng Chu
 % Information Sciences,2020
 % DOI: https://doi.org/10.1016/j.ins.2020.06.037
 % https://www.sciencedirect.com/science/article/pii/S0020025520306241
-% ------------------------------------------------------------------------------------------------------------
+% ---------------------------------------------------------------------------------------------------------------
 % Website of GBO: http://imanahmadianfar.com/
 % You can find and run the GBO code online at http://imanahmadianfar.com/
-
 % You can find the GBO paper at https://doi.org/10.1016/j.ins.2020.06.037
 % Please follow the paper for related updates in researchgate: https://www.researchgate.net/profile/Iman_Ahmadianfar
-%--------------------------------------------------------------------------------------------------------------------------- 
+%----------------------------------------------------------------------------------------------------------------
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [Best_Cost,Best_X,Convergence_curve]=GBO(nP,MaxIt,lb,ub,dim,fobj)
