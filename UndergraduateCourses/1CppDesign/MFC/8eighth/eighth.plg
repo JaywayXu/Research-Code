@@ -1,0 +1,43 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: eighth - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/eighth.res" /d "_DEBUG" "D:\program\C++\C++Design\MFC\8eighth\eighth.rc"" 
+Creating temporary file "C:\Users\lyc\AppData\Local\Temp\RSPA3AE.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/eighth.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\program\C++\C++Design\MFC\8eighth\colordlg.cpp"
+"D:\program\C++\C++Design\MFC\8eighth\eighth.cpp"
+"D:\program\C++\C++Design\MFC\8eighth\eighthDlg.cpp"
+]
+Creating command line "cl.exe @C:\Users\lyc\AppData\Local\Temp\RSPA3AE.tmp" 
+Creating temporary file "C:\Users\lyc\AppData\Local\Temp\RSPA3AF.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/eighth.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\program\C++\C++Design\MFC\8eighth\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\Users\lyc\AppData\Local\Temp\RSPA3AF.tmp" 
+Creating command line "link.exe /nologo /subsystem:windows /incremental:yes /pdb:"Debug/eighth.pdb" /debug /machine:I386 /out:"Debug/eighth.exe" /pdbtype:sept  ".\Debug\colordlg.obj" ".\Debug\eighth.obj" ".\Debug\eighthDlg.obj" ".\Debug\StdAfx.obj" ".\Debug\eighth.res" "
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+colordlg.cpp
+eighth.cpp
+eighthDlg.cpp
+Generating Code...
+Linking...
+LINK : LNK6004: Debug/eighth.exe not found or not built by the last incremental link; performing full link
+
+
+
+<h3>Results</h3>
+eighth.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

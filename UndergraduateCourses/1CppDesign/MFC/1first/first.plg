@@ -1,0 +1,29 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: first - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\lyc\AppData\Local\Temp\RSP25F1.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/first.pdb" /debug /machine:I386 /out:"Debug/first.exe" /pdbtype:sept 
+".\Debug\first.obj"
+".\Debug\firstDoc.obj"
+".\Debug\firstView.obj"
+".\Debug\MainFrm.obj"
+".\Debug\StdAfx.obj"
+".\Debug\first.res"
+]
+Creating command line "link.exe @C:\Users\lyc\AppData\Local\Temp\RSP25F1.tmp"
+<h3>Output Window</h3>
+Linking...
+
+
+
+<h3>Results</h3>
+first.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

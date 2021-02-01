@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: SGMS_MFC - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/SGMS_MFC.res" /d "_DEBUG" "D:\program\C++\C++Design\MFC\SGMS_MFC\SGMS_MFC.rc"" 
+Creating temporary file "C:\Users\lyc\AppData\Local\Temp\RSP53CD.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\program\C++\C++Design\MFC\SGMS_MFC\SGMS_MFCDlg.cpp"
+]
+Creating command line "cl.exe @C:\Users\lyc\AppData\Local\Temp\RSP53CD.tmp" 
+Creating temporary file "C:\Users\lyc\AppData\Local\Temp\RSP53DE.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/SGMS_MFC.pdb" /debug /machine:I386 /out:"Debug/SGMS_MFC.exe" /pdbtype:sept 
+".\Debug\ADD.obj"
+".\Debug\Del.obj"
+".\Debug\hange.obj"
+".\Debug\Search.obj"
+".\Debug\SGMS_MFC.obj"
+".\Debug\SGMS_MFCDlg.obj"
+".\Debug\SORT.obj"
+".\Debug\StdAfx.obj"
+".\Debug\SGMS_MFC.res"
+]
+Creating command line "link.exe @C:\Users\lyc\AppData\Local\Temp\RSP53DE.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+SGMS_MFCDlg.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+SGMS_MFC.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
