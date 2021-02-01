@@ -48,28 +48,3 @@ axis tight
 grid off
 box on
 legend('GBO')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
