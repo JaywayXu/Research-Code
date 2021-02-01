@@ -3,7 +3,7 @@
     // 悬停以查看现有属性的描述。
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
+    "configurations": [ 
         {
             "name": "Octave(matlab)_Launch",
             "type": "OctaveDebugger",
@@ -25,7 +25,7 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "lldb",
-            "preLaunchTask": "build"
+            "preLaunchTask": "cpp_build"
         },
         {
             "name": "(gdb)C++_Launch(Win)",
@@ -34,11 +34,11 @@
             "program": "${fileDirname}/${fileBasenameNoExtension}.o",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "${fileDirname}",
+            "cwd": "${fileDirname}/",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "c:\\MinGW\\bin\\gdb.exe",
+            "miDebuggerPath": "c:/MinGW/bin/gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -46,7 +46,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build"
+            "preLaunchTask": "cpp_build"
         },
         {
             "name": "Python_Launch",
