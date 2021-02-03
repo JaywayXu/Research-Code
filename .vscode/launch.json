@@ -16,15 +16,11 @@
         },
         {
             "name": "(lldb)C++_Launch(Mac)",
-            "type": "cppdbg",
+            "type": "lldb",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}.o",
             "args": [],
-            "stopAtEntry": true,
             "cwd": "${fileDirname}/",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "lldb",
             "preLaunchTask": "cpp_build"
         },
         {
