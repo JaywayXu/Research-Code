@@ -4,6 +4,7 @@
 *.exe
 *.o
 *.out
+*.o.*
 *.class
 ._*
 *.py[cod]
