@@ -13,10 +13,10 @@ class GBO:
 
     def get_resault(self):
         '''Run the Optimize Algorithm'''
-        self.Cost = np.zeros([nP, 1])
+        self.Cost = np.zeros([self.nP, 1])
         # Initialize the set of random solutions
         self.X = self.lb + (self.ub-self.lb) * np.random.rand(self.nP, self.nV)
-        Convergence_curve = np.zeros([1, MaxIt])
+        Convergence_curve = np.zeros([1, self.MaxIt])
 
         # Calculate the Value of Objective Function
         for i in range(self.nP):
