@@ -3,8 +3,8 @@ from GBO import GBO
 
 if __name__ == "__main__":
     nP = 50
-    MaxIt = 100
-    fname = "F8"
+    MaxIt = 500
+    fname = "F11"
 
     bf = BenchmarkFunctions()
     lb, ub, dim, fobj = bf.get(fname)
