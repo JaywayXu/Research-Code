@@ -195,63 +195,66 @@ class BenchmarkFunctions:
             pow((w[D-1]-1), 2) * (1 + pow(np.sin(2*np.pi*w[D-1]), 2))
         return z
 
-    # def f9_obj(self, x):
-    #     '''Modified Schwefel’s Function (Multimodal)'''
-    #     D = x.shape[0]
-    #     for i = 1:
-    #         D
-    #         y = x[i]+4.209687462275036e+002
-    #         if abs(y) < 500
-    #         f[i] = y*sin(abs(y) ^ 0.5)
-    #         elseif y > 500
+    def f9_obj(self, x):
+        '''Modified Schwefel’s Function (Multimodal)'''
+        D = x.shape[0]
+        f = np.zeros([D, 1])
+        for i in range(D):
+            y = x[i]+4.209687462275036e+002
+            if abs(y) < 500:
+                f[i] = y*np.sin(pow(abs(y), 0.5))
+            elif y > 500:
+                f[i] = (500 - y % 500) * np.sin(np.sqrt(abs(500 - y % 500))) - \
+                    pow((y-500), 2)/(10000*D)
+            elif y < -500:
+                f[i] = (abs(y) % 500 - 500) * np.sin(np.sqrt(abs(abs(y) % 500 - 500))) - \
+                    pow((y+500), 2)/(10000*D)
+        z = 418.9829 * D - f.sum()
+        return z
 
-    #         f[i] = (500-mod(y, 500)) * sin(sqrt(abs(500-mod(y, 500))))-(y-500) ^ 2/(10000*D)
-    #         elseif y < -500
-    #         f[i] = (mod(abs(y), 500)-500) * sin(sqrt(abs(mod(abs(y), 500)-500)))-(y+500) ^ 2/(10000*D)
-    #     z = 418.9829*D-sum(f)
-    #     return z
+    def f10_obj(self, x):
+        '''Ackley (Multimodal)'''
+        D = x.shape[0]
+        z = -20 * np.exp(-0.2 * pow((1/D) * np.power(x, 2).sum(), 0.5)) - \
+            np.exp((1/D) * np.cos(2*np.pi*x).sum()) + 20 + np.exp(1)
+        return z
 
-    # def f10_obj(self, x):
-    #     '''Ackley (Multimodal)'''
-    #     D = x.shape[0]
-    #     z = -20*exp(-0.2*((1/D)*(sum(x. ^ 2))). ^ 0.5)-exp(1/D*sum(cos(2*pi.*x)))+20+exp(1)
-    #     return z
+    def f11_obj(self, x):
+        '''weierstrass (Multimodal)'''
+        def w(x1, c1, c2):
+            y = (c1 * np.cos(c2 * x1)).sum()
+            return y
+        D = x.shape[0]
+        x = x + 0.5
+        a = 0.5
+        b = 3
+        kmax = 20
+        c1 = np.zeros([20])
+        c2 = np.zeros([20])
+        c1[0: kmax] = np.power(a, range(kmax))
+        c2[0: kmax] = 2 * np.pi * np.power(b, range(kmax))
+        f = 0
+        c = -w(0.5, c1, c2)
+        for i in range(D):
+            f = f + w(x[i], c1, c2)
+        z = f + c * D
+        return z
 
-    # def f11_obj(self, x):
-    #     '''weierstrass (Multimodal)'''
-    #     D = x.shape[0]
-    #     x = x+0.5
-    #     a = 0.5
-    #     b = 3
-    #     kmax = 20
-    #     c1(1: kmax+1) = a. ^ (0: kmax)
-    #     c2(1: kmax+1) = 2*pi*b. ^ (0: kmax)
-    #     f = 0
-    #     c = -w(0.5, c1, c2)
-    #     for i = 1:
-    #         D
-    #         f = f+w(x(: , i)', c1, c2)
-    #     z = f+c*D
-    #     function y = w(x, c1, c2)
-    #     y = zeros(length(x), 1)
-    #     for k = 1:
-    #         length(x)
-    #         y(k) = sum(c1 .* cos(c2.*x(: , k)))
-    #     end
+    def f12_obj(self, x):
+        '''HappyCat Function (Multimodal)'''
+        D = x.shape[0]
+        z = pow(abs(np.power(x, 2).sum() - D), 1/4) + \
+            (0.5 * np.power(x, 2).sum() + x.sum()) / D + 0.5
+        return z
 
-    # def f12_obj(self, x):
-    #     '''HappyCat Function (Multimodal)'''
-    #     D = x.shape[0]
-    #     z = (abs(sum(x. ^ 2)-D)) ^ (1/4)+(0.5*sum(x. ^ 2)+sum(x))/D+0.5
-    #     return z
+    def f13_obj(self, x):
+        '''HGBat Function (Multimodal)'''
+        D = x.shape[0]
+        z = pow(abs(pow(np.power(x, 2).sum(), 2) - pow(x.sum(), 2)),
+                1/2) + (0.5 * np.power(x, 2).sum() + x.sum()) / D + 0.5
+        return z
 
-    # def f13_obj(self, x):
-    #     '''HGBat Function (Multimodal)'''
-    #     D = x.shape[0]
-    #     z = (abs((sum(x. ^ 2)) ^ 2-(sum(x)) ^ 2)) ^ (1/2)+(0.5*sum(x. ^ 2)+sum(x))/D+0.5
-    #     return z
-
-    # def f14_obj(self, x):
-    #     '''Alpine (Multimodal)'''
-    #     z = sum(abs(x.*sin(x)+0.1.*x))
-    #     return z
+    def f14_obj(self, x):
+        '''Alpine (Multimodal)'''
+        z = sum(abs(x*np.sin(x) + 0.1*x))
+        return z
