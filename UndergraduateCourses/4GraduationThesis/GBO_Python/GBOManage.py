@@ -1,6 +1,12 @@
 from BenchmarkFunctions import BenchmarkFunctions
 from GBO import GBO
 
+
+class GBOManage:
+    def __init__(self):
+        pass
+
+
 if __name__ == "__main__":
     nP = 50
     MaxIt = 500
