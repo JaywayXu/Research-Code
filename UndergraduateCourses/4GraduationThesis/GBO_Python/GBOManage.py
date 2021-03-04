@@ -1,5 +1,5 @@
 from BenchmarkFunctions import BenchmarkFunctions
-from GBO import GBO
+from Optimizer import *
 
 
 class GBOManage:
