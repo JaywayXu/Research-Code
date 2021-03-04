@@ -18,8 +18,6 @@ for k = 2:max
 	if (err<tol),break,end
 end
 
-P = P';
-
 %设置输出精度
 x = vpa(p,10);
 
@@ -33,6 +31,9 @@ hold on;
 py0 = px*0;
 plot(px,py0);
 hold on;
-%求出的点
-scatter(x,0);
+%迭代的点
+[r,c] = size(P);
+for i=1:c
+    scatter(P(i),y(P(i)));
+end
 end
