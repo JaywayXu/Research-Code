@@ -4,21 +4,22 @@ import numpy as np
 class BenchmarkFunctions:
     def __init__(self):
         self.D = 30
+        self.size = 14
         self.switch = {
-            "F1": self.f1,
-            "F2": self.f2,
-            "F3": self.f3,
-            "F4": self.f4,
-            "F5": self.f5,
-            "F6": self.f6,
-            "F7": self.f7,
-            "F8": self.f8,
-            "F9": self.f9,
-            "F10": self.f10,
-            "F11": self.f11,
-            "F12": self.f12,
-            "F13": self.f13,
-            "F14": self.f14,
+            1: self.f1,
+            2: self.f2,
+            3: self.f3,
+            4: self.f4,
+            5: self.f5,
+            6: self.f6,
+            7: self.f7,
+            8: self.f8,
+            9: self.f9,
+            10: self.f10,
+            11: self.f11,
+            12: self.f12,
+            13: self.f13,
+            14: self.f14,
         }
 
     def get(self, fname):
