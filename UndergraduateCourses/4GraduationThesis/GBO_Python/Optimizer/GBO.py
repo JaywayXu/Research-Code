@@ -2,10 +2,10 @@ import numpy as np
 
 
 class GBO:
-    def __init__(self, nP, MaxIt, lb, ub, dim, fobj):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj):
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
-        self.nV = dim  # Number f Variables
+        self.nV = nV  # Number f Variables
         self.pr = 0.5  # Probability Parameter
         self.lb = lb  # lower boundary
         self.ub = ub  # upper boundary
@@ -17,7 +17,7 @@ class GBO:
         # Initialize the set of random solutions
         self.X = self.lb + (self.ub - self.lb) * np.random.rand(
             self.nP, self.nV)
-        Convergence_curve = np.zeros([1, self.MaxIt])
+        Convergence_curve = np.zeros([self.MaxIt])
 
         # Calculate the Value of Objective Function
         for i in range(self.nP):
@@ -125,9 +125,9 @@ class GBO:
                     Worst_Cost = self.Cost[i]
 
             # Show Iteration Information
-            Convergence_curve[0, it] = Best_Cost
+            Convergence_curve[it] = Best_Cost
             print('Iteration ', it + 1, ': Best Fitness = ',
-                  Convergence_curve[0, it])
+                  Convergence_curve[it])
 
         return Best_Cost, Best_X, Convergence_curve
 
