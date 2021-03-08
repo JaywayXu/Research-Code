@@ -84,7 +84,7 @@ class GBO:
                     f1 = -1 + (1 - (-1)) * np.random.rand()
                     f2 = -1 + (1 - (-1)) * np.random.rand()
                     ro = alpha * (2 * np.random.rand() - 1)
-                    Xk = self.lb + (self.ub-self.lb) * \
+                    Xp = self.lb + (self.ub-self.lb) * \
                         np.random.rand(1, self.nV)  # Eq.(28.8)
 
                     L1 = np.random.rand() < 0.5
@@ -92,19 +92,21 @@ class GBO:
                     u2 = L1 * np.random.rand() + (1 - L1) * 1
                     u3 = L1 * np.random.rand() + (1 - L1) * 1
                     L2 = np.random.rand() < 0.5
-                    Xp = (1 - L2) * self.X[k, :] + L2 * Xk[0, :]  # Eq.(28.7)
+                    Xk = L2 * Xp[0, :] + (1 - L2) * self.X[k, :]  # Eq.(28.7)
 
-                    if u1 < 0.5:
+                    if np.random.rand() < 0.5:
                         Xnew = Xnew + f1 * (
-                            u1 * Best_X - u2 * Xp) + f2 * ro * (
+                            u1 * Best_X - u2 * Xk) + f2 * ro * (
                                 u3 * (X2 - X1) + u2 *
                                 (self.X[r1, :] - self.X[r2, :])) / 2
                     else:
-                        Xnew = Best_X + f1 * \
-                            (u1*Best_X - u2*Xp) + f2*ro*(u3*(X2-X1) +
-                                                         u2*(self.X[r1, :]-self.X[r2, :])) / 2
+                        Xnew = Best_X + f1 * (
+                            u1 * Best_X - u2 * Xk) + f2 * ro * (
+                                u3 * (X2 - X1) + u2 *
+                                (self.X[r1, :] - self.X[r2, :])) / 2
 
-                # Check if solutions go outside the search space and bring them back
+                # Check if solutions go outside the search space
+                # and bring them back
                 Flag4ub = Xnew > self.ub
                 Flag4lb = Xnew < self.lb
                 Xnew = (Xnew * (~(Flag4ub+Flag4lb))) + self.ub * \
@@ -168,15 +170,6 @@ if __name__ == '__main__':
         z = np.power(x[1], 2) + pow(10, 6) * np.power(x[2:D], 2).sum()
         return z
 
-    def f2(x):
-        '''Power (Unimodal)'''
-        D = x.shape[0]
-        f = np.zeros([D, 1])
-        for i in range(D):
-            f[i] = np.power(abs(x[i]), (i + 1))
-        z = f.sum()
-        return z
-
-    gbo = GBO(nP, MaxIt, lb, ub, dim, f2)
+    gbo = GBO(nP, MaxIt, lb, ub, dim, f1)
     Best_Cost, Best_X, Convergence_curve = gbo.get_resault()
     print(Best_Cost, Best_X, Convergence_curve)

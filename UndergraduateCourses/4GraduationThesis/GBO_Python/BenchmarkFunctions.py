@@ -209,11 +209,12 @@ class BenchmarkFunctions:
             if abs(y) < 500:
                 f[i] = y * np.sin(pow(abs(y), 0.5))
             elif y > 500:
-                f[i] = (500 - y % 500) * np.sin(np.sqrt(abs(500 - y % 500))) - \
-                    pow((y-500), 2)/(10000*D)
+                f[i] = (500 - y % 500) * np.sin(np.sqrt(
+                    abs(500 - y % 500))) - pow((y - 500), 2) / (10000 * D)
             elif y < -500:
-                f[i] = (abs(y) % 500 - 500) * np.sin(np.sqrt(abs(abs(y) % 500 - 500))) - \
-                    pow((y+500), 2)/(10000*D)
+                f[i] = (abs(y) % 500 - 500) * np.sin(
+                    np.sqrt(abs(abs(y) % 500 - 500))) - pow(
+                        (y + 500), 2) / (10000 * D)
         z = 418.9829 * D - f.sum()
         return z
 
