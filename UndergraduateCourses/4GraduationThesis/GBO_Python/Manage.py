@@ -30,23 +30,6 @@ class Manage:
             print(ave_Best_Cost)
             input()
 
-    def drawFunction_1D(self, fname):
-        lb, ub, nV, fobj = self.bmf.get(fname)
-
-        figure = plt.figure()
-        axes = Axes3D(figure)
-        X = np.arange(lb, ub, 1)
-        Y = np.arange(lb, ub, 1)
-
-        X, Y = np.meshgrid(X, Y)
-        Z = np.zeros(X.shape)
-
-        for i in range(X.shape[0]):
-            for j in range(X.shape[1]):
-                Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
-        axes.plot_surface(X, Y, Z, cmap='rainbow')
-        plt.show()
-
     def drawFunction_2D(self, fname):
         lb, ub, nV, fobj = self.bmf.get(fname)
 
@@ -62,10 +45,13 @@ class Manage:
             for j in range(X.shape[1]):
                 Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
         axes.plot_surface(X, Y, Z, cmap='rainbow')
+        print(fobj.__doc__)
+        plt.title(fobj.__doc__)
         plt.show()
 
 
 if __name__ == "__main__":
     mng = Manage()
     # mng.run_GBO()
-    mng.drawFunction_2D(11)
+    for i in range(1, 15):
+        mng.drawFunction_2D(i)
