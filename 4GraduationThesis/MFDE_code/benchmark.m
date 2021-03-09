@@ -9,7 +9,7 @@ function [Tasks, g1, g2] = benchmark(index)
 %   - g2: global optima of Task 2
     switch(index)
         case 1 % complete intersection with high similarity, Griewank and Rastrigin
-            load('Tasks\CI_H.mat')  % loading data from folder .\Tasks
+            load('Tasks/CI_H.mat')  % loading data from folder .\Tasks
             dim = 50;
             Tasks(1).dims = dim;    % dimensionality of Task 1
             Tasks(1).fnc = @(x)Griewank(x,Rotation_Task1,GO_Task1);
@@ -24,7 +24,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = GO_Task2;
         case 2 % complete intersection with medium similarity, Ackley and Rastrigin
-            load('Tasks\CI_M.mat')
+            load('Tasks/CI_M.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Ackley(x,Rotation_Task1,GO_Task1);
@@ -39,7 +39,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = GO_Task2;
         case 3 % complete intersection with low similarity, Ackley and Schwefel
-            load('Tasks\CI_L.mat')
+            load('Tasks/CI_L.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Ackley(x,Rotation_Task1,GO_Task1);
@@ -54,7 +54,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = 420.9687*ones(1,dim);
         case 4 % partially intersection with high similarity, Rastrigin and Sphere
-            load('Tasks\PI_H.mat')
+            load('Tasks/PI_H.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Rastrigin(x,Rotation_Task1,GO_Task1);
@@ -69,7 +69,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = GO_Task2;
         case 5 % partially intersection with medium similarity, Ackley and Rosenbrock
-            load('Tasks\PI_M.mat')
+            load('Tasks/PI_M.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Ackley(x,Rotation_Task1,GO_Task1);
@@ -84,7 +84,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = ones(1,dim);
         case 6 % partially intersection with low similarity, Ackley and Weierstrass
-            load('Tasks\PI_L.mat')
+            load('Tasks/PI_L.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Ackley(x,Rotation_Task1,GO_Task1);
@@ -100,7 +100,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = GO_Task2;
         case 7 % no intersection with high similarity, Rosenbrock and Rastrigin
-            load('Tasks\NI_H.mat')
+            load('Tasks/NI_H.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Rosenbrock(x);
@@ -115,7 +115,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = ones(1,dim);
             g2 = GO_Task2;
         case 8 % no intersection with medium similarity, Griewank and Weierstrass
-            load('Tasks\NI_M.mat')
+            load('Tasks/NI_M.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Griewank(x,Rotation_Task1,GO_Task1);
@@ -130,7 +130,7 @@ function [Tasks, g1, g2] = benchmark(index)
             g1 = GO_Task1;
             g2 = GO_Task2;
         case 9 % no overlap with low similarity, Rastrigin and Schwefel
-            load('Tasks\NI_L.mat')
+            load('Tasks/NI_L.mat')
             dim = 50;
             Tasks(1).dims = dim;
             Tasks(1).fnc = @(x)Rastrigin(x,Rotation_Task1,GO_Task1);
