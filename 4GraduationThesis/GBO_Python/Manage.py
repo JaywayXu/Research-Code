@@ -1,6 +1,6 @@
 from BenchmarkFunctions import BenchmarkFunctions
 from Optimizer import GBO
-from sko.DE import DE
+# from sko.DE import DE  # use scikit-opt
 import numpy as np
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -11,7 +11,7 @@ class Manage:
         self.nP = 50
         self.MaxIt = 500
         self.bmf = BenchmarkFunctions()
-        self.testNum = 4
+        self.testNum = 20
 
     def run_GBO(self, fname):
         print("GBO")
@@ -75,6 +75,6 @@ if __name__ == "__main__":
     mng = Manage()
     fname = 1
     mng.run_GBO(fname)
-    mng.run_DE(fname)
+    # mng.run_DE(fname)
     # for i in range(1, 15):
     #     mng.drawFunction_2D(i)
