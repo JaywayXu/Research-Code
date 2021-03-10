@@ -11,7 +11,7 @@ class GBO:
         self.ub = ub  # upper boundary
         self.fobj = fobj
 
-    def get_resault(self):
+    def run(self):
         '''Run the Optimize Algorithm'''
         self.Cost = np.zeros([self.nP, 1])
         # Initialize the set of random solutions
@@ -126,10 +126,10 @@ class GBO:
 
             # Show Iteration Information
             Convergence_curve[it] = Best_Cost
-            print('Iteration ', it + 1, ': Best Fitness = ',
-                  Convergence_curve[it])
+            # print('Iteration ', it + 1, ': Best Fitness = ',
+            #       Convergence_curve[it])
 
-        return Best_Cost, Best_X, Convergence_curve
+        return Best_Cost, Best_X  # , Convergence_curve
 
     def GradientSearchRule(self, ro1, Best_X, Worst_X, X, Xr1, DM, eps, Xm,
                            Flag):
