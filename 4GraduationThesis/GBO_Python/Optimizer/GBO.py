@@ -6,10 +6,10 @@ class GBO:
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
         self.nV = nV  # Number f Variables
-        self.pr = 0.5  # Probability Parameter
         self.lb = lb  # lower boundary
         self.ub = ub  # upper boundary
         self.fobj = fobj
+        self.pr = 0.5  # Probability Parameter
 
     def run(self):
         '''Run the Optimize Algorithm'''
@@ -129,7 +129,7 @@ class GBO:
             # print('Iteration ', it + 1, ': Best Fitness = ',
             #       Convergence_curve[it])
 
-        return Best_Cost, Best_X  # , Convergence_curve
+        return Best_Cost, Best_X, Convergence_curve
 
     def GradientSearchRule(self, ro1, Best_X, Worst_X, X, Xr1, DM, eps, Xm,
                            Flag):
@@ -171,5 +171,5 @@ if __name__ == '__main__':
         return z
 
     gbo = GBO(nP, MaxIt, lb, ub, dim, f1)
-    Best_Cost, Best_X, Convergence_curve = gbo.get_resault()
+    Best_Cost, Best_X, Convergence_curve = gbo.run()
     print(Best_Cost, Best_X, Convergence_curve)
