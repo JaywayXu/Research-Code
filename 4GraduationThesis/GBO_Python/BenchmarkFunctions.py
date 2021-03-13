@@ -27,102 +27,88 @@ class BenchmarkFunctions:
         return method()
 
     def f1(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f1_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f2(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f2_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f3(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f3_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f4(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f4_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f5(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f5_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f6(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f6_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f7(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f7_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f8(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f8_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f9(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f9_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f10(self):
-        lb = -32.768
-        ub = 32.768
-        dim = self.D
+        lb = np.full((self.D), -32.768)
+        ub = np.full((self.D), 32.768)
         fobj = f10_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f11(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f11_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f12(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f12_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f13(self):
-        lb = -100
-        ub = 100
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f13_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
     def f14(self):
-        lb = -10
-        ub = 10
-        dim = self.D
+        lb = np.full((self.D), -100)
+        ub = np.full((self.D), 100)
         fobj = f14_obj
-        return [lb, ub, dim, fobj]
+        return [lb, ub, self.D, fobj]
 
 
 def f1_obj(x):
