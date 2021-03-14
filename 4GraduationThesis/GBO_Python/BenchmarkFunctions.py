@@ -3,7 +3,7 @@ import numpy as np
 
 class BenchmarkFunctions:
     def __init__(self):
-        self.D = 2
+        self.D = 20
         self.size = 14
         self.switch = {
             1: self.f1,
