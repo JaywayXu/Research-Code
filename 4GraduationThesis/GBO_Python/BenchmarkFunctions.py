@@ -3,7 +3,7 @@ import numpy as np
 
 class BenchmarkFunctions:
     def __init__(self):
-        self.D = 30
+        self.D = 2
         self.size = 14
         self.switch = {
             1: self.f1,
@@ -114,7 +114,7 @@ class BenchmarkFunctions:
 def f1_obj(x):
     '''Bent Cigar (Unimodal)'''
     D = x.shape[0]
-    z = np.power(x[1], 2) + pow(10, 6) * np.power(x[2:D], 2).sum()
+    z = np.power(x[0], 2) + pow(10, 6) * np.power(x[1:D], 2).sum()
     return z
 
 
