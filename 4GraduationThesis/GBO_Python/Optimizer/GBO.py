@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 
 class GBO:
@@ -15,8 +17,7 @@ class GBO:
         '''Run the Optimize Algorithm'''
         self.Cost = np.zeros([self.nP, 1])
         # Initialize the set of random solutions
-        self.X = self.lb + (self.ub - self.lb) * np.random.rand(
-            self.nP, self.nV)
+        self.X = self.lb + (self.ub-self.lb) * np.random.rand(self.nP, self.nV)
         Convergence_curve = np.zeros([self.MaxIt])
 
         # Calculate the Value of Objective Function
@@ -33,6 +34,9 @@ class GBO:
 
         # Main Loop
         for it in range(self.MaxIt):
+            # test
+            self.drawPopPoint(self.X, self.lb, self.ub, self.fobj)
+
             # Eq.(14.2)
             beta = 0.2 + (1.2 - 0.2) * pow((1 - pow((it / self.MaxIt), 3)), 2)
             # Eq.(14.1)
@@ -155,21 +159,41 @@ class GBO:
                                                           )  # Eq.(23)
         return GSR
 
+    def drawPopPoint(self, pop_v, lb, ub, fobj):
+        # fobj
+        figure = plt.figure()
+        axes = Axes3D(figure)
+        X = np.arange(lb[0], ub[0], 0.2)
+        Y = np.arange(lb[1], ub[1], 0.2)
+        X, Y = np.meshgrid(X, Y)
+        Z = np.zeros(X.shape)
+        for i in range(X.shape[0]):
+            for j in range(X.shape[1]):
+                Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
+        axes.plot_surface(X, Y, Z, cmap='rainbow', alpha=.3)
+
+        # pop
+        z = np.empty(pop_v.shape[0])
+        for i in range(pop_v.shape[0]):
+            z[i] = fobj(pop_v[i, :])
+        pop_t = pop_v.T
+        x = pop_t[0, :]
+        y = pop_t[1, :]
+        z = z.T
+        axes.scatter(x, y, z, c='r', marker='.')
+        plt.show()
+
 
 if __name__ == '__main__':
     nP = 50
     MaxIt = 500
 
-    lb = -100
-    ub = 100
-    dim = 30
+    import sys
+    sys.path.append("..")
+    from BenchmarkFunctions import BenchmarkFunctions
+    bmf = BenchmarkFunctions()
+    lb, ub, nV, fobj = bmf.get(10)
 
-    def f1(x):
-        '''Bent Cigar (Unimodal)'''
-        D = x.shape[0]
-        z = np.power(x[1], 2) + pow(10, 6) * np.power(x[2:D], 2).sum()
-        return z
-
-    gbo = GBO(nP, MaxIt, lb, ub, dim, f1)
+    gbo = GBO(nP, MaxIt, lb, ub, nV, fobj)
     Best_Cost, Best_X, Convergence_curve = gbo.run()
     print(Best_Cost, Best_X, Convergence_curve)
