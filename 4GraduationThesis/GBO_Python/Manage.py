@@ -9,11 +9,11 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 class Manage:
-    def __init__(self):
-        self.nP = 50
-        self.MaxIt = 200
+    def __init__(self, nP=50, MaxIt=500, testNum=30):
+        self.nP = nP
+        self.MaxIt = MaxIt
+        self.testNum = testNum
         self.bmf = BenchmarkFunctions()
-        self.testNum = 20
 
     def run_GBO(self, fname):
         print("GBO")
@@ -28,7 +28,11 @@ class Manage:
             print("%d test: " % (i + 1), np_Best_Cost[i])
 
         ave_Best_Cost = np_Best_Cost.mean()
+        ave_Convergence_curve = np.empty((self.MaxIt))
+        for i in range(self.MaxIt):
+            ave_Convergence_curve[i] = np_Convergence_curve[:, i].mean()
         print("Average Cost:", ave_Best_Cost)
+        return ave_Best_Cost, ave_Convergence_curve
 
     def run_GA(self, fname):
         print("GA")
@@ -42,11 +46,13 @@ class Manage:
                     lb=lb, ub=ub, nV=nV, fobj=fobj)
             np_Best_Cost[i], np_Best_X[i], np_Convergence_curve[i] = ga.run()
             print("%d test: " % (i + 1), np_Best_Cost[i])
-            # ga.Ploterro(np_Convergence_curve[i])
-            # input()
 
         ave_Best_Cost = np_Best_Cost.mean()
+        ave_Convergence_curve = np.empty((self.MaxIt))
+        for i in range(self.MaxIt):
+            ave_Convergence_curve[i] = np_Convergence_curve[:, i].mean()
         print("Average Cost:", ave_Best_Cost)
+        return ave_Best_Cost, ave_Convergence_curve
 
     def run_DE(self, fname):
         print("DE")
@@ -90,13 +96,19 @@ class Manage:
         plt.title(fobj.__doc__)
         plt.show()
 
-    def drawPloterro(self, Convergence_curve):
+    def drawPloterro(self, Convergence_curve_list):
         '''绘制迭代-误差图'''
         mpl.rcParams['font.sans-serif'] = ['Courier New']
         mpl.rcParams['axes.unicode_minus'] = False
         fig = plt.figure(figsize=(10, 6))
-        x = [i for i in range(len(Convergence_curve))]
-        plt.plot(x, Convergence_curve, 'r-', linewidth=1.5, markersize=5)
+
+        color = ['r', 'y', 'b']
+        i = 0
+        for cc in Convergence_curve_list:
+            x = [i for i in range(len(cc))]
+            plt.plot(x, cc, color[i], linewidth=1.5, markersize=5)
+            i += 1
+
         plt.xlabel(u'Iter', fontsize=18)
         plt.ylabel(u'Best score', fontsize=18)
         plt.xticks(fontsize=18)
@@ -105,58 +117,11 @@ class Manage:
         plt.grid(True)
         plt.show()
 
-    def drawPop(self, pop_v, fitness, lb, ub, fobj):
-        # # fobj
-        # X = np.arange(lb[0], ub[0], 1)
-        # Y = np.arange(lb[1], ub[1], 1)
-        # X, Y = np.meshgrid(X, Y)
-        # Z = np.zeros(X.shape)
-        # for i in range(X.shape[0]):
-        #     for j in range(X.shape[1]):
-        #         Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
-        # plt.contourf(X, Y, Z)
-        # plt.contour(X, Y, Z)
-
-        # # pop
-        # pop_t = pop_v.T
-        # x = pop_t[0, :]
-        # y = pop_t[1, :]
-        # plt.scatter(x, y)
-        # plt.show()
-
-        # fobj
-        figure = plt.figure()
-        axes = Axes3D(figure)
-
-        lb = lb[0]
-        ub = ub[0]
-        X = np.arange(lb, ub, 1)
-        Y = np.arange(lb, ub, 1)
-        X, Y = np.meshgrid(X, Y)
-        Z = np.zeros(X.shape)
-        for i in range(X.shape[0]):
-            for j in range(X.shape[1]):
-                Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
-        axes.plot_surface(X, Y, Z, cmap='rainbow')
-
-        # pop
-        pop_t = pop_v.T
-        x = pop_t[0, :]
-        y = pop_t[1, :]
-        z = 1 / fitness
-        print(x.shape, y.shape, z.shape)
-        axes.scatter(x, y, z, c='r', marker='.')
-
-        plt.show()
-
-
 
 if __name__ == "__main__":
-    mng = Manage()
+    mng = Manage(nP=50, MaxIt=500, testNum=20)
     fname = 1
-    mng.drawFunction3D(fname)
-    # mng.run_GBO(fname)
-    # mng.run_GA(fname)
-    # mng.run_DE(fname)
-    # for i in range(1, 15):
-    #     mng.drawFunction3D(i)
+    # mng.drawFunction3D(fname)
+    cost_gbo, cc_gbo = mng.run_GBO(fname)
+    cost_ga, cc_ga = mng.run_GA(fname)
+    mng.drawPloterro([cc_gbo[:], cc_ga[:]])
