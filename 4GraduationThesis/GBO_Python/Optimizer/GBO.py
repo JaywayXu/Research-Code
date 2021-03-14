@@ -34,8 +34,7 @@ class GBO:
 
         # Main Loop
         for it in range(self.MaxIt):
-            # test
-            self.drawPopPoint(self.X, self.lb, self.ub, self.fobj)
+            # self.drawPopPoint3D(self.X, self.lb, self.ub, self.fobj)  # test
 
             # Eq.(14.2)
             beta = 0.2 + (1.2 - 0.2) * pow((1 - pow((it / self.MaxIt), 3)), 2)
@@ -130,8 +129,7 @@ class GBO:
 
             # Show Iteration Information
             Convergence_curve[it] = Best_Cost
-            # print('Iteration ', it + 1, ': Best Fitness = ',
-            #       Convergence_curve[it])
+            # print("Iter: ", it+1, "best cost: ", Best_Cost[0])
 
         return Best_Cost, Best_X, Convergence_curve
 
@@ -159,12 +157,12 @@ class GBO:
                                                           )  # Eq.(23)
         return GSR
 
-    def drawPopPoint(self, pop_v, lb, ub, fobj):
+    def drawPopPoint3D(self, pop_x, lb, ub, fobj):
         # fobj
         figure = plt.figure()
         axes = Axes3D(figure)
-        X = np.arange(lb[0], ub[0], 0.2)
-        Y = np.arange(lb[1], ub[1], 0.2)
+        X = np.arange(lb[0], ub[0], 0.5)
+        Y = np.arange(lb[1], ub[1], 0.5)
         X, Y = np.meshgrid(X, Y)
         Z = np.zeros(X.shape)
         for i in range(X.shape[0]):
@@ -173,13 +171,12 @@ class GBO:
         axes.plot_surface(X, Y, Z, cmap='rainbow', alpha=.3)
 
         # pop
-        z = np.empty(pop_v.shape[0])
-        for i in range(pop_v.shape[0]):
-            z[i] = fobj(pop_v[i, :])
-        pop_t = pop_v.T
-        x = pop_t[0, :]
-        y = pop_t[1, :]
+        z = np.empty(pop_x.shape[0])
+        for i in range(pop_x.shape[0]):
+            z[i] = fobj(pop_x[i])
         z = z.T
+        pop_t = pop_x.T
+        x, y = pop_t[0], pop_t[1]
         axes.scatter(x, y, z, c='r', marker='.')
         plt.show()
 
@@ -196,4 +193,3 @@ if __name__ == '__main__':
 
     gbo = GBO(nP, MaxIt, lb, ub, nV, fobj)
     Best_Cost, Best_X, Convergence_curve = gbo.run()
-    print(Best_Cost, Best_X, Convergence_curve)
