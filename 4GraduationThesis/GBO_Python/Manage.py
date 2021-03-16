@@ -3,7 +3,7 @@ from BenchmarkFunctions import BenchmarkFunctions
 from Optimizer.GBO import GBO
 from Optimizer.GA import GA
 from Optimizer.DE import DE
-import Optimizer.draw as draw
+import Draw
 
 
 class Manage:
@@ -77,29 +77,30 @@ class Manage:
 
 
 if __name__ == "__main__":
-    mng = Manage(nP=50, nV=30, MaxIt=10, testNum=5)
-    fname = 11
-    lb, ub, nV, fobj = mng.bmf.get(fname)
-    # mng.drawFunction3D(fname)
-    cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
-    cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
-    cost_de, ave_de, var_de, cc_de = mng.runDE(fname)
-    print("- Best Cost -")
-    print("GBO: ", cost_gbo)
-    print("GA : ", cost_ga)
-    print("DE : ", cost_de)
-    print()
-    print("- Average Cost -")
-    print("GBO: ", ave_gbo)
-    print("GA : ", ave_ga)
-    print("DE : ", ave_de)
-    print()
-    print("- Variance Cost -")
-    print("GBO: ", var_gbo)
-    print("GA : ", var_ga)
-    print("DE : ", var_de)
+    mng = Manage(nP=50, nV=30, MaxIt=500, testNum=20)
+    for i in range(1, mng.bmf.size+1):
+        fname = i
+        lb, ub, nV, fobj = mng.bmf.get(fname)
+        # mng.drawFunction3D(fname)
+        cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
+        cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
+        cost_de, ave_de, var_de, cc_de = mng.runDE(fname)
+        print("- Best Cost -")
+        print("GBO: ", cost_gbo)
+        print("GA : ", cost_ga)
+        print("DE : ", cost_de)
+        print()
+        print("- Average Cost -")
+        print("GBO: ", ave_gbo)
+        print("GA : ", ave_ga)
+        print("DE : ", ave_de)
+        print()
+        print("- Variance Cost -")
+        print("GBO: ", var_gbo)
+        print("GA : ", var_ga)
+        print("DE : ", var_de)
 
-    it_l = 0
-    it_u = mng.MaxIt
-    draw.drawPloterro([cc_gbo[it_l:it_u], cc_ga[it_l:it_u], cc_de[it_l:it_u]],
-                      ['GBO', 'GA', 'DE'], fobj.__doc__)
+        it_l = 0
+        it_u = mng.MaxIt
+        Draw.drawPloterro([cc_gbo[it_l:it_u], cc_ga[it_l:it_u], cc_de[it_l:it_u]],
+                        ['GBO', 'GA', 'DE'], fobj.__doc__)

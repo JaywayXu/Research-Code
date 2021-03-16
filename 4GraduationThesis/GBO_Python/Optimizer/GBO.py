@@ -1,5 +1,4 @@
 import numpy as np
-from . import draw
 
 
 class GBO:
@@ -33,7 +32,7 @@ class GBO:
 
         # Main Loop
         for it in range(self.MaxIt):
-            # draw.drawPopScatter2D(X, self.lb, self.ub, self.fobj)  # test
+            # Draw.drawPopScatter2D(X, self.lb, self.ub, self.fobj)  # test
 
             # Eq.(14.2)
             beta = 0.2 + (1.2 - 0.2) * pow((1 - pow((it / self.MaxIt), 3)), 2)
@@ -163,6 +162,7 @@ if __name__ == '__main__':
 
     import sys
     sys.path.append("..")
+    import Draw
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=2)
 
@@ -170,4 +170,4 @@ if __name__ == '__main__':
         lb, ub, nV, fobj = bmf.get(i)
         gbo = GBO(nP, MaxIt, lb, ub, nV, fobj)
         best_cost, best_x, convergence_curve = gbo.run()
-        draw.drawPloterro([convergence_curve], ['GBO'], fobj.__doc__)
+        Draw.drawPloterro([convergence_curve], ['GBO'], fobj.__doc__)

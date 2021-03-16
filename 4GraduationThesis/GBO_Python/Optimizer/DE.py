@@ -1,5 +1,4 @@
 import numpy as np
-from . import draw
 
 
 class DE:
@@ -21,7 +20,7 @@ class DE:
 
         pop = self.initPop()  # 初始化种群
         for Current_iter in range(self.MaxIt):
-            # draw.drawPopScatter2D(pop, self.lb, self.ub, self.fobj)  # test
+            # Draw.drawPopScatter2D(pop, self.lb, self.ub, self.fobj)  # test
 
             pop_m = self.Mutation(pop)
             pop_c = self.Crossover(pop, pop_m)
@@ -89,6 +88,7 @@ if __name__ == '__main__':
 
     import sys
     sys.path.append("..")
+    import Draw
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=2)
     lb, ub, nV, fobj = bmf.get(13)
@@ -96,4 +96,4 @@ if __name__ == '__main__':
     de = DE(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj)
     Best_Cost, Best_X, Convergence_curve = de.run()
     print("Best Cost: ", Best_Cost)
-    draw.drawPloterro([Convergence_curve], ['DE'], fobj.__doc__)
+    Draw.drawPloterro([Convergence_curve], ['DE'], fobj.__doc__)

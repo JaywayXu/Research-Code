@@ -19,6 +19,7 @@ def drawPloterro(convergence_curve_list, name_list, title):
     plt.xlim(0, )
     plt.legend()
     plt.title(title)
+    plt.savefig("./Figure/Ploterro_"+title+".png")
     plt.show()
 
 
