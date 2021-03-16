@@ -1,11 +1,10 @@
 import numpy as np
 import copy
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from . import draw
 
 
 class GA:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=10, pc=0.8, pm=0.02):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=10, pc=0.5, pm=0.02):
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
         self.nV = nV  # Number f Variables
@@ -24,15 +23,11 @@ class GA:
 
         pop = self.initPop()  # 初始化种群
         for Current_iter in range(self.MaxIt):
-            # self.drawPopPoint3D(self.g2p(pop), self.lb, self.ub, self.fobj)  # test
+            # draw.drawPopScatter2D(self.g2p(pop), self.lb, self.ub, self.fobj)  # test
 
             pop_c = self.Crossover(pop)
-            # self.drawPopPoint3D(self.g2p(pop_c), self.lb, self.ub, self.fobj)  # test
-
             pop_m = self.Mutation(pop_c)
-            # self.drawPopPoint3D(self.g2p(pop_m), self.lb, self.ub, self.fobj)  # test
-
-            pop_s = self.Selection(pop_m)
+            pop_s = self.Selection(pop, pop_m)
             pop = pop_s
 
             best_p = pop_s[0].reshape(1, self.nV, self.lenchrom)
@@ -56,12 +51,11 @@ class GA:
 
     def Crossover(self, pop):
         '''交叉繁殖'''
-        # 使用轮盘赌算法选择nP个个体，随机选取另一个个体与之两点交叉，生成(2*nP)个子代
+        # 使用轮盘赌算法选择(nP/2)个个体，随机选取另一个个体与之两点交叉，生成(nP)个子代
         # 如果没有进行交叉则将原基因型留到子代
         child_pop = []
-        arg_pop = self.argRoulette(pop, self.nP)
+        arg_pop = self.argRoulette(pop, int(self.nP/2))
         for i in arg_pop:
-            i = int(i)
             # 选择另一个个体
             j = i
             while j == i:
@@ -83,13 +77,14 @@ class GA:
                         point1, point2), max(point1, point2)
 
                     # 交叉
+                    pop_copy = copy.deepcopy(pop)
                     temp1, temp2 = [], []
-                    temp1.extend(pop[i, k, 0:point1])
-                    temp1.extend(pop[j, k, point1:point2])
-                    temp1.extend(pop[i, k, point2:])
-                    temp2.extend(pop[j, k, 0:point1])
-                    temp2.extend(pop[i, k, point1:point2])
-                    temp2.extend(pop[j, k, point2:])
+                    temp1.extend(pop_copy[i, k, 0:point1])
+                    temp1.extend(pop_copy[j, k, point1:point2])
+                    temp1.extend(pop_copy[i, k, point2:])
+                    temp2.extend(pop_copy[j, k, 0:point1])
+                    temp2.extend(pop_copy[i, k, point1:point2])
+                    temp2.extend(pop_copy[j, k, point2:])
                     child1[k] = np.array(temp1)
                     child2[k] = np.array(temp2)
             child_pop.append(child1)
@@ -108,16 +103,13 @@ class GA:
                     # new_pop[i, j, mpoint] = 1 - new_pop[i, j, mpoint]
         return new_pop
 
-    def Selection(self, pop):
-        # 根据种群适应度排序
-        fitness = self.getFitness(pop)
-        arg = np.argsort(-fitness)  # 从大到小
-
-        # 选择nP个适应度高的个体
-        new_pop = np.empty((self.nP, self.nV, self.lenchrom))
-        for i in range(self.nP):
-            new_pop[i] = pop[arg[i]]
-        return new_pop
+    def Selection(self, pop, offsprings):
+        '''选择，锦标赛'''
+        pop_fitness = self.getFitness(pop)
+        offsprings_fitness = self.getFitness(offsprings)
+        pop_sel = np.where(
+            (pop_fitness > offsprings_fitness).reshape(-1, 1, 1), pop, offsprings)
+        return pop_sel
 
     def argRoulette(self, pop, num):
         '''轮盘赌选择num个适应值较高的个体并返回下标'''
@@ -131,7 +123,7 @@ class GA:
                 fitness[i] / fitness_sum
 
         # 轮盘赌选择
-        arg_pop = np.empty((num))
+        arg_pop = np.empty((num), dtype=int)
         for j in range(num):
             p = np.random.rand()
             for k in range(len(accumulation)):
@@ -161,29 +153,6 @@ class GA:
             fitness[j] = (1 / self.fobj(pop_x[j]))
         return fitness
 
-    def drawPopPoint3D(self, pop_x, lb, ub, fobj):
-        # fobj
-        figure = plt.figure()
-        axes = Axes3D(figure)
-        X = np.arange(lb[0], ub[0], 0.5)
-        Y = np.arange(lb[1], ub[1], 0.5)
-        X, Y = np.meshgrid(X, Y)
-        Z = np.zeros(X.shape)
-        for i in range(X.shape[0]):
-            for j in range(X.shape[1]):
-                Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
-        axes.plot_surface(X, Y, Z, cmap='rainbow', alpha=.3)
-
-        # pop
-        z = np.empty(pop_x.shape[0])
-        for i in range(pop_x.shape[0]):
-            z[i] = fobj(pop_x[i])
-        z = z.T
-        pop_t = pop_x.T
-        x, y = pop_t[0], pop_t[1]
-        axes.scatter(x, y, z, c='r', marker='.')
-        plt.show()
-
 
 if __name__ == '__main__':
     nP = 50
@@ -192,9 +161,10 @@ if __name__ == '__main__':
     import sys
     sys.path.append("..")
     from BenchmarkFunctions import BenchmarkFunctions
-    bmf = BenchmarkFunctions()
-    lb, ub, nV, fobj = bmf.get(1)
+    bmf = BenchmarkFunctions(D=2)
+    lb, ub, nV, fobj = bmf.get(4)
 
     ga = GA(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj)
     Best_Cost, Best_X, Convergence_curve = ga.run()
     print("Best Cost: ", Best_Cost)
+    draw.drawPloterro([Convergence_curve], ['GA'])
