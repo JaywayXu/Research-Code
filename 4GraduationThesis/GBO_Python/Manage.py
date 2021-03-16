@@ -1,79 +1,79 @@
+import numpy as np
 from BenchmarkFunctions import BenchmarkFunctions
 from Optimizer.GBO import GBO
 from Optimizer.GA import GA
-# from sko.DE import DE  # use scikit-opt
-import numpy as np
-import matplotlib as mpl
-from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from Optimizer.DE import DE
+import Optimizer.draw as draw
 
 
 class Manage:
-    def __init__(self, nP=50, MaxIt=500, testNum=30):
+    def __init__(self, nP=50, nV=30, MaxIt=500, testNum=30):
         self.nP = nP
         self.MaxIt = MaxIt
         self.testNum = testNum
-        self.bmf = BenchmarkFunctions()
+        self.bmf = BenchmarkFunctions(D=nV)
 
-    def run_GBO(self, fname):
+    def runGBO(self, fname):
         print("GBO")
         lb, ub, nV, fobj = self.bmf.get(fname)
-        np_Best_Cost = np.empty([self.testNum])
-        np_Best_X = np.empty([self.testNum, nV])
-        np_Convergence_curve = np.empty([self.testNum, self.MaxIt])
+        np_best_cost = np.empty([self.testNum])
+        np_best_x = np.empty([self.testNum, nV])
+        np_convergence_curve = np.empty([self.testNum, self.MaxIt])
 
         for i in range(self.testNum):
             gbo = GBO(self.nP, self.MaxIt, lb, ub, nV, fobj)
-            np_Best_Cost[i], np_Best_X[i], np_Convergence_curve[i] = gbo.run()
-            print("%d test: " % (i + 1), np_Best_Cost[i])
+            np_best_cost[i], np_best_x[i], np_convergence_curve[i] = gbo.run()
+            print("%d test: " % (i + 1), np_best_cost[i])
 
-        ave_Best_Cost = np_Best_Cost.mean()
-        ave_Convergence_curve = np.empty((self.MaxIt))
+        best_cost = np_best_cost.min()
+        ave_cost = np_best_cost.mean()
+        var_cost = np_best_cost.var()
+        ave_convergence_curve = np.empty((self.MaxIt))
         for i in range(self.MaxIt):
-            ave_Convergence_curve[i] = np_Convergence_curve[:, i].mean()
-        print("Average Cost:", ave_Best_Cost)
-        return ave_Best_Cost, ave_Convergence_curve
+            ave_convergence_curve[i] = np_convergence_curve[:, i].mean()
+        return best_cost, ave_cost, var_cost, ave_convergence_curve
 
-    def run_GA(self, fname):
+    def runGA(self, fname):
         print("GA")
         lb, ub, nV, fobj = self.bmf.get(fname)
-        np_Best_Cost = np.empty([self.testNum])
-        np_Best_X = np.empty([self.testNum, nV])
-        np_Convergence_curve = np.empty([self.testNum, self.MaxIt])
+        np_best_cost = np.empty([self.testNum])
+        np_best_x = np.empty([self.testNum, nV])
+        np_convergence_curve = np.empty([self.testNum, self.MaxIt])
 
         for i in range(self.testNum):
             ga = GA(nP=self.nP, MaxIt=self.MaxIt,
                     lb=lb, ub=ub, nV=nV, fobj=fobj)
-            np_Best_Cost[i], np_Best_X[i], np_Convergence_curve[i] = ga.run()
-            print("%d test: " % (i + 1), np_Best_Cost[i])
+            np_best_cost[i], np_best_x[i], np_convergence_curve[i] = ga.run()
+            print("%d test: " % (i + 1), np_best_cost[i])
 
-        ave_Best_Cost = np_Best_Cost.mean()
-        ave_Convergence_curve = np.empty((self.MaxIt))
+        best_cost = np_best_cost.min()
+        ave_cost = np_best_cost.mean()
+        var_cost = np_best_cost.var()
+        ave_convergence_curve = np.empty((self.MaxIt))
         for i in range(self.MaxIt):
-            ave_Convergence_curve[i] = np_Convergence_curve[:, i].mean()
-        print("Average Cost:", ave_Best_Cost)
-        return ave_Best_Cost, ave_Convergence_curve
+            ave_convergence_curve[i] = np_convergence_curve[:, i].mean()
+        return best_cost, ave_cost, var_cost, ave_convergence_curve
 
-    def run_DE(self, fname):
+    def runDE(self, fname):
         print("DE")
         lb, ub, nV, fobj = self.bmf.get(fname)
-        np_Best_Cost = np.empty([self.testNum])
-        np_Best_X = np.empty([self.testNum, nV])
+        np_best_cost = np.empty([self.testNum])
+        np_best_x = np.empty([self.testNum, nV])
+        np_convergence_curve = np.empty([self.testNum, self.MaxIt])
 
         for i in range(self.testNum):
-            de = DE(
-                func=fobj,
-                n_dim=nV,
-                size_pop=self.nP,
-                max_iter=self.MaxIt,
-                lb=lb,
-                ub=ub,
-            )
-            np_Best_X[i], np_Best_Cost[i] = de.run()
-            print("%d test: " % (i + 1), np_Best_Cost[i])
+            de = DE(nP=self.nP, MaxIt=self.MaxIt,
+                    lb=lb, ub=ub, nV=nV, fobj=fobj)
+            np_best_cost[i], np_best_x[i], np_convergence_curve[i] = de.run()
+            print("%d test: " % (i + 1), np_best_cost[i])
 
-        ave_Best_Cost = np_Best_Cost.mean()
-        print("Average Cost:", ave_Best_Cost)
+        best_cost = np_best_cost.min()
+        ave_cost = np_best_cost.mean()
+        var_cost = np_best_cost.var()
+        ave_convergence_curve = np.empty((self.MaxIt))
+        for i in range(self.MaxIt):
+            ave_convergence_curve[i] = np_convergence_curve[:, i].mean()
+        return best_cost, ave_cost, var_cost, ave_convergence_curve
 
     def drawFunction3D(self, fname):
         lb, ub, nV, fobj = self.bmf.get(fname)
@@ -96,32 +96,30 @@ class Manage:
         plt.title(fobj.__doc__)
         plt.show()
 
-    def drawPloterro(self, Convergence_curve_list):
-        '''绘制迭代-误差图'''
-        mpl.rcParams['font.sans-serif'] = ['Courier New']
-        mpl.rcParams['axes.unicode_minus'] = False
-        fig = plt.figure(figsize=(10, 6))
-
-        color = ['r', 'y', 'b']
-        i = 0
-        for cc in Convergence_curve_list:
-            x = [i for i in range(len(cc))]
-            plt.plot(x, cc, color[i], linewidth=1.5, markersize=5)
-            i += 1
-
-        plt.xlabel(u'Iter', fontsize=18)
-        plt.ylabel(u'Best score', fontsize=18)
-        plt.xticks(fontsize=18)
-        plt.yticks(fontsize=18)
-        plt.xlim(0, )
-        plt.grid(True)
-        plt.show()
-
 
 if __name__ == "__main__":
-    mng = Manage(nP=50, MaxIt=500, testNum=20)
+    mng = Manage(nP=50, nV=30, MaxIt=500, testNum=20)
     fname = 1
     # mng.drawFunction3D(fname)
-    cost_gbo, cc_gbo = mng.run_GBO(fname)
-    cost_ga, cc_ga = mng.run_GA(fname)
-    mng.drawPloterro([cc_gbo[:], cc_ga[:]])
+    cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
+    cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
+    cost_de, ave_de, var_de, cc_de = mng.runDE(fname)
+    print("- Best Cost -")
+    print("GBO: ", cost_gbo)
+    print("GA : ", cost_ga)
+    print("DE : ", cost_de)
+    print()
+    print("- Average Cost -")
+    print("GBO: ", ave_gbo)
+    print("GA : ", ave_ga)
+    print("DE : ", ave_de)
+    print()
+    print("- Variance Cost -")
+    print("GBO: ", var_gbo)
+    print("GA : ", var_ga)
+    print("DE : ", var_de)
+
+    it_l = 0
+    it_u = mng.MaxIt
+    draw.drawPloterro([cc_gbo[it_l:it_u], cc_ga[it_l:it_u], cc_de[it_l:it_u]],
+                      ['GBO', 'GA', 'DE'])
