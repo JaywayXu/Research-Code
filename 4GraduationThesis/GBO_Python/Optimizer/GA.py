@@ -167,4 +167,4 @@ if __name__ == '__main__':
     ga = GA(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj)
     Best_Cost, Best_X, Convergence_curve = ga.run()
     print("Best Cost: ", Best_Cost)
-    draw.drawPloterro([Convergence_curve], ['GA'])
+    draw.drawPloterro([Convergence_curve], ['GA'], fobj.__doc__)

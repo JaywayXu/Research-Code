@@ -170,4 +170,4 @@ if __name__ == '__main__':
         lb, ub, nV, fobj = bmf.get(i)
         gbo = GBO(nP, MaxIt, lb, ub, nV, fobj)
         best_cost, best_x, convergence_curve = gbo.run()
-        draw.drawPloterro([convergence_curve], ['GBO'])
+        draw.drawPloterro([convergence_curve], ['GBO'], fobj.__doc__)

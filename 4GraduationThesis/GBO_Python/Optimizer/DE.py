@@ -96,4 +96,4 @@ if __name__ == '__main__':
     de = DE(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj)
     Best_Cost, Best_X, Convergence_curve = de.run()
     print("Best Cost: ", Best_Cost)
-    draw.drawPloterro([Convergence_curve], ['DE'])
+    draw.drawPloterro([Convergence_curve], ['DE'], fobj.__doc__)

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def drawPloterro(convergence_curve_list, name_list):
+def drawPloterro(convergence_curve_list, name_list, title):
     '''绘制迭代-误差图'''
     plt.figure(figsize=(10, 6))
 
@@ -14,13 +14,11 @@ def drawPloterro(convergence_curve_list, name_list):
         plt.plot(x, cc, color[i], linewidth=1.5,
                  markersize=5, label=name_list[i])
 
-    plt.xlabel(u'Iter', fontsize=18)
-    plt.ylabel(u'Best score', fontsize=18)
-    plt.xticks(fontsize=18)
-    plt.yticks(fontsize=18)
+    plt.xlabel('Iter')
+    plt.ylabel('Best score')
     plt.xlim(0, )
     plt.legend()
-    plt.grid(True)
+    plt.title(title)
     plt.show()
 
 

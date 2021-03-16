@@ -75,31 +75,11 @@ class Manage:
             ave_convergence_curve[i] = np_convergence_curve[:, i].mean()
         return best_cost, ave_cost, var_cost, ave_convergence_curve
 
-    def drawFunction3D(self, fname):
-        lb, ub, nV, fobj = self.bmf.get(fname)
-        lb = lb[0]
-        ub = ub[0]
-
-        figure = plt.figure()
-        axes = Axes3D(figure)
-        X = np.arange(lb, ub, 1)
-        Y = np.arange(lb, ub, 1)
-
-        X, Y = np.meshgrid(X, Y)
-        Z = np.zeros(X.shape)
-
-        for i in range(X.shape[0]):
-            for j in range(X.shape[1]):
-                Z[i, j] = fobj(np.array([X[i, j], Y[i, j]]))
-        axes.plot_surface(X, Y, Z, cmap='rainbow')
-        print(fobj.__doc__)
-        plt.title(fobj.__doc__)
-        plt.show()
-
 
 if __name__ == "__main__":
-    mng = Manage(nP=50, nV=30, MaxIt=500, testNum=20)
-    fname = 1
+    mng = Manage(nP=50, nV=30, MaxIt=10, testNum=5)
+    fname = 11
+    lb, ub, nV, fobj = mng.bmf.get(fname)
     # mng.drawFunction3D(fname)
     cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
     cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
@@ -122,4 +102,4 @@ if __name__ == "__main__":
     it_l = 0
     it_u = mng.MaxIt
     draw.drawPloterro([cc_gbo[it_l:it_u], cc_ga[it_l:it_u], cc_de[it_l:it_u]],
-                      ['GBO', 'GA', 'DE'])
+                      ['GBO', 'GA', 'DE'], fobj.__doc__)
