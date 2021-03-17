@@ -20,7 +20,7 @@ def drawPloterro(convergence_curve_list, name_list, title):
     plt.legend()
     plt.title(title)
     plt.savefig("./Figure/Ploterro_"+title+".png")
-    plt.show()
+    # plt.show()
 
 
 def drawPopScatter3D(pop_x, lb, ub, fobj):

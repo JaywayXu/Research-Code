@@ -3,7 +3,7 @@ import copy
 
 
 class GA:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=10, pc=0.5, pm=0.02):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=6, pc=0.5, pm=0.02):
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
         self.nV = nV  # Number f Variables

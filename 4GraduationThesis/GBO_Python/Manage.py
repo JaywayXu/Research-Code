@@ -81,6 +81,7 @@ if __name__ == "__main__":
     for i in range(1, mng.bmf.size+1):
         fname = i
         lb, ub, nV, fobj = mng.bmf.get(fname)
+        print(fobj.__doc__)
         # mng.drawFunction3D(fname)
         cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
         cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
