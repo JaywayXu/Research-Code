@@ -82,6 +82,7 @@ class DE:
             fitness[j] = (1 / self.fobj(pop[j]))
         return fitness
 
+
 if __name__ == '__main__':
     nP = 50
     MaxIt = 500
