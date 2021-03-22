@@ -3,7 +3,7 @@ import copy
 
 
 class GA:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=10, pc=0.8, pm=0.05, isDrawPop=False):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=10, pc=0.6, pm=0.02, isDrawPop=False):
         self.isDrawPop = isDrawPop  # 是否画出每代种群分布
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
