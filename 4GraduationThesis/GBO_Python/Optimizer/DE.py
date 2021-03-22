@@ -66,9 +66,9 @@ class DE:
     def Crossover(self, pop, pop_mut):
         '''杂交，if rand < prob_crossover, use V, else use X'''
         pop_cro = np.empty(pop.shape)
-        mask = np.random.rand(self.nP, 1) < self.pc
-        mask = mask.repeat(self.nV, axis=1)
-        # mask = np.random.rand(self.nP, self.nV) < self.pc
+        # mask = np.random.rand(self.nP, 1) < self.pc
+        # mask = mask.repeat(self.nV, axis=1)
+        mask = np.random.rand(self.nP, self.nV) < self.pc
         pop_cro = np.where(mask, pop_mut, pop)
         return pop_cro
 
