@@ -2,7 +2,8 @@ import numpy as np
 
 
 class GBO:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, isDrawPop=False):
+        self.isDrawPop = isDrawPop  # 是否画出每代种群分布
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
         self.nV = nV  # Number f Variables
@@ -32,7 +33,8 @@ class GBO:
 
         # Main Loop
         for it in range(self.MaxIt):
-            # Draw.drawPopScatter2D(X, self.lb, self.ub, self.fobj)  # test
+            if self.isDrawPop:  # test
+                draw.drawPopScatter2D(X, self.lb, self.ub, self.fobj)
 
             # Eq.(14.2)
             beta = 0.2 + (1.2 - 0.2) * pow((1 - pow((it / self.MaxIt), 3)), 2)
@@ -127,7 +129,8 @@ class GBO:
 
             # Show Iteration Information
             convergence_curve[it] = best_cost
-            # print("Iter: ", it+1, "best cost: ", best_cost[0])
+            if self.isDrawPop:  # test
+                print("Iter: ", it+1, "best cost: ", best_cost[0])
 
         return best_cost, best_x, convergence_curve
 
@@ -162,12 +165,14 @@ if __name__ == '__main__':
 
     import sys
     sys.path.append("..")
-    import Draw
+    from Draw import Draw
+    draw = Draw(isShow=True, isSavefig=False, isClose=True)
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=2)
 
     for i in range(6, bmf.size+1):
         lb, ub, nV, fobj = bmf.get(i)
-        gbo = GBO(nP, MaxIt, lb, ub, nV, fobj)
+        gbo = GBO(nP, MaxIt, lb, ub, nV, fobj, isDrawPop=True)
         best_cost, best_x, convergence_curve = gbo.run()
-        Draw.drawPloterro([convergence_curve], ['GBO'], fobj.__doc__)
+
+        draw.drawPloterro([convergence_curve], ['GBO'], fobj.__doc__)

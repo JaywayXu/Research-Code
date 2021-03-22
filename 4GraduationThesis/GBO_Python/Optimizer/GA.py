@@ -3,7 +3,8 @@ import copy
 
 
 class GA:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=6, pc=0.5, pm=0.02):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, lenchrom=6, pc=0.5, pm=0.02, isDrawPop=False):
+        self.isDrawPop = isDrawPop  # 是否画出每代种群分布
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
         self.nV = nV  # Number f Variables
@@ -17,12 +18,14 @@ class GA:
     def run(self):
         '''Run the Genetic Algorithm'''
         convergence_curve = np.empty(self.MaxIt)  # 每代的最优
-        best_fitness = -1  # 最优适应度
+        best_fitness = -np.inf  # 最优适应度
         best_x = np.zeros(self.nV)  # 最优个体表现型
 
         pop = self.initPop()  # 初始化种群
         for Current_iter in range(self.MaxIt):
-            # Draw.drawPopScatter2D(self.g2p(pop), self.lb, self.ub, self.fobj)  # test
+            if self.isDrawPop:  # test
+                draw.drawPopScatter2D(
+                    self.g2p(pop), self.lb, self.ub, self.fobj)
 
             pop_c = self.Crossover(pop)
             pop_m = self.Mutation(pop_c)
@@ -37,7 +40,9 @@ class GA:
                 best_x = current_best_x
             convergence_curve[Current_iter] = 1 / best_fitness
 
-            # print("Iter: ", Current_iter+1, "best cost: ", 1 / best_fitness)
+            if self.isDrawPop:  # test
+                print("Iter: ", Current_iter+1,
+                      "best cost: ", 1 / best_fitness)
 
         return (1 / best_fitness), best_x, convergence_curve
 
@@ -159,12 +164,14 @@ if __name__ == '__main__':
 
     import sys
     sys.path.append("..")
-    import Draw
+    from Draw import Draw
+    draw = Draw(isShow=True, isSavefig=False, isClose=True)
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=2)
     lb, ub, nV, fobj = bmf.get(4)
 
-    ga = GA(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj)
+    ga = GA(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj, isDrawPop=True)
     Best_Cost, Best_X, Convergence_curve = ga.run()
     print("Best Cost: ", Best_Cost)
-    Draw.drawPloterro([Convergence_curve], ['GA'], fobj.__doc__)
+
+    draw.drawPloterro([Convergence_curve], ['GA'], fobj.__doc__)

@@ -2,7 +2,8 @@ import numpy as np
 
 
 class DE:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, pc=0.5, F=0.5):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, pc=0.5, F=0.5, isDrawPop=False):
+        self.isDrawPop = isDrawPop  # 是否画出每代种群分布
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
         self.nV = nV  # Number f Variables
@@ -15,12 +16,13 @@ class DE:
     def run(self):
         '''Run the Differential Evolution Algorithm'''
         convergence_curve = np.empty(self.MaxIt)  # 每代的最优
-        best_fitness = -1  # 最优适应度
+        best_fitness = -np.inf  # 最优适应度
         best_x = None  # 最优个体表现型
 
         pop = self.initPop()  # 初始化种群
         for Current_iter in range(self.MaxIt):
-            # Draw.drawPopScatter2D(pop, self.lb, self.ub, self.fobj)  # test
+            if self.isDrawPop:  # test
+                draw.drawPopScatter2D(pop, self.lb, self.ub, self.fobj)
 
             pop_m = self.Mutation(pop)
             pop_c = self.Crossover(pop, pop_m)
@@ -36,7 +38,9 @@ class DE:
             convergence_curve[Current_iter] = 1 / best_fitness
 
             pop = pop_s
-            # print("Iter: ", Current_iter+1, "best cost: ", 1 / best_fitness)
+            if self.isDrawPop:  # test
+                print("Iter: ", Current_iter+1,
+                      "best cost: ", 1 / best_fitness)
         return (1 / best_fitness), best_x, convergence_curve
 
     def initPop(self):
@@ -62,7 +66,9 @@ class DE:
     def Crossover(self, pop, pop_mut):
         '''杂交，if rand < prob_crossover, use V, else use X'''
         pop_cro = np.empty(pop.shape)
-        mask = np.random.rand(self.nP, self.nV) < self.pc
+        mask = np.random.rand(self.nP, 1) < self.pc
+        mask = mask.repeat(self.nV, axis=1)
+        # mask = np.random.rand(self.nP, self.nV) < self.pc
         pop_cro = np.where(mask, pop_mut, pop)
         return pop_cro
 
@@ -89,12 +95,14 @@ if __name__ == '__main__':
 
     import sys
     sys.path.append("..")
-    import Draw
+    from Draw import Draw
+    draw = Draw(isShow=True, isSavefig=False, isClose=True)
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=2)
     lb, ub, nV, fobj = bmf.get(13)
 
-    de = DE(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj)
+    de = DE(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub, nV=nV, fobj=fobj, isDrawPop=True)
     Best_Cost, Best_X, Convergence_curve = de.run()
     print("Best Cost: ", Best_Cost)
-    Draw.drawPloterro([Convergence_curve], ['DE'], fobj.__doc__)
+
+    draw.drawPloterro([Convergence_curve], ['DE'], fobj.__doc__)
