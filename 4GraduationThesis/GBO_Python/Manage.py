@@ -8,7 +8,7 @@ from Draw import Draw
 
 
 class Manage:
-    def __init__(self, nP=50, nV=30, MaxIt=500, testNum=30):
+    def __init__(self, nP, nV, MaxIt, testNum):
         self.nP = nP
         self.MaxIt = MaxIt
         self.testNum = testNum
@@ -100,15 +100,17 @@ class Manage:
 
 if __name__ == "__main__":
     mng = Manage(nP=50, nV=30, MaxIt=500, testNum=20)
-    for i in range(1, mng.bmf.size+1):
-        fname = i
+    for fname in range(1, mng.bmf.size+1):
         lb, ub, nV, fobj = mng.bmf.get(fname)
+        # draw = Draw(isShow=True)
+        # draw.drawFunction3D(lb, ub, fobj)
+
         print("\n", fobj.__doc__)
-        # mng.drawFunction3D(fname)
         cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
         cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
         cost_de, ave_de, var_de, cc_de = mng.runDE(fname)
         cost_pso, ave_pso, var_pso, cc_pso = mng.runPSO(fname)
+
         print("- Best Cost -")
         print("GBO: ", cost_gbo)
         print("GA : ", cost_ga)
@@ -127,14 +129,14 @@ if __name__ == "__main__":
         print("DE : ", var_de)
         print("PSO: ", var_pso)
 
-        it_l = 0
-        it_u = mng.MaxIt
-        y_lim = np.median(np.array([cc_gbo[1], cc_ga[1], cc_de[1], cc_pso[1]]))
+        # y轴最大值
+        y1 = np.array([cc_gbo[1], cc_ga[1], cc_de[1], cc_pso[1]])
+        idx = np.argsort(y1)
+        y_lim = y1[idx[0:1]].mean()
+
+        lim = range(0, mng.MaxIt)
         draw = Draw(isShow=False, isSavefig=True)
-        draw.drawPloterro([cc_gbo[it_l:it_u], cc_ga[it_l:it_u], cc_de[it_l:it_u], cc_pso[it_l:it_u]],
+        draw.drawPloterro([cc_gbo[lim], cc_ga[lim], cc_de[lim], cc_pso[lim]],
                           ['GBO', 'GA', 'DE', 'PSO'],
-                          fobj.__doc__)
-        # draw.drawPloterro([cc_gbo[it_l:it_u], cc_de[it_l:it_u], cc_pso[it_l:it_u]],
-        #                   ['GBO', 'DE', 'PSO'],
-        #                   fobj.__doc__,
-        #                   y_lim)
+                          fobj.__doc__,
+                          y_lim)

@@ -117,5 +117,5 @@ class Draw:
         axes.plot_surface(X, Y, Z, cmap='rainbow')
         print(fobj.__doc__)
 
-        if self.isShow():
+        if self.isShow:
             plt.show()
