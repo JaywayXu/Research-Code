@@ -103,7 +103,7 @@ if __name__ == "__main__":
     for i in range(1, mng.bmf.size+1):
         fname = i
         lb, ub, nV, fobj = mng.bmf.get(fname)
-        print(fobj.__doc__)
+        print("\n", fobj.__doc__)
         # mng.drawFunction3D(fname)
         cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
         cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
@@ -129,7 +129,12 @@ if __name__ == "__main__":
 
         it_l = 0
         it_u = mng.MaxIt
+        y_lim = np.median(np.array([cc_gbo[1], cc_ga[1], cc_de[1], cc_pso[1]]))
         draw = Draw(isShow=False, isSavefig=True)
         draw.drawPloterro([cc_gbo[it_l:it_u], cc_ga[it_l:it_u], cc_de[it_l:it_u], cc_pso[it_l:it_u]],
                           ['GBO', 'GA', 'DE', 'PSO'],
                           fobj.__doc__)
+        # draw.drawPloterro([cc_gbo[it_l:it_u], cc_de[it_l:it_u], cc_pso[it_l:it_u]],
+        #                   ['GBO', 'DE', 'PSO'],
+        #                   fobj.__doc__,
+        #                   y_lim)

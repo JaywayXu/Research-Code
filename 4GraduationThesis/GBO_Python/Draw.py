@@ -9,7 +9,7 @@ class Draw:
         self.isSavefig = isSavefig
         self.isClose = isClose
 
-    def drawPloterro(self, convergence_curve_list, name_list, title):
+    def drawPloterro(self, convergence_curve_list, name_list, title, y_lim=None):
         '''绘制迭代-误差图'''
         plt.figure(figsize=(10, 6))
 
@@ -23,6 +23,7 @@ class Draw:
         plt.xlabel('Iter')
         plt.ylabel('Best score')
         plt.xlim(0, )
+        plt.ylim(0, y_lim)
         plt.legend()
         plt.title(title)
 
