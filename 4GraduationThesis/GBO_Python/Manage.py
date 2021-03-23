@@ -107,7 +107,7 @@ class Manage:
         self.initResult()
         for fname in range(1, self.bmf.size+1):
             self.initData(fname)
-            print("F", fname)
+            print("F%d" % (fname))
             cost_gbo, ave_gbo, var_gbo, cc_gbo = self.runGBO(fname)
             cost_ga, ave_ga, var_ga, cc_ga = self.runGA(fname)
             cost_de, ave_de, var_de, cc_de = self.runDE(fname)
