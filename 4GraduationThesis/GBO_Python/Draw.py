@@ -48,7 +48,9 @@ class Draw:
             ylim = y_[arg_y[-2]] * 1.1
         if y_[arg_y[-2]] > y_[arg_y[-3]] * 100:
             ylim = y_[arg_y[-3]] * 1.1
-        axins.set_ylim(.0, ylim)
+        _y = np.array(cc_list)[:, xlim_u-1]
+        ylim_l = - _y[np.argsort(_y)[1]] / 2
+        axins.set_ylim(ylim_l, ylim)
         # loc1 loc2: 坐标系的四个角
         # 1 (右上) 2 (左上) 3(左下) 4(右下)
         mark_inset(ax, axins, loc1=3, loc2=1, fc="none", ec='k', lw=1)
