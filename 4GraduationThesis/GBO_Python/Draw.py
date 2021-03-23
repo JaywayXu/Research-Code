@@ -28,7 +28,7 @@ class Draw:
         plt.title(title)
 
         if self.isSavefig:
-            plt.savefig("./Figure/Ploterro_"+title+".png")
+            plt.savefig("./Ploterro_Figure/Ploterro_"+title+".png")
         if self.isShow:
             plt.show()
 
