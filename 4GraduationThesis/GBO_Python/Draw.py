@@ -1,34 +1,60 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 
 
 class Draw:
-    def __init__(self, isShow=True, isSavefig=False, isClose=True):
+    def __init__(self, isShow=True, isClose=True):
         self.isShow = isShow
-        self.isSavefig = isSavefig
         self.isClose = isClose
 
-    def drawPloterro(self, convergence_curve_list, name_list, title, y_lim=None):
+    def drawPloterro(self, cc_list, name_list, title, isSave=False, figName=None):
         '''绘制迭代-误差图'''
-        plt.figure(figsize=(10, 6))
+        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        axins = ax.inset_axes((0.7, 0.2, 0.25, 0.5))  # 局部放大图
 
         color = ['r', 'y', 'g', 'b']
-        for i in range(len(convergence_curve_list)):
-            cc = convergence_curve_list[i]
+        for i in range(len(cc_list)):
+            cc = cc_list[i]
             x = [i for i in range(len(cc))]
-            plt.plot(x, cc, color[i], linewidth=1.5,
-                     markersize=5, label=name_list[i])
+            ax.plot(x, cc, color[i], linewidth=1.5,
+                    markersize=5, label=name_list[i])
+            axins.plot(x, cc, color[i], linewidth=1.5,
+                       markersize=5, label=name_list[i])
 
-        plt.xlabel('Iter')
-        plt.ylabel('Best score')
-        plt.xlim(0, )
-        plt.ylim(0, y_lim)
-        plt.legend()
-        plt.title(title)
+        # 主图
+        # y轴的显示范围
+        y_ = np.array(cc_list)[:, 5]
+        ylim = y_[np.argsort(y_)[0:2]].mean()
+        # 设置
+        ax.set_xlabel('Iter')
+        ax.set_ylabel('Best score')
+        ax.set_xlim(0, )
+        ax.set_ylim(0, ylim)
+        ax.legend()
+        ax.set_title(title)
 
-        if self.isSavefig:
-            plt.savefig("./Ploterro_Figure/Ploterro_"+title+".png")
+        # 局部图
+        # X轴的显示范围
+        xlim_l = int(0.95 * len(cc))
+        xlim_u = len(cc)
+        axins.set_xlim(xlim_l, xlim_u)
+        # y轴的显示范围
+        y_ = np.array(cc_list)[:, xlim_l-1]
+        arg_y = np.argsort(y_)
+        ylim = y_[arg_y[-1]] * 1.1
+        if y_[arg_y[-1]] > y_[arg_y[-2]] * 100:
+            ylim = y_[arg_y[-2]] * 1.1
+        if y_[arg_y[-2]] > y_[arg_y[-3]] * 100:
+            ylim = y_[arg_y[-3]] * 1.1
+        axins.set_ylim(.0, ylim)
+        # loc1 loc2: 坐标系的四个角
+        # 1 (右上) 2 (左上) 3(左下) 4(右下)
+        mark_inset(ax, axins, loc1=3, loc2=1, fc="none", ec='k', lw=1)
+
+        if isSave:
+            plt.savefig(figName)
         if self.isShow:
             plt.show()
 
