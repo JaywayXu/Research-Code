@@ -94,10 +94,10 @@ if __name__ == '__main__':
     import sys
     sys.path.append("..")
     from Draw import Draw
-    draw = Draw(isShow=True, isSavefig=False, isClose=False)
+    draw = Draw(isShow=True, isClose=False)
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=30)
-    lb, ub, nV, fobj = bmf.get(13)
+    lb, ub, nV, fobj = bmf.get(2)
 
     pso = PSO(nP=nP, MaxIt=MaxIt, lb=lb, ub=ub,
               nV=nV, fobj=fobj, isDrawPop=True)

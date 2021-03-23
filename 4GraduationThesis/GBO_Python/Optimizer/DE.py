@@ -96,7 +96,7 @@ if __name__ == '__main__':
     import sys
     sys.path.append("..")
     from Draw import Draw
-    draw = Draw(isShow=True, isSavefig=False, isClose=True)
+    draw = Draw(isShow=True, isClose=True)
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=2)
     lb, ub, nV, fobj = bmf.get(13)
