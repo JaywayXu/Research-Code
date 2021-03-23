@@ -112,14 +112,14 @@ class BenchmarkFunctions:
 
 
 def f1_obj(x):
-    '''f1: Bent Cigar (Unimodal)'''
+    '''F1: Bent Cigar (Unimodal)'''
     D = x.shape[0]
     z = np.power(x[0], 2) + pow(10, 6) * np.power(x[1:D], 2).sum()
     return z
 
 
 def f2_obj(x):
-    '''f2: Power (Unimodal)'''
+    '''F2: Power (Unimodal)'''
     D = x.shape[0]
     f = np.zeros([D, 1])
     for i in range(D):
@@ -129,14 +129,14 @@ def f2_obj(x):
 
 
 def f3_obj(x):
-    '''f3: Zakharov (Unimodal)'''
+    '''F3: Zakharov (Unimodal)'''
     z = np.power(x, 2).sum() + pow((x.sum() * 0.5), 2) + pow(
         (x.sum() * 0.5), 4)
     return z
 
 
 def f4_obj(x):
-    '''f4: Rosenbrock (Unimodal)'''
+    '''F4: Rosenbrock (Unimodal)'''
     D = x.shape[0]
     ff = np.zeros([D - 1, 1])
     for i in range(D - 1):
@@ -147,14 +147,14 @@ def f4_obj(x):
 
 
 def f5_obj(x):
-    '''f5: Discus (Unimodal)'''
+    '''F5: Discus (Unimodal)'''
     D = x.shape[0]
     z = pow(10, 6) * np.power(x[0], 2) + np.power(x[1:D], 2).sum()
     return z
 
 
 def f6_obj(x):
-    '''f6: High Conditioned Elliptic Function (Unimodal)'''
+    '''F6: High Conditioned Elliptic Function (Unimodal)'''
     D = x.shape[0]
     f = np.zeros([D, 1])
     for i in range(D):
@@ -164,7 +164,7 @@ def f6_obj(x):
 
 
 def f7_obj(x):
-    '''f7: Expanded Schaffer’s F6 (Multimodal)'''
+    '''F7: Expanded Schaffer’s F6 (Multimodal)'''
     D = x.shape[0]
     f = np.zeros([D, 1])
     for i in range(D):
@@ -181,7 +181,7 @@ def f7_obj(x):
 
 
 def f8_obj(x):
-    '''f8: Levy Function (Multimodal)'''
+    '''F8: Levy Function (Multimodal)'''
     D = x.shape[0]
     w = np.zeros([D, 1])
     f = np.zeros([D - 1, 1])
@@ -195,7 +195,7 @@ def f8_obj(x):
 
 
 def f9_obj(x):
-    '''f9: Modified Schwefel’s Function (Multimodal)'''
+    '''F9: Modified Schwefel’s Function (Multimodal)'''
     D = x.shape[0]
     f = np.zeros([D, 1])
     for i in range(D):
@@ -214,7 +214,7 @@ def f9_obj(x):
 
 
 def f10_obj(x):
-    '''f10: Ackley (Multimodal)'''
+    '''F10: Ackley (Multimodal)'''
     D = x.shape[0]
     z = -20 * np.exp(-0.2 * pow((1/D) * np.power(x, 2).sum(), 0.5)) - \
         np.exp((1/D) * np.cos(2*np.pi*x).sum()) + 20 + np.exp(1)
@@ -222,7 +222,7 @@ def f10_obj(x):
 
 
 def f11_obj(x):
-    '''f11: weierstrass (Multimodal)'''
+    '''F11: weierstrass (Multimodal)'''
     def w(x1, c1, c2):
         y = (c1 * np.cos(c2 * x1)).sum()
         return y
@@ -245,7 +245,7 @@ def f11_obj(x):
 
 
 def f12_obj(x):
-    '''f12: HappyCat Function (Multimodal)'''
+    '''F12: HappyCat Function (Multimodal)'''
     D = x.shape[0]
     z = pow(abs(np.power(x, 2).sum() - D), 1/4) + \
         (0.5 * np.power(x, 2).sum() + x.sum()) / D + 0.5
@@ -253,7 +253,7 @@ def f12_obj(x):
 
 
 def f13_obj(x):
-    '''f13: HGBat Function (Multimodal)'''
+    '''F13: HGBat Function (Multimodal)'''
     D = x.shape[0]
     z = pow(abs(pow(np.power(x, 2).sum(), 2) - pow(x.sum(), 2)),
             1 / 2) + (0.5 * np.power(x, 2).sum() + x.sum()) / D + 0.5
@@ -261,6 +261,6 @@ def f13_obj(x):
 
 
 def f14_obj(x):
-    '''f14: Alpine (Multimodal)'''
+    '''F14: Alpine (Multimodal)'''
     z = sum(abs(x * np.sin(x) + 0.1 * x))
     return z
