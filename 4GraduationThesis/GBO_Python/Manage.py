@@ -99,13 +99,14 @@ class Manage:
 
 
 if __name__ == "__main__":
-    mng = Manage(nP=50, nV=30, MaxIt=500, testNum=20)
+    mng = Manage(nP=50, nV=20, MaxIt=500, testNum=10)
     for fname in range(1, mng.bmf.size+1):
         lb, ub, nV, fobj = mng.bmf.get(fname)
         # draw = Draw(isShow=True)
         # draw.drawFunction3D(lb, ub, fobj)
 
-        print("\n", fobj.__doc__)
+        print()
+        print(fobj.__doc__)
         cost_gbo, ave_gbo, var_gbo, cc_gbo = mng.runGBO(fname)
         cost_ga, ave_ga, var_ga, cc_ga = mng.runGA(fname)
         cost_de, ave_de, var_de, cc_de = mng.runDE(fname)
@@ -130,7 +131,7 @@ if __name__ == "__main__":
         print("PSO: ", var_pso)
 
         # y轴最大值
-        y1 = np.array([cc_gbo[1], cc_ga[1], cc_de[1], cc_pso[1]])
+        y1 = np.array([cc_gbo[0], cc_ga[0], cc_de[0], cc_pso[0]])
         idx = np.argsort(y1)
         y_lim = y1[idx[0:1]].mean()
 
