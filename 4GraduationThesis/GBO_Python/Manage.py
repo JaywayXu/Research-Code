@@ -103,7 +103,7 @@ class Manage:
         for fname in range(1, self.bmf.size+1):
             _, _, _, fobj = self.bmf.get(fname)
             cc_np = self.ave_cc_np[fname-1]
-            title = "%dD_" % (nV) + fobj.__doc__
+            title = "%dD_%dT_" % (self.nV, self.testNum) + fobj.__doc__
             name = "./PloterroFigure/Ploterro_%dD_%dT_F%d.png" % (
                 self.nV, self.testNum, fname)
             draw = Draw(isShow=False)

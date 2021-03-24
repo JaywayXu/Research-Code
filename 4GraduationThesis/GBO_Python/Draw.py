@@ -13,7 +13,7 @@ class Draw:
         '''绘制迭代-误差图'''
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
         if isDrawSub:
-            axins = ax.inset_axes((0.7, 0.2, 0.25, 0.55))  # 局部放大图
+            axins = ax.inset_axes((0.65, 0.2, 0.25, 0.55))  # 局部放大图
 
         color = ['r', 'y', 'g', 'b']
         for i in range(len(cc_list)):
