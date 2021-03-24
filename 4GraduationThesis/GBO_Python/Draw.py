@@ -25,8 +25,8 @@ class Draw:
 
         # 主图
         # y轴的显示范围
-        y_ = np.array(cc_list)[:, 5]
-        ylim = y_[np.argsort(y_)[0:2]].mean()
+        y_ = np.array(cc_list)[:, 2]
+        ylim = y_[np.argsort(y_)[0:1]].mean()
         # 设置
         ax.set_xlabel('Iter')
         ax.set_ylabel('Best score')
@@ -44,12 +44,14 @@ class Draw:
         y_ = np.array(cc_list)[:, xlim_l-1]
         arg_y = np.argsort(y_)
         ylim = y_[arg_y[-1]] * 1.1
-        if y_[arg_y[-1]] > y_[arg_y[-2]] * 100:
+        if y_[arg_y[-1]] > y_[arg_y[-2]] * 50:
             ylim = y_[arg_y[-2]] * 1.1
-        if y_[arg_y[-2]] > y_[arg_y[-3]] * 100:
+        if y_[arg_y[-2]] > y_[arg_y[-3]] * 50:
             ylim = y_[arg_y[-3]] * 1.1
         _y = np.array(cc_list)[:, xlim_u-1]
-        ylim_l = - _y[np.argsort(_y)[1]] / 2
+        _arg_y = _y.argsort()
+        yy = _y[_arg_y[0:2]]
+        ylim_l = yy[0] - (yy[1]-yy[0])
         axins.set_ylim(ylim_l, ylim)
         # loc1 loc2: 坐标系的四个角
         # 1 (右上) 2 (左上) 3(左下) 4(右下)

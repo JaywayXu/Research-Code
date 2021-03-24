@@ -15,6 +15,15 @@ class Manage:
         self.testNum = testNum
         self.bmf = BenchmarkFunctions(D=self.nV)
         self.every_fun_list = []
+        self.name_list = ['GBO', 'GA', 'DE', 'PSO']
+        self.best_cost_name = "./Data/BestCost_%dD_%dT.npy" % (
+            self.nV, self.testNum)
+        self.ave_cost_name = "./Data/AverageCost_%dD_%dT.npy" % (
+            self.nV, self.testNum)
+        self.var_cost_name = "./Data/VarianceCost_%dD_%dT.npy" % (
+            self.nV, self.testNum)
+        self.ave_cc_name = "./Data/ConvergenceCurve_%dD_%dT.npy" % (
+            self.nV, self.testNum)
 
     def initData(self, fname):
         '''初始化数据'''
@@ -29,6 +38,10 @@ class Manage:
         self.ave_cost_list = []
         self.var_cost_list = []
         self.ave_cc_list = []
+        self.best_cost_np = None
+        self.ave_cost_np = None
+        self.var_cost_np = None
+        self.ave_cc_np = None
 
     def getRun(self):
         '''返回当前数据的最优解，平均解，方差，平均收敛曲线'''
@@ -84,26 +97,35 @@ class Manage:
             print("%d test: " % (i + 1), self.np_best_cost[i])
         return self.getRun()
 
-    def saveResult(self):
-        '''保存结果'''
-        pass
-
-    def saveConvergenceCurve(self):
-        '''保存迭代收敛数据'''
-        pass
-
     def savePloterro(self):
         '''保存迭代收敛图'''
         for fname in range(1, self.bmf.size+1):
-            _, _, nV, fobj = self.bmf.get(fname)
-            cc_list = self.ave_cc_list[fname-1]
-            name_list = ['GBO', 'GA', 'DE', 'PSO']
+            _, _, _, fobj = self.bmf.get(fname)
+            cc_np = self.ave_cc_np[fname-1]
             title = "%dD_" % (nV) + fobj.__doc__
-            name = "./Ploterro_Figure/Ploterro_%dD_F%d.png" % (nV, fname)
+            name = "./Ploterro_Figure/Ploterro_%dD_%dT_F%d.png" % (
+                self.nV, self.testNum, fname)
             draw = Draw(isShow=False)
-            draw.drawPloterro(cc_list, name_list, title, True, name)
+            draw.drawPloterro(cc_np, self.name_list, title, True, name)
+
+    def saveData(self):
+        '''保存numpy数组'''
+        np.save(self.best_cost_name, np.array(self.best_cost_np))
+        np.save(self.ave_cost_name, np.array(self.ave_cost_np))
+        np.save(self.var_cost_name, np.array(self.var_cost_np))
+        np.save(self.ave_cc_name, np.array(self.ave_cc_np))
+
+    def loadData(self):
+        '''读取numpy数组并保存Ploterro'''
+        self.initResult()
+        self.best_cost_np = np.load(self.best_cost_name)
+        self.ave_cost_np = np.load(self.ave_cost_name)
+        self.var_cost_np = np.load(self.var_cost_name)
+        self.ave_cc_np = np.load(self.ave_cc_name)
+        self.savePloterro()
 
     def run(self):
+        '''运行并保存Data、Ploterro'''
         self.initResult()
         for fname in range(1, self.bmf.size+1):
             self.initData(fname)
@@ -117,16 +139,20 @@ class Manage:
             self.ave_cost_list.append([ave_gbo, ave_ga, ave_de, ave_pso])
             self.var_cost_list.append([var_gbo, var_ga, var_de, var_pso])
             self.ave_cc_list.append([cc_gbo, cc_ga, cc_de, cc_pso])
-
-        self.saveResult()
-        self.saveConvergenceCurve()
+            self.best_cost_np = np.array(self.best_cost_list)
+            self.ave_cost_np = np.array(self.ave_cost_list)
+            self.var_cost_np = np.array(self.var_cost_list)
+            self.ave_cc_np = np.array(self.ave_cc_list)
         self.savePloterro()
+        self.saveData()
 
 
 if __name__ == "__main__":
-    nP = 50
-    nV = 20
-    MaxIt = 400
-    testNum = 20
+    nP = 20
+    nV = 2
+    MaxIt = 40
+    testNum = 1
+
     mng = Manage(nP, nV, MaxIt, testNum)
     mng.run()
+    mng.loadData()
