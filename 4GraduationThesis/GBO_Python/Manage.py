@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from BenchmarkFunctions import BenchmarkFunctions
 from Optimizer.GBO import GBO
 from Optimizer.GA import GA
@@ -16,13 +17,13 @@ class Manage:
         self.bmf = BenchmarkFunctions(D=self.nV)
         self.every_fun_list = []
         self.name_list = ['GBO', 'GA', 'DE', 'PSO']
-        self.best_cost_name = "./Data/BestCost_%dD_%dT.npy" % (
+        self.best_cost_name = "BestCost_%dD_%dT" % (
             self.nV, self.testNum)
-        self.ave_cost_name = "./Data/AverageCost_%dD_%dT.npy" % (
+        self.ave_cost_name = "AverageCost_%dD_%dT" % (
             self.nV, self.testNum)
-        self.var_cost_name = "./Data/VarianceCost_%dD_%dT.npy" % (
+        self.var_cost_name = "VarianceCost_%dD_%dT" % (
             self.nV, self.testNum)
-        self.ave_cc_name = "./Data/ConvergenceCurve_%dD_%dT.npy" % (
+        self.ave_cc_name = "ConvergenceCurve_%dD_%dT" % (
             self.nV, self.testNum)
 
     def initData(self, fname):
@@ -103,26 +104,49 @@ class Manage:
             _, _, _, fobj = self.bmf.get(fname)
             cc_np = self.ave_cc_np[fname-1]
             title = "%dD_" % (nV) + fobj.__doc__
-            name = "./Ploterro_Figure/Ploterro_%dD_%dT_F%d.png" % (
+            name = "./PloterroFigure/Ploterro_%dD_%dT_F%d.png" % (
                 self.nV, self.testNum, fname)
             draw = Draw(isShow=False)
             draw.drawPloterro(cc_np, self.name_list, title, True, name)
 
+    def saveExcel(self):
+        '''保存到excel文件'''
+        best_cost_data = pd.DataFrame(self.best_cost_np.T)
+        ave_cost_data = pd.DataFrame(self.ave_cost_np.T)
+        var_cost_data = pd.DataFrame(self.var_cost_np.T)
+        best_cost_writer = pd.ExcelWriter(
+            "./Excel/" + self.best_cost_name + ".xlsx")  # 写入Excel文件
+        ave_cost_writer = pd.ExcelWriter(
+            "./Excel/" + self.ave_cost_name + ".xlsx")  # 写入Excel文件
+        var_cost_writer = pd.ExcelWriter(
+            "./Excel/" + self.var_cost_name + ".xlsx")  # 写入Excel文件
+        # 'page1'是写入excel的sheet名
+        best_cost_data.to_excel(best_cost_writer, 'page1', float_format='%.3f')
+        ave_cost_data.to_excel(ave_cost_writer, 'page1', float_format='%.3f')
+        var_cost_data.to_excel(var_cost_writer, 'page1', float_format='%.3f')
+        best_cost_writer.save()
+        ave_cost_writer.save()
+        var_cost_writer.save()
+        best_cost_writer.close()
+        ave_cost_writer.close()
+        var_cost_writer.close()
+
     def saveData(self):
         '''保存numpy数组'''
-        np.save(self.best_cost_name, np.array(self.best_cost_np))
-        np.save(self.ave_cost_name, np.array(self.ave_cost_np))
-        np.save(self.var_cost_name, np.array(self.var_cost_np))
-        np.save(self.ave_cc_name, np.array(self.ave_cc_np))
+        np.save(self.best_cost_name, np.array("./Data/" + self.best_cost_np))
+        np.save(self.ave_cost_name, np.array("./Data/" + self.ave_cost_np))
+        np.save(self.var_cost_name, np.array("./Data/" + self.var_cost_np))
+        np.save(self.ave_cc_name, np.array("./Data/" + self.ave_cc_np))
 
     def loadData(self):
         '''读取numpy数组并保存Ploterro'''
         self.initResult()
-        self.best_cost_np = np.load(self.best_cost_name)
-        self.ave_cost_np = np.load(self.ave_cost_name)
-        self.var_cost_np = np.load(self.var_cost_name)
-        self.ave_cc_np = np.load(self.ave_cc_name)
+        self.best_cost_np = np.load("./Data/" + self.best_cost_name)
+        self.ave_cost_np = np.load("./Data/" + self.ave_cost_name)
+        self.var_cost_np = np.load("./Data/" + self.var_cost_name)
+        self.ave_cc_np = np.load("./Data/" + self.ave_cc_name)
         self.savePloterro()
+        self.saveExcel()
 
     def run(self):
         '''运行并保存Data、Ploterro'''
@@ -143,16 +167,17 @@ class Manage:
             self.ave_cost_np = np.array(self.ave_cost_list)
             self.var_cost_np = np.array(self.var_cost_list)
             self.ave_cc_np = np.array(self.ave_cc_list)
-        self.savePloterro()
         self.saveData()
+        # self.savePloterro()
+        # self.saveExcel()
 
 
 if __name__ == "__main__":
-    nP = 20
-    nV = 2
-    MaxIt = 40
-    testNum = 1
+    nP = 50
+    nV = 20
+    MaxIt = 400
+    testNum = 20
 
     mng = Manage(nP, nV, MaxIt, testNum)
-    mng.run()
+    # mng.run()
     mng.loadData()
