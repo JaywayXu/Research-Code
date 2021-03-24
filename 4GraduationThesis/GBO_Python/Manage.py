@@ -107,7 +107,11 @@ class Manage:
             name = "./PloterroFigure/Ploterro_%dD_%dT_F%d.png" % (
                 self.nV, self.testNum, fname)
             draw = Draw(isShow=False)
-            draw.drawPloterro(cc_np, self.name_list, title, True, name)
+            isDrawSub = True
+            if fname in [7, 11]:  # 不绘制局部放大图的函数
+                isDrawSub = False
+            draw.drawPloterro(cc_np, self.name_list,
+                              title, True, name, isDrawSub)
 
     def saveExcel(self):
         '''保存到excel文件'''
@@ -141,10 +145,10 @@ class Manage:
     def loadData(self):
         '''读取numpy数组并保存Ploterro'''
         self.initResult()
-        self.best_cost_np = np.load("./Data/" + self.best_cost_name)
-        self.ave_cost_np = np.load("./Data/" + self.ave_cost_name)
-        self.var_cost_np = np.load("./Data/" + self.var_cost_name)
-        self.ave_cc_np = np.load("./Data/" + self.ave_cc_name)
+        self.best_cost_np = np.load("./Data/" + self.best_cost_name + ".npy")
+        self.ave_cost_np = np.load("./Data/" + self.ave_cost_name + ".npy")
+        self.var_cost_np = np.load("./Data/" + self.var_cost_name + ".npy")
+        self.ave_cc_np = np.load("./Data/" + self.ave_cc_name + ".npy")
         self.savePloterro()
         self.saveExcel()
 

@@ -9,10 +9,11 @@ class Draw:
         self.isShow = isShow
         self.isClose = isClose
 
-    def drawPloterro(self, cc_list, name_list, title, isSave=False, figName=None):
+    def drawPloterro(self, cc_list, name_list, title, isSave=False, figName=None, isDrawSub=True):
         '''绘制迭代-误差图'''
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-        axins = ax.inset_axes((0.7, 0.2, 0.25, 0.5))  # 局部放大图
+        if isDrawSub:
+            axins = ax.inset_axes((0.7, 0.2, 0.25, 0.55))  # 局部放大图
 
         color = ['r', 'y', 'g', 'b']
         for i in range(len(cc_list)):
@@ -20,13 +21,14 @@ class Draw:
             x = [i for i in range(len(cc))]
             ax.plot(x, cc, color[i], linewidth=1.5,
                     markersize=5, label=name_list[i])
-            axins.plot(x, cc, color[i], linewidth=1.5,
-                       markersize=5, label=name_list[i])
+            if isDrawSub:
+                axins.plot(x, cc, color[i], linewidth=1.5,
+                           markersize=5, label=name_list[i])
 
         # 主图
         # y轴的显示范围
-        y_ = np.array(cc_list)[:, 2]
-        ylim = y_[np.argsort(y_)[0:1]].mean()
+        y_ = np.array(cc_list)[:, 10]
+        ylim = y_[np.argsort(y_)[1:3]].mean()
         # 设置
         ax.set_xlabel('Iter')
         ax.set_ylabel('Best score')
@@ -37,28 +39,28 @@ class Draw:
 
         # 局部图
         # X轴的显示范围
-        xlim_l = int(0.95 * len(cc))
+        xlim_l = int(0.9 * len(cc))
         xlim_u = len(cc)
-        axins.set_xlim(xlim_l, xlim_u)
+        if isDrawSub:
+            axins.set_xlim(xlim_l, xlim_u)
         # y轴的显示范围
-        y_ = np.array(cc_list)[:, xlim_l-1]
-        arg_y = np.argsort(y_)
-        ylim = y_[arg_y[-1]] * 1.1
-        if y_[arg_y[-1]] > y_[arg_y[-2]] * 50:
-            ylim = y_[arg_y[-2]] * 1.1
-        if y_[arg_y[-2]] > y_[arg_y[-3]] * 50:
-            ylim = y_[arg_y[-3]] * 1.1
-        _y = np.array(cc_list)[:, xlim_u-1]
-        _arg_y = _y.argsort()
-        yy = _y[_arg_y[0:2]]
-        ylim_l = yy[0] - (yy[1]-yy[0])
-        axins.set_ylim(ylim_l, ylim)
-        # loc1 loc2: 坐标系的四个角
-        # 1 (右上) 2 (左上) 3(左下) 4(右下)
-        mark_inset(ax, axins, loc1=3, loc2=1, fc="none", ec='k', lw=1)
+        y_xl = np.array(cc_list)[:, int(np.array([xlim_u, xlim_l]).mean())-1]
+        y_xu = np.array(cc_list)[:, xlim_u-1]
+        arg_y_xl = np.argsort(y_xl)
+        ylim = y_xl[arg_y_xl[3]] * 1.2
+        if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*1000):
+            ylim = y_xl[arg_y_xl[2]] * 1.2
+        if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*1000):
+            ylim = y_xl[arg_y_xl[1]] * 1.2
+        if isDrawSub:
+            axins.set_ylim(y_xu.min()-ylim/10, ylim)
+            # loc1 loc2: 坐标系的四个角
+            # 1 (右上) 2 (左上) 3(左下) 4(右下)
+            mark_inset(ax, axins, loc1=3, loc2=1, fc="none", ec='k', lw=1)
 
         if isSave:
             plt.savefig(figName)
+            plt.close()
         if self.isShow:
             plt.show()
 
@@ -149,3 +151,5 @@ class Draw:
 
         if self.isShow:
             plt.show()
+        else:
+            plt.close()
