@@ -2,7 +2,7 @@ import numpy as np
 
 
 class GBO:
-    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, isDrawPop=False):
+    def __init__(self, nP, MaxIt, lb, ub, nV, fobj, pr=0.5, isDrawPop=False):
         self.isDrawPop = isDrawPop  # 是否画出每代种群分布
         self.MaxIt = MaxIt  # Maximum number of iterations
         self.nP = nP  # Number of Population
@@ -10,7 +10,7 @@ class GBO:
         self.lb = lb  # lower boundary
         self.ub = ub  # upper boundary
         self.fobj = fobj
-        self.pr = 0.5  # Probability Parameter
+        self.pr = pr  # Probability Parameter
 
     def run(self):
         '''Run the Optimize Algorithm'''
