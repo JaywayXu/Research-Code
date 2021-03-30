@@ -22,14 +22,15 @@ class GBO:
         # Calculate the Value of Objective Function
         for i in range(self.nP):
             cost[i, :] = self.fobj(X[i, :])
-        Ind = cost.argsort(axis=0)  # 按列排序获取索引
 
         # Determine the vale of Best Fitness
-        best_cost = cost[Ind[0, :]]
-        best_x = X[Ind[0, :], :]
+        index_min = cost.argmin(axis=0)
+        best_cost = cost[index_min]
+        best_x = X[index_min, :]
         # Determine the vale of Worst Fitness
-        worst_cost = cost[Ind[-1, :]]
-        worst_x = X[Ind[-1, :], :]
+        index_max = cost.argmax(axis=0)
+        worst_cost = cost[index_max]
+        worst_x = X[index_max, :]
 
         # Main Loop
         for it in range(self.MaxIt):
@@ -161,18 +162,19 @@ class GBO:
 
 if __name__ == '__main__':
     nP = 50
-    MaxIt = 50
+    MaxIt = 500
 
     import sys
     sys.path.append("..")
     from Draw import Draw
     draw = Draw(isShow=True, isClose=True)
     from BenchmarkFunctions import BenchmarkFunctions
-    bmf = BenchmarkFunctions(D=2)
+    bmf = BenchmarkFunctions(D=30)
 
-    for i in range(6, bmf.size+1):
+    for i in range(1, bmf.size+1):
         lb, ub, nV, fobj = bmf.get(i)
-        gbo = GBO(nP, MaxIt, lb, ub, nV, fobj, isDrawPop=True)
+        gbo = GBO(nP, MaxIt, lb, ub, nV, fobj, isDrawPop=False)
         best_cost, best_x, convergence_curve = gbo.run()
 
-        draw.drawPloterro([convergence_curve], ['GBO'], fobj.__doc__)
+        draw.drawPloterro([convergence_curve], ['GBO'],
+                          fobj.__doc__, isDrawSub=False)
