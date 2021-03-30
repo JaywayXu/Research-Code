@@ -27,8 +27,10 @@ class Draw:
 
         # 主图
         # y轴的显示范围
-        y_ = np.array(cc_list)[:, 10]
-        ylim = y_[np.argsort(y_)[1:3]].mean()
+        ylim = None
+        if len(name_list) >= 3:  # 画三条线以上
+            y_ = np.array(cc_list)[:, 10]
+            ylim = y_[np.argsort(y_)[1:3]].mean()
         # 设置
         ax.set_xlabel('Iter')
         ax.set_ylabel('Best score')
@@ -38,21 +40,22 @@ class Draw:
         ax.set_title(title)
 
         # 局部图
-        # X轴的显示范围
-        xlim_l = int(0.9 * len(cc))
-        xlim_u = len(cc)
         if isDrawSub:
-            axins.set_xlim(xlim_l, xlim_u)
-        # y轴的显示范围
-        y_xl = np.array(cc_list)[:, int(np.array([xlim_u, xlim_l]).mean())-1]
-        y_xu = np.array(cc_list)[:, xlim_u-1]
-        arg_y_xl = np.argsort(y_xl)
-        ylim = y_xl[arg_y_xl[3]] * 1.2
-        if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*100):
-            ylim = y_xl[arg_y_xl[2]] * 1.2
-        if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*100):
-            ylim = y_xl[arg_y_xl[1]] * 1.2
-        if isDrawSub:
+            # X轴的显示范围
+            xlim_l = int(0.9 * len(cc))
+            xlim_u = len(cc)
+            if isDrawSub:
+                axins.set_xlim(xlim_l, xlim_u)
+            # y轴的显示范围
+            y_xl = np.array(cc_list)[:, int(
+                np.array([xlim_u, xlim_l]).mean())-1]
+            y_xu = np.array(cc_list)[:, xlim_u-1]
+            arg_y_xl = np.argsort(y_xl)
+            ylim = y_xl[arg_y_xl[3]] * 1.2
+            if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*100):
+                ylim = y_xl[arg_y_xl[2]] * 1.2
+            if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*100):
+                ylim = y_xl[arg_y_xl[1]] * 1.2
             axins.set_ylim(y_xu.min()-ylim/10, ylim)
             # loc1 loc2: 坐标系的四个角
             # 1 (右上) 2 (左上) 3(左下) 4(右下)
