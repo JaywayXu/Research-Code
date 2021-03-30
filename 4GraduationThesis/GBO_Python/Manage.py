@@ -137,10 +137,10 @@ class Manage:
 
     def saveData(self):
         '''保存numpy数组'''
-        np.save(self.best_cost_name, np.array("./Data/" + self.best_cost_np))
-        np.save(self.ave_cost_name, np.array("./Data/" + self.ave_cost_np))
-        np.save(self.var_cost_name, np.array("./Data/" + self.var_cost_np))
-        np.save(self.ave_cc_name, np.array("./Data/" + self.ave_cc_np))
+        np.save("./Data/" + self.best_cost_name, self.best_cost_np)
+        np.save("./Data/" + self.ave_cost_name, self.ave_cost_np)
+        np.save("./Data/" + self.var_cost_name, self.var_cost_np)
+        np.save("./Data/" + self.ave_cc_name, self.ave_cc_np)
 
     def loadData(self):
         '''读取numpy数组并保存Ploterro'''
@@ -178,9 +178,9 @@ class Manage:
 
 if __name__ == "__main__":
     nP = 50
-    nV = 20
+    nV = 30
     MaxIt = 400
-    testNum = 20
+    testNum = 30
 
     mng = Manage(nP, nV, MaxIt, testNum)
     # mng.run()

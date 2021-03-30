@@ -48,9 +48,9 @@ class Draw:
         y_xu = np.array(cc_list)[:, xlim_u-1]
         arg_y_xl = np.argsort(y_xl)
         ylim = y_xl[arg_y_xl[3]] * 1.2
-        if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*1000):
+        if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*100):
             ylim = y_xl[arg_y_xl[2]] * 1.2
-        if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*1000):
+        if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*100):
             ylim = y_xl[arg_y_xl[1]] * 1.2
         if isDrawSub:
             axins.set_ylim(y_xu.min()-ylim/10, ylim)
