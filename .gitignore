@@ -43,3 +43,8 @@
 ._*
 # macos trash files
 *.DS_Store
+
+## temporary Project file ignore
+4GraduationThesis/GBO_Python/Data/
+4GraduationThesis/GBO_Python/PloterroFigure/
+4GraduationThesis/GBO_Python/Excel/
