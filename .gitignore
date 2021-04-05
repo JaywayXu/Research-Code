@@ -1,11 +1,45 @@
+## C ##
+# C output files (unix/linux)
 *
 !*/
 !*.*
+# C output files (windows)
 *.exe
+# C temporary files with .o/.out/.o.*
 *.o
 *.out
 *.o.*
+
+## JAVA ##
+# JAVA output files
 *.class
-._*
+
+## Python ##
+# Python temporary files
 *.py[cod]
+
+## Tex ##
+# LaTeX temporary files
+*.aux
+*.log
+*.toc
+# PDF output files
+*.pdf
+# Latexmk
+*.fdb_latexmk
+# SyncTeX
+*.synctex.gz
+# LaTeX Beamer
+*.snm
+*.vrb
+*.nav
+*.out
+# BibTeX
+*.bbl
+*.blg
+
+## macOS ##
+# macOS temporary files
+._*
+# macos trash files
 *.DS_Store
