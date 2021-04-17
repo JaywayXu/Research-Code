@@ -3,17 +3,7 @@
     // 悬停以查看现有属性的描述。
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [ 
-        {
-            "name": "Octave(matlab)_Launch",
-            "type": "OctaveDebugger",
-            "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.m",
-            "octave": "octave-cli",
-            "sourceFolder": "${fileDirname}/",
-            "workingDirectory": "${workspaceFolder}",
-            "autoTerminate": true
-        },
+    "configurations": [
         {
             "name": "(lldb)C++_Launch(Mac)",
             "type": "lldb",
