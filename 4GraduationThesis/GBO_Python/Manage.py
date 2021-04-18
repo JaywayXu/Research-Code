@@ -179,7 +179,7 @@ class Manage:
 if __name__ == "__main__":
     nP = 50
     nV = 30
-    MaxIt = 400
+    MaxIt = 500
     testNum = 30
 
     mng = Manage(nP, nV, MaxIt, testNum)

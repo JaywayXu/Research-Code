@@ -101,10 +101,10 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il)
                 cf(u > 0.5) = (2 * (1 - u(u > 0.5))).^(-1 / (mu + 1));
                 child(count) = crossover(child(count), population(p1), population(p2), cf);
                 child(count + 1) = crossover(child(count + 1), population(p2), population(p1), cf);
-                % % % % % % % %                 if rand(1) < 0.1
-                % % % % % % % %                     child(count)=mutate(child(count),child(count),D,sigma/2);
-                % % % % % % % %                     child(count+1)=mutate(child(count+1),child(count+1),D,sigma/2);
-                % % % % % % % %                 end
+                % if rand(1) < 0.1
+                %     child(count)=mutate(child(count),child(count),D,sigma/2);
+                %     child(count+1)=mutate(child(count+1),child(count+1),D,sigma/2);
+                % end
                 sf1 = 1 + round(rand(1));
                 sf2 = 1 + round(rand(1));
 
