@@ -2,37 +2,43 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il)
     clc
     tic
 
+    % 保证种群数量为2的整数倍
     if mod(pop, 2) ~= 0
         pop = pop + 1;
     end
 
-    no_of_tasks = length(Tasks);
+    no_of_tasks = length(Tasks); % 任务数量
 
+    % 保证任务数量大于1
     if no_of_tasks <= 1
         error('At least 2 tasks required for MFEA');
     end
 
-    D = zeros(1, no_of_tasks);
+    D = zeros(1, no_of_tasks); % 每个任务解的维数
 
     for i = 1:no_of_tasks
         D(i) = Tasks(i).dims;
     end
 
-    D_multitask = max(D);
+    D_multitask = max(D); %个体的维数(所有任务中最大的维数)
+
+    % 局部搜索方法，quasi-newton法
     options = optimoptions(@fminunc, 'Display', 'off', 'Algorithm', 'quasi-newton', 'MaxIter', 5);
 
-    fnceval_calls = 0;
-    calls_per_individual = zeros(1, pop);
-    EvBestFitness = zeros(no_of_tasks, gen);
-    TotalEvaluations = zeros(1, gen);
-    bestobj = inf * (ones(1, no_of_tasks));
+    fnceval_calls = 0; %
+    calls_per_individual = zeros(1, pop); %
+    EvBestFitness = zeros(no_of_tasks, gen); % 最优适应值
+    TotalEvaluations = zeros(1, gen); % 每代的平价值
+    bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
 
+    % 生成种群
     for i = 1:pop
         population(i) = Chromosome();
         population(i) = initialize(population(i), D_multitask);
         population(i).skill_factor = 0;
     end
 
+    % 适应值评价
     parfor i = 1:pop
         [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
     end
@@ -48,7 +54,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il)
             factorial_cost(j) = population(j).factorial_costs(i);
         end
 
-        [xxx, y] = sort(factorial_cost);
+        [~, y] = sort(factorial_cost);
         population = population(y);
 
         for j = 1:pop
