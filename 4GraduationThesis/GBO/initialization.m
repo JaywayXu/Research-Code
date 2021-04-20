@@ -1,4 +1,4 @@
-%___________________________________________________________________%                                                       
+%___________________________________________________________________%
 %  Gradien-Based Optimizer source code (Developed in MATLAB R2017a) %
 %                                          `                         %
 %  programming: Iman Ahmadianfar                                    %
@@ -22,24 +22,26 @@
 % -------------------------------------------------------------------
 %  Co-author:
 %             Omid Bozorg-Haddad(OBHaddad@ut.ac.ir)
-%             Xuefeng Chu(xuefeng.chu@ndsu.edu)           
+%             Xuefeng Chu(xuefeng.chu@ndsu.edu)
 % ___________________________________________________________________
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% This function initialize the first population 
-function X=initialization(nP,dim,ub,lb)
-Boundary_no= size(ub,2); % numnber of boundaries
+% This function initialize the first population
+function X = initialization(nP, dim, ub, lb)
+    Boundary_no = size(ub, 2); % numnber of boundaries
 
-% If the boundaries of all variables are equal and user enter a signle
-% number for both ub and lb
+    % If the boundaries of all variables are equal and user enter a signle
+    % number for both ub and lb
 
-if Boundary_no==1
-    X=rand(nP,dim).*(ub-lb)+lb;
-end
-
-% If each variable has a different lb and ub
-if Boundary_no>1
-    for i=1:dim
-        X(:,i)=rand(nP,1).*(ub(i)-lb(i))+lb(i);
+    if Boundary_no == 1
+        X = rand(nP, dim) .* (ub - lb) + lb;
     end
-end
+
+    % If each variable has a different lb and ub
+    if Boundary_no > 1
+
+        for i = 1:dim
+            X(:, i) = rand(nP, 1) .* (ub(i) - lb(i)) + lb(i);
+        end
+
+    end

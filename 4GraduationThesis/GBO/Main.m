@@ -6,7 +6,7 @@
 %----------------------------------------------------------------------------------------------------------------------
 %  Co-author:
 %             Omid Bozorg-Haddad(OBHaddad@ut.ac.ir)
-%             Xuefeng Chu(xuefeng.chu@ndsu.edu) 
+%             Xuefeng Chu(xuefeng.chu@ndsu.edu)
 %----------------------------------------------------------------------------------------------------------------------
 % Please refer to the main paper:
 % Gradient-Based Optimizer: A New Metaheuristic Optimization Algorithm
@@ -22,25 +22,25 @@
 %----------------------------------------------------------------------------------------------------------------------
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-clear 
+clear
 close all
 clc
 
-nP=50;          % Number of Population
+nP = 50; % Number of Population
 
-Func_name='F1'; % Name of the test function, range from F1-F14
+Func_name = 'F1'; % Name of the test function, range from F1-F14
 
-MaxIt=500;      % Maximum number of iterations
+MaxIt = 500; % Maximum number of iterations
 
 % Load details of the selected benchmark function
-[lb,ub,dim,fobj]=BenchmarkFunctions(Func_name);
+[lb, ub, dim, fobj] = BenchmarkFunctions(Func_name);
 
-[Best_fitness,BestPositions,Convergence_curve] = GBO(nP,MaxIt,lb,ub,dim,fobj);
+[Best_fitness, BestPositions, Convergence_curve] = GBO(nP, MaxIt, lb, ub, dim, fobj);
 
 %% Plots
 figure,
 hold on
-semilogy(Convergence_curve,'Color','b','LineWidth',3);
+semilogy(Convergence_curve, 'Color', 'b', 'LineWidth', 3);
 title('Convergence curve')
 xlabel('Iteration');
 ylabel('Best fitness obtained so far');
