@@ -70,19 +70,19 @@ function convergeTrend(data_MFDE, data_SOO_1, data_SOO_2, reps, gen, benchNum)
 
         h1 = figure(1);
 
-        plot(x(xstart:xstart), objTask1MFO(start:start), '-ro', 'Linewidth', 2, 'MarkerSize', 8);
+        plot(x(xstart:xstart), objTask1MFO(start:start), '-ro', 'Linewidth', 1, 'MarkerSize', 1);
         hold on;
-        plot(x(xstart:xstart), objTask1SO(start:start), '-bx', 'Linewidth', 2, 'MarkerSize', 8);
-        hold on;
-
-        plot(x(xstart:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1)), 'r', 'Linewidth', 2.5);
-        hold on;
-        plot(x(xstart:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1)), 'b', 'Linewidth', 2.5);
+        plot(x(xstart:xstart), objTask1SO(start:start), '-bx', 'Linewidth', 1, 'MarkerSize', 1);
         hold on;
 
-        plot(x(xstart:last(2 * i - 1) / 20:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1) / 20:last(2 * i - 1)), 'ro', 'Linewidth', 2, 'MarkerSize', 8);
+        plot(x(xstart:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x(xstart:last(2 * i - 1) / 20:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1) / 20:last(2 * i - 1)), 'bx', 'Linewidth', 2, 'MarkerSize', 8);
+        plot(x(xstart:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1)), 'b', 'Linewidth', 1);
+        hold on;
+
+        plot(x(xstart:last(2 * i - 1) / 20:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1) / 20:last(2 * i - 1)), 'ro', 'Linewidth', 1, 'MarkerSize', 1);
+        hold on;
+        plot(x(xstart:last(2 * i - 1) / 20:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1) / 20:last(2 * i - 1)), 'bx', 'Linewidth', 1, 'MarkerSize', 1);
         hold on;
         title(['T1', ' ', 'in', ' ', char(taskName1(i))]);
         t1 = legend('MFDE', 'DE');
@@ -93,19 +93,19 @@ function convergeTrend(data_MFDE, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         set(gca, 'Fontsize', 16);
 
         h2 = figure(2);
-        plot(x(xstart:xstart), objTask2MFO(start:start), '-ro', 'Linewidth', 2, 'MarkerSize', 8);
+        plot(x(xstart:xstart), objTask2MFO(start:start), '-ro', 'Linewidth', 1, 'MarkerSize', 1);
         hold on;
-        plot(x(xstart:xstart), objTask2SO(start:start), '-bx', 'Linewidth', 2, 'MarkerSize', 8);
-        hold on;
-
-        plot(x(xstart:last(2 * i)), objTask2MFO(start:last(2 * i)), 'r', 'Linewidth', 2.5);
-        hold on;
-        plot(x(xstart:last(2 * i)), objTask2SO(start:last(2 * i)), 'b', 'Linewidth', 2.5);
+        plot(x(xstart:xstart), objTask2SO(start:start), '-bx', 'Linewidth', 1, 'MarkerSize', 1);
         hold on;
 
-        plot(x(xstart:last(2 * i) / 20:last(2 * i)), objTask2MFO(start:last(2 * i) / 20:last(2 * i)), 'ro', 'Linewidth', 2, 'MarkerSize', 8);
+        plot(x(xstart:last(2 * i)), objTask2MFO(start:last(2 * i)), 'r', 'Linewidth', 1.5);
         hold on;
-        plot(x(xstart:last(2 * i) / 20:last(2 * i)), objTask2SO(start:last(2 * i) / 20:last(2 * i)), 'bx', 'Linewidth', 2, 'MarkerSize', 8);
+        plot(x(xstart:last(2 * i)), objTask2SO(start:last(2 * i)), 'b', 'Linewidth', 1.5);
+        hold on;
+
+        plot(x(xstart:last(2 * i) / 20:last(2 * i)), objTask2MFO(start:last(2 * i) / 20:last(2 * i)), 'ro', 'Linewidth', 1, 'MarkerSize', 1);
+        hold on;
+        plot(x(xstart:last(2 * i) / 20:last(2 * i)), objTask2SO(start:last(2 * i) / 20:last(2 * i)), 'bx', 'Linewidth', 1, 'MarkerSize', 1);
         hold on;
         title(['T2', ' ', 'in', ' ', char(taskName1(i))]);
         t2 = legend('MFDE', 'DE');
