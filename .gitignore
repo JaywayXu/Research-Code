@@ -45,6 +45,8 @@
 *.DS_Store
 
 ## temporary Project file ignore
+data_*
 4GraduationThesis/GBO_Python/Data/
 4GraduationThesis/GBO_Python/PloterroFigure/
 4GraduationThesis/GBO_Python/Excel/
+MTO/MFDE/MFDEResults/
