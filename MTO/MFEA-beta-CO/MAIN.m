@@ -86,9 +86,9 @@ Tasks(2).Ub = 32 * ones(1, n);
 % For large population sizes, consider using the Parallel Computing Toolbox
 % of MATLAB.
 % Else, program can be slow.
-pop = 30; % population size
-gen = 100; % generation count
-selection_pressure = 'roulette wheel'; % choose either 'elitist' or 'roulette wheel'
-p_il = 1; % probability of individual learning (BFGA quasi-Newton Algorithm) --> Indiviudal Learning is an IMPORTANT component of the MFEA.
+pop = 100; % population size
+gen = 500; % generation count
+selection_pressure = 'elitist'; % choose either 'elitist' or 'roulette wheel'
+p_il = 0; % probability of individual learning (BFGA quasi-Newton Algorithm) --> Indiviudal Learning is an IMPORTANT component of the MFEA.
 rmp = 0.3; % random mating probability
 data_MFEA = MFEA(Tasks, pop, gen, selection_pressure, rmp, p_il);
