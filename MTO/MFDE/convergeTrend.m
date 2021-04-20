@@ -1,50 +1,50 @@
-function convergeTrend(data_MFPSO, data_SOO_1, data_SOO_2)
+function convergeTrend(data_MFDE, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     Task1 = [];
     Task2 = [];
 
-    for i = 1:2:40
+    for i = 1:2:(reps * 2)
         Task1 = [Task1, i];
         Task2 = [Task2, i + 1];
     end
 
     x = [];
 
-    for i = 1:1001
+    for i = 1:(gen + 1)
         x = [x, i];
     end
 
     taskName = {'CI_HS', 'CI_MS', 'CI_LS', 'PI_HS', 'PI_MS', 'PI_LS', 'NI_HS', 'NI_MS', 'NI_LS'};
     taskName1 = {'CI\_HS', 'CI\_MS', 'CI\_LS', 'PI\_HS', 'PI\_MS', 'PI\_LS', 'NI\_HS', 'NI\_MS', 'NI\_LS'};
 
-    bestSolutionMFO = fopen('.\MFPSOResults\bestSolutionMFO.txt', 'wt');
-    bestSolutionSO = fopen('.\MFPSOResults\bestSolutionSO.txt', 'wt');
-    aveSolutionMFO = fopen('.\MFPSOResults\aveSolutionMFO.txt', 'wt');
-    aveSolutionSO = fopen('.\MFPSOResults\aveSolutionSO.txt', 'wt');
-    stdMFO = fopen('.\MFPSOResults\stdMFO.txt', 'wt');
-    stdSO = fopen('.\MFPSOResults\stdSO.txt', 'wt');
-    taskNum = 3;
+    bestSolutionMFO = fopen('./MFDEResults/bestSolutionMFO.txt', 'wt');
+    bestSolutionSO = fopen('./MFDEResults/bestSolutionSO.txt', 'wt');
+    aveSolutionMFO = fopen('./MFDEResults/aveSolutionMFO.txt', 'wt');
+    aveSolutionSO = fopen('./MFDEResults/aveSolutionSO.txt', 'wt');
+    stdMFO = fopen('./MFDEResults/stdMFO.txt', 'wt');
+    stdSO = fopen('./MFDEResults/stdSO.txt', 'wt');
 
-    last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
-    %last=1000*ones(1,18);
-    for i = 1:taskNum
+    % last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
+    last = gen * ones(1, 2*benchNum);
+
+    for i = 1:benchNum
         start = 1;
-        step = 50;
+        step = round(gen / 10);
         xstart = 1;
-        aveInd = 1000;
+        aveInd = gen;
 
-        MFPSO = data_MFPSO(i);
+        MFDE = data_MFDE(i);
         SOO_1 = data_SOO_1(i);
         SOO_2 = data_SOO_2(i);
-        objTask1MFO = mean(MFPSO.EvBestFitness(Task1, :));
-        objTask2MFO = mean(MFPSO.EvBestFitness(Task2, :));
+        objTask1MFO = mean(MFDE.EvBestFitness(Task1, :));
+        objTask2MFO = mean(MFDE.EvBestFitness(Task2, :));
         objTask1SO = mean(SOO_1.EvBestFitness);
         objTask2SO = mean(SOO_2.EvBestFitness);
 
-        bestTask1MFO = min(min(MFPSO.EvBestFitness(Task1, :)));
-        bestTask2MFO = min(min(MFPSO.EvBestFitness(Task2, :)));
+        bestTask1MFO = min(min(MFDE.EvBestFitness(Task1, :)));
+        bestTask2MFO = min(min(MFDE.EvBestFitness(Task2, :)));
         aveTask1MFO = objTask1MFO(aveInd);
         aveTask2MFO = objTask2MFO(aveInd);
-        stdTaskMFO = MFPSO.EvBestFitness(:, aveInd);
+        stdTaskMFO = MFDE.EvBestFitness(:, aveInd);
         stdTask1MFO = std(stdTaskMFO(Task1, :));
         stdTask2MFO = std(stdTaskMFO(Task2, :));
 
@@ -114,10 +114,10 @@ function convergeTrend(data_MFPSO, data_SOO_1, data_SOO_2)
         axis([xstart last(2 * i) -inf inf]);
         set(t2, 'Fontsize', 20);
         set(gca, 'Fontsize', 16);
-        outPath0 = ['.\MFPSOResults\', char(taskName(i)), '1.png'];
-        outPath0_1 = ['.\MFPSOResults\', char(taskName(i)), '1.eps'];
-        outPath1 = ['.\MFPSOResults\', char(taskName(i)), '2.png'];
-        outPath1_1 = ['.\MFPSOResults\', char(taskName(i)), '2.eps'];
+        outPath0 = ['./MFDEResults/', char(taskName(i)), '1.png'];
+        outPath0_1 = ['./MFDEResults/', char(taskName(i)), '1.eps'];
+        outPath1 = ['./MFDEResults/', char(taskName(i)), '2.png'];
+        outPath1_1 = ['./MFDEResults/', char(taskName(i)), '2.eps'];
         print(h1, '-dpng', outPath0);
         print(h1, '-depsc', outPath0_1);
         print(h2, '-dpng', outPath1);

@@ -98,7 +98,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps, i
 
             for j = 1:pop
 
-                if population(j).skill_factor == 1
+                if population(j).skill_factor == 1 % TODO
                     asf = [asf, j];
                 else
                     bsf = [bsf, j];
@@ -109,7 +109,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps, i
             group = {asf, bsf};
 
             for i = 1:pop
-                x = population(i).rnvec; % 提取个体位置
+                x = population(i).rnvec; % 提取个体基因型
 
                 asf = cell2mat(group(population(i).skill_factor));
                 bsf = cell2mat(group(2 / population(i).skill_factor));
@@ -246,7 +246,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps, i
 
     end
 
-    dlmwrite(['MTSOO_P', num2str(index), '.txt'], bestFncErrorValue, 'precision', 6);
+    % dlmwrite(['MTSOO_P', num2str(index), '.txt'], bestFncErrorValue, 'precision', 6);
     data_MFDE.wall_clock_time = toc;
     data_MFDE.EvBestFitness = EvBestFitness;
     data_MFDE.bestInd_data = bestInd_data;
