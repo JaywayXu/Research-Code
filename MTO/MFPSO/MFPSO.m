@@ -19,10 +19,10 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, p_il, reps, index)
     c1 = 0.2;
     c2 = 0.2;
     c3 = 0.2;
-    w11 = 1000;
-    c11 = 1000;
-    c22 = 1000;
-    c33 = 1000;
+    w11 = gen;
+    c11 = gen;
+    c22 = gen;
+    c33 = gen;
 
     D = zeros(1, no_of_tasks);
 
@@ -102,7 +102,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, p_il, reps, index)
         noImpove = 0;
 
         while ite <= gen
-            w1 = wmax - (wmax - wmin) * ite / 1000;
+            w1 = wmax - (wmax - wmin) * ite / gen;
 
             if ~mod(ite, 10) && noImpove >= 20
                 %restart
