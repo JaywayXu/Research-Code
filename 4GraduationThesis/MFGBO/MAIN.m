@@ -4,9 +4,9 @@ gen = 500; % generation count 1000
 p_il = 0; % probability of individual learning (BFGA quasi-Newton Algorithm) --> Indiviudal Learning is an IMPORTANT component of the MFGBO.
 rmp = 0.3; % random mating probability
 pr = 0.5; % Probability Parameter
-reps = 2; % repetitions 20
+reps = 20; % repetitions 20
 
-benchmark_num = 1;
+benchmark_num = 9;
 is_run = true; % 是否运行，false则直接读取mat文件
 
 if is_run
