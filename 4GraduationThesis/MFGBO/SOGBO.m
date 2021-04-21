@@ -106,34 +106,34 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
                         Xnew = Best_X + f1 .* (u1 .* Best_X - u2 .* Xp) + f2 .* ro .* (u3 .* (X2 - X1) + u2 .* (X(r1, :) - X(r2, :))) / 2;
                     end
 
-                    % 越界则拉回到边界
-                    Xnew(Xnew > ub) = ub;
-                    Xnew(Xnew < lb) = lb;
+                end
 
-                    % 计算适应值
-                    Chromosome_new = Chromosome();
-                    Chromosome_new.rnvec = Xnew;
-                    [Chromosome_new, calls_per_individual(i)] = evaluate_SOO(Chromosome_new, Task, p_il, options);
+                % 越界则拉回到边界
+                Xnew(Xnew > ub) = ub;
+                Xnew(Xnew < lb) = lb;
 
-                    % 更新最优
-                    if Chromosome_new.factorial_costs < population(i).factorial_costs
-                        population(i) = Chromosome_new;
+                % 计算适应值
+                Chromosome_new = Chromosome();
+                Chromosome_new.rnvec = Xnew;
+                [Chromosome_new, calls_per_individual(i)] = evaluate_SOO(Chromosome_new, Task, p_il, options);
 
-                        % 更新最大值
-                        if population(i).factorial_costs < bestobj
-                            Best_X = population(i).rnvec;
-                            bestobj = population(i).factorial_costs;
-                            bestInd_data(rep) = population(i);
-                        end
+                % 更新最优
+                if Chromosome_new.factorial_costs < population(i).factorial_costs
+                    population(i) = Chromosome_new;
 
+                    % 更新最大值
+                    if population(i).factorial_costs < bestobj
+                        Best_X = population(i).rnvec;
+                        bestobj = population(i).factorial_costs;
+                        bestInd_data(rep) = population(i);
                     end
 
-                    % 更新最差
-                    if population(i).factorial_costs > worstobj
-                        Worst_X = population(i).rnvec;
-                        worstobj = population(i).factorial_costs;
-                    end
+                end
 
+                % 更新最差
+                if population(i).factorial_costs > worstobj
+                    Worst_X = population(i).rnvec;
+                    worstobj = population(i).factorial_costs;
                 end
 
             end
