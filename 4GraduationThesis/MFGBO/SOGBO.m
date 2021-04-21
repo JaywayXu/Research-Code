@@ -30,7 +30,7 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
         end
 
         % 适应值评价
-        for i = 1:pop
+        parfor i = 1:pop
             [population(i), calls_per_individual(i)] = evaluate_SOO(population(i), Task, p_il, options);
         end
 

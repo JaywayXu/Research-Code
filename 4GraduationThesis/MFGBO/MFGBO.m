@@ -48,7 +48,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
         end
 
         % 适应值评价
-        for i = 1:pop
+        parfor i = 1:pop
             [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
         end
 
@@ -224,7 +224,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
             end
 
-            for i = 1:pop
+            parfor i = 1:pop
                 % 函数值评价
                 [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
             end
