@@ -33,6 +33,9 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
     EvBestFitness = zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
     TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
+    worstobj = zeros(1, no_of_tasks); % 每个任务对最差解
+    Best_Xs = zeros(no_of_tasks, D_multitask);
+    Worst_Xs = zeros(no_of_tasks, D_multitask);
 
     for rep = 1:reps
         disp(rep)
@@ -45,7 +48,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
         end
 
         % 适应值评价
-        parfor i = 1:pop
+        for i = 1:pop
             [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
         end
 
@@ -72,6 +75,9 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
             end
 
             bestobj(i) = population(1).factorial_costs(i);
+            worstobj(i) = population(end).factorial_costs(i);
+            Best_Xs(i, :) = population(1).rnvec;
+            Worst_Xs(i, :) = population(end).rnvec;
             EvBestFitness(i + 2 * (rep - 1), 1) = bestobj(i);
             bestInd_data(rep, i) = population(1); % 每个任务上最优解对应的个体
         end
@@ -102,65 +108,123 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
         end
 
-        mu = 10; % 模拟二进制交叉的染色体长度
-        sigma = 0.02; % 高斯变异的标准差
         generation = 1;
 
         while generation <= gen
+            % 主循环
             generation = generation + 1;
-            indorder = randperm(pop); % 随机排列
-            count = 1;
 
-            for i = 1:pop / 2
-                % 选取双亲生成子代
-                p1 = indorder(i);
-                p2 = indorder(i + (pop / 2));
-                child(count) = Chromosome();
-                child(count + 1) = Chromosome();
+            beta = 0.2 + (1.2 - 0.2) * (1 - (generation / gen)^3)^2; % Eq.(14.2)
+            alpha = abs(beta .* sin((3 * pi / 2 + sin(3 * pi / 2 * beta)))); % Eq.(14.1)
 
-                if (population(p1).skill_factor == population(p2).skill_factor) || (rand(1) < rmp)
-                    % 双亲技能因子相同，或小于rmp随机匹配概率，进行交叉
-                    % 对浮点数进行模拟二进制单点交叉
-                    u = rand(1, D_multitask);
-                    cf = zeros(1, D_multitask); % 每个基因的交叉点
-                    cf(u <= 0.5) = (2 * u(u <= 0.5)).^(1 / (mu + 1));
-                    cf(u > 0.5) = (2 * (1 - u(u > 0.5))).^(-1 / (mu + 1));
-                    child(count) = crossover(child(count), population(p1), population(p2), cf);
-                    child(count + 1) = crossover(child(count + 1), population(p2), population(p1), cf);
+            for i = 1:pop
+                % 分类交配关键代码
+                A1 = fix(rand(1, pop) * pop) + 1;
+                r1 = A1(1); % 主个体
 
-                    % 随机遗传双亲的技能因子
-                    sf1 = 1 + round(rand(1));
-                    sf2 = 1 + round(rand(1));
+                if rand() < rmp
+                    % 随机选取其他3个个体
+                    r2 = A1(2);
+                    r3 = A1(3);
+                    r4 = A1(4);
 
-                    if sf1 == 1
-                        child(count).skill_factor = population(p1).skill_factor;
-                    else
-                        child(count).skill_factor = population(p2).skill_factor;
-                    end
-
-                    if sf2 == 1
-                        child(count + 1).skill_factor = population(p1).skill_factor;
-                    else
-                        child(count + 1).skill_factor = population(p2).skill_factor;
-                    end
-
-                    % % 两个孩子的变量随机交换(alpha版本没有)
-                    % swap_indicator = (rand(1, D_multitask) >= 0.5);
-                    % temp = child(count + 1).rnvec(swap_indicator);
-                    % child(count + 1).rnvec(swap_indicator) = child(count).rnvec(swap_indicator);
-                    % child(count).rnvec(swap_indicator) = temp;
+                    % 最优解和最差解从任务中随机选取
+                    Best_X = Best_Xs(randi([1, no_of_tasks]));
+                    Worst_X = Worst_Xs(randi([1, no_of_tasks]));
                 else
-                    % 变异
-                    child(count) = mutate(child(count), population(p1), D_multitask, sigma);
-                    child(count).skill_factor = population(p1).skill_factor;
-                    child(count + 1) = mutate(child(count + 1), population(p2), D_multitask, sigma);
-                    child(count + 1).skill_factor = population(p2).skill_factor;
+                    % 当前任务内选取其他3个个体
+                    sf = population(r1).skill_factor;
+                    iter = 2;
+
+                    while population(iter).skill_factor ~= sf
+                        iter = iter + 1;
+                    end
+
+                    r2 = A1(iter);
+                    iter = iter + 1;
+
+                    while population(iter).skill_factor ~= sf
+                        iter = iter + 1;
+                    end
+
+                    r3 = A1(iter);
+                    iter = iter + 1;
+
+                    while population(iter).skill_factor ~= sf
+                        iter = iter + 1;
+                    end
+
+                    r4 = A1(iter);
+
+                    % 最优解和最差解从当前任务中选取
+                    Best_X = Best_Xs(sf);
+                    Worst_X = Worst_Xs(sf);
                 end
 
-                count = count + 2;
+                % 将个体基因转换为原GBO中的X
+                X = zeros(pop, D_multitask);
+
+                for j = 1:pop
+                    X(j, :) = population(j).rnvec;
+                end
+
+                Xm = (X(r1, :) + X(r2, :) + X(r3, :) + X(r4, :)) / 4; % Average of Four positions randomly selected from population
+                ro = alpha .* (2 * rand - 1); ro1 = alpha .* (2 * rand - 1);
+                eps = 5e-3 * rand; % Randomization Epsilon
+
+                DM = rand .* ro .* (Best_X - X(r1, :)); Flag = 1; % Direction of Movement Eq.(18)
+                GSR = GradientSearchRule(ro1, Best_X, Worst_X, X(i, :), X(r1, :), DM, eps, Xm, Flag);
+                DM = rand .* ro .* (Best_X - X(r1, :));
+                X1 = X(i, :) - GSR + DM; % Eq.(25)
+
+                DM = rand .* ro .* (X(r1, :) - X(r2, :)); Flag = 2;
+                GSR = GradientSearchRule(ro1, Best_X, Worst_X, X(i, :), X(r1, :), DM, eps, Xm, Flag);
+                DM = rand .* ro .* (X(r1, :) - X(r2, :));
+                X2 = Best_X - GSR + DM; % Eq.(26)
+
+                Xnew = zeros(1, D_multitask);
+
+                % Local escaping operator(LEO)                              % Eq.(28)
+                lb = 0;
+                ub = 1;
+
+                if rand < pr
+                    k = fix(rand * pop) + 1;
+                    f1 = -1 + (1 - (-1)) .* rand(); f2 = -1 + (1 - (-1)) .* rand();
+                    ro = alpha .* (2 * rand - 1);
+                    Xk = unifrnd(lb, ub, 1, D_multitask); %lb+(ub-lb).*rand(1,D_multitask); % Eq.(28.8)
+
+                    L1 = rand < 0.5; u1 = L1 .* 2 * rand + (1 - L1) .* 1; u2 = L1 .* rand + (1 - L1) .* 1;
+                    u3 = L1 .* rand + (1 - L1) .* 1;
+                    L2 = rand < 0.5;
+                    Xp = (1 - L2) .* X(k, :) + (L2) .* Xk; % Eq.(28.7)
+
+                    if u1 < 0.5
+                        Xnew = Xnew + f1 .* (u1 .* Best_X - u2 .* Xp) + f2 .* ro .* (u3 .* (X2 - X1) + u2 .* (X(r1, :) - X(r2, :))) / 2;
+                    else
+                        Xnew = Best_X + f1 .* (u1 .* Best_X - u2 .* Xp) + f2 .* ro .* (u3 .* (X2 - X1) + u2 .* (X(r1, :) - X(r2, :))) / 2;
+                    end
+
+                end
+
+                % 越界则拉回到边界
+                Xnew(Xnew > ub) = ub;
+                Xnew(Xnew < lb) = lb;
+
+                % 生成新个体
+                child(i) = Chromosome();
+                child(i).rnvec = Xnew;
+
+                % 随机遗传r1或r2的技能因子
+                if rand() < 0.5
+                    child(i).skill_factor = population(r1).skill_factor;
+                else
+                    child(i).skill_factor = population(r2).skill_factor;
+                end
+
             end
 
-            parfor i = 1:pop
+            for i = 1:pop
                 % 函数值评价
                 [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
             end
@@ -190,10 +254,17 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
                     intpopulation(j).factorial_ranks(i) = j;
                 end
 
-                % 更新每个任务的最优解和最优个体
-                if intpopulation(1).factorial_costs(i) <= bestobj(i)
+                if intpopulation(1).factorial_costs(i) < bestobj(i)
+                    % 更新最优
                     bestobj(i) = intpopulation(1).factorial_costs(i);
                     bestInd_data(rep, i) = intpopulation(1);
+                    Best_Xs(i, :) = population(1).rnvec;
+                end
+
+                if intpopulation(end).factorial_costs(i) > worstobj(i)
+                    % 更新最差
+                    worstobj(i) = population(end).factorial_costs(i);
+                    Worst_Xs(i, :) = population(end).rnvec;
                 end
 
                 EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
@@ -206,28 +277,10 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
                 intpopulation(i).scalar_fitness = 1 / xxx;
             end
 
-            if strcmp(selection_process, 'elitist')
-                % 保留适应值最好的前pop个
-                [xxx, y] = sort(-[intpopulation.scalar_fitness]);
-                intpopulation = intpopulation(y);
-                population = intpopulation(1:pop);
-            elseif strcmp(selection_process, 'roulette wheel')
-                % 轮盘赌选择
-                for i = 1:no_of_tasks
-                    % 每个任务对应的个体分别成组
-                    skill_group(i).individuals = intpopulation([intpopulation.skill_factor] == i);
-                end
-
-                count = 0;
-
-                while count < pop
-                    count = count + 1;
-                    % 每个任务循环选取个体
-                    skill = mod(count, no_of_tasks) + 1;
-                    population(count) = skill_group(skill).individuals(RouletteWheelSelection([skill_group(skill).individuals.scalar_fitness]));
-                end
-
-            end
+            % 保留适应值最好的前pop个
+            [~, y] = sort(-[intpopulation.scalar_fitness]);
+            intpopulation = intpopulation(y);
+            population = intpopulation(1:pop);
 
             disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(bestobj)]);
         end
@@ -239,4 +292,25 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
     end
 
+end
+
+% _________________________________________________
+% Gradient Search Rule
+function GSR = GradientSearchRule(ro1, Best_X, Worst_X, X, Xr1, DM, eps, Xm, Flag)
+    D = size(X, 2);
+    Delta = 2 .* rand .* abs(Xm - X); % Eq.(16.2)
+    Step = ((Best_X - Xr1) + Delta) / 2; % Eq.(16.1)
+    DelX = rand(1, D) .* (abs(Step)); % Eq.(16)
+
+    GSR = randn .* ro1 .* (2 * DelX .* X) ./ (Best_X - Worst_X + eps); % Gradient search rule  Eq.(15)
+
+    if Flag == 1
+        Xs = X - GSR + DM; % Eq.(21)
+    else
+        Xs = Best_X - GSR + DM;
+    end
+
+    yp = rand .* (0.5 * (Xs + X) + rand .* DelX); % Eq.(22.6)
+    yq = rand .* (0.5 * (Xs + X) - rand .* DelX); % Eq.(22.7)
+    GSR = randn .* ro1 .* (2 * DelX .* X) ./ (yp - yq + eps); % Eq.(23)
 end
