@@ -6,7 +6,7 @@ rmp = 0.3; % random mating probability
 pr = 0.5; % Probability Parameter
 reps = 2; % repetitions 20
 
-benchmark_num = 9;
+benchmark_num = 1;
 is_run = true; % 是否运行，false则直接读取mat文件
 
 if is_run
@@ -14,9 +14,8 @@ if is_run
     for index = 1:benchmark_num
         Tasks = benchmark(index);
         % TODO
-        % data_MFGBO(index) = MFDE(Tasks, pop_M, gen, "elitist", 0.3, p_il, reps);
         data_MFGBO(index) = MFGBO(Tasks, pop_M, gen, rmp, pr, p_il, reps);
-        
+
         % "task_for_comparison_with_SOO" compares performance of corresponding task in MFO with SOO.
         % For Instance, In EXAMPLE 1 ...
         % "task_for_comparison_with_SOO" = 1 --> compares 40-D Rastrin in MFO with 40-D
