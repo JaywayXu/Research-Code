@@ -22,6 +22,8 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     aveSolutionSO = fopen('./MFGBOResults/aveSolutionSO.txt', 'wt');
     stdMFO = fopen('./MFGBOResults/stdMFO.txt', 'wt');
     stdSO = fopen('./MFGBOResults/stdSO.txt', 'wt');
+    clockMFO = fopen('./MFGBOResults/clockMFO.txt', 'wt');
+    clockSO = fopen('./MFGBOResults/clockSO.txt', 'wt');
 
     % last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
     last = gen * ones(1, 2*benchNum);
@@ -55,6 +57,10 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         stdTask1SO = std(SOO_1.EvBestFitness(:, aveInd));
         stdTask2SO = std(SOO_2.EvBestFitness(:, aveInd));
 
+        aveClockMFO = mean(MFGBO.wall_clock_time());
+        aveClockSO = mean(SOO_1.wall_clock_time) + mean(SOO_2.wall_clock_time);
+
+
         fprintf(bestSolutionMFO, '%f\n', bestTask1MFO);
         fprintf(bestSolutionMFO, '%f\n', bestTask2MFO);
         fprintf(bestSolutionSO, '%f\n', bestTask1SO);
@@ -67,6 +73,8 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         fprintf(stdMFO, '%f\n', stdTask2MFO);
         fprintf(stdSO, '%f\n', stdTask1SO);
         fprintf(stdSO, '%f\n', stdTask2SO);
+        fprintf(clockMFO, '%f\n', aveClockMFO);
+        fprintf(clockSO, '%f\n', aveClockSO);
 
         h1 = figure(1);
 
@@ -115,13 +123,13 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         set(t2, 'Fontsize', 20);
         set(gca, 'Fontsize', 16);
         outPath0 = ['./MFGBOResults/', char(taskName(i)), '1.png'];
-        outPath0_1 = ['./MFGBOResults/', char(taskName(i)), '1.eps'];
+        % outPath0_1 = ['./MFGBOResults/', char(taskName(i)), '1.eps'];
         outPath1 = ['./MFGBOResults/', char(taskName(i)), '2.png'];
-        outPath1_1 = ['./MFGBOResults/', char(taskName(i)), '2.eps'];
+        % outPath1_1 = ['./MFGBOResults/', char(taskName(i)), '2.eps'];
         print(h1, '-dpng', outPath0);
-        print(h1, '-depsc', outPath0_1);
+        % print(h1, '-depsc', outPath0_1);
         print(h2, '-dpng', outPath1);
-        print(h2, '-depsc', outPath1_1);
+        % print(h2, '-depsc', outPath1_1);
         close(h1);
         close(h2);
     end
