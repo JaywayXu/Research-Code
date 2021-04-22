@@ -37,7 +37,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
             population(i).skill_factor = 0;
         end
 
-        for i = 1:pop
+        parfor i = 1:pop
             [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
         end
 
@@ -176,7 +176,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
 
             end
 
-            for i = 1:pop
+            parfor i = 1:pop
                 [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
             end
 

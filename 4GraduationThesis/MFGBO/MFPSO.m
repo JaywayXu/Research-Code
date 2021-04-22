@@ -48,7 +48,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, p_il, reps)
             population(i).skill_factor = 0;
         end
 
-        for i = 1:pop
+        parfor i = 1:pop
             [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
         end
 
@@ -125,7 +125,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, p_il, reps)
                 population(i) = pbestUpdate(population(i));
             end
 
-            for i = 1:pop
+            parfor i = 1:pop
                 [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
             end
 
