@@ -26,7 +26,7 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     clockSO = fopen('./MFGBOResults/clockSO.txt', 'wt');
 
     % last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
-    last = gen * ones(1, 2*benchNum);
+    last = gen * ones(1, 2 * benchNum);
 
     for i = 1:benchNum
         start = 1;
@@ -60,7 +60,6 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         aveClockMFO = mean(MFGBO.wall_clock_time());
         aveClockSO = mean(SOO_1.wall_clock_time) + mean(SOO_2.wall_clock_time);
 
-
         fprintf(bestSolutionMFO, '%f\n', bestTask1MFO);
         fprintf(bestSolutionMFO, '%f\n', bestTask2MFO);
         fprintf(bestSolutionSO, '%f\n', bestTask1SO);
@@ -77,23 +76,13 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         fprintf(clockSO, '%f\n', aveClockSO);
 
         h1 = figure(1);
-
-        plot(x(xstart:xstart), objTask1MFO(start:start), '-ro', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
-        plot(x(xstart:xstart), objTask1SO(start:start), '-bx', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
-
         plot(x(xstart:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1)), 'r', 'Linewidth', 1);
         hold on;
         plot(x(xstart:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1)), 'b', 'Linewidth', 1);
         hold on;
 
-        plot(x(xstart:last(2 * i - 1) / 20:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1) / 20:last(2 * i - 1)), 'ro', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
-        plot(x(xstart:last(2 * i - 1) / 20:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1) / 20:last(2 * i - 1)), 'bx', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
         title(['T1', ' ', 'in', ' ', char(taskName1(i))]);
-        t1 = legend('MFGBO', 'GBO');
+        t1 = legend('MFGBO', 'SOGBO');
         xlabel('Generation');
         ylabel('Fitness');
         axis([xstart last(2 * i - 1) -inf inf]);
@@ -101,41 +90,24 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         set(gca, 'Fontsize', 16);
 
         h2 = figure(2);
-        plot(x(xstart:xstart), objTask2MFO(start:start), '-ro', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
-        plot(x(xstart:xstart), objTask2SO(start:start), '-bx', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
-
         plot(x(xstart:last(2 * i)), objTask2MFO(start:last(2 * i)), 'r', 'Linewidth', 1.5);
         hold on;
         plot(x(xstart:last(2 * i)), objTask2SO(start:last(2 * i)), 'b', 'Linewidth', 1.5);
         hold on;
 
-        plot(x(xstart:last(2 * i) / 20:last(2 * i)), objTask2MFO(start:last(2 * i) / 20:last(2 * i)), 'ro', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
-        plot(x(xstart:last(2 * i) / 20:last(2 * i)), objTask2SO(start:last(2 * i) / 20:last(2 * i)), 'bx', 'Linewidth', 1, 'MarkerSize', 1);
-        hold on;
         title(['T2', ' ', 'in', ' ', char(taskName1(i))]);
-        t2 = legend('MFGBO', 'GBO');
+        t2 = legend('MFGBO', 'SOGBO');
         xlabel('Generation');
         ylabel('Fitness');
         axis([xstart last(2 * i) -inf inf]);
         set(t2, 'Fontsize', 20);
         set(gca, 'Fontsize', 16);
         outPath0 = ['./MFGBOResults/', char(taskName(i)), '1.png'];
-        % outPath0_1 = ['./MFGBOResults/', char(taskName(i)), '1.eps'];
         outPath1 = ['./MFGBOResults/', char(taskName(i)), '2.png'];
-        % outPath1_1 = ['./MFGBOResults/', char(taskName(i)), '2.eps'];
         print(h1, '-dpng', outPath0);
-        % print(h1, '-depsc', outPath0_1);
         print(h2, '-dpng', outPath1);
-        % print(h2, '-depsc', outPath1_1);
         close(h1);
         close(h2);
     end
 
-    fclose(bestSolutionMFO);
-    fclose(bestSolutionSO);
-    fclose(aveSolutionMFO);
-    fclose(aveSolutionSO);
 end
