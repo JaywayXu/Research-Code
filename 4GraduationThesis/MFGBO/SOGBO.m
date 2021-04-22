@@ -142,7 +142,7 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
             EvBestFitness(rep, generation) = bestobj;
 
-            disp(['SOO Generation ', num2str(generation), ' best objective = ', num2str(bestobj)])
+            % disp(['SOO Generation ', num2str(generation), ' best objective = ', num2str(bestobj)])
         end
 
     end
