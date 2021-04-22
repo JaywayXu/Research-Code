@@ -1,4 +1,4 @@
-function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, benchNum)
+function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, benchNum)
     Task1 = [];
     Task2 = [];
 
@@ -17,19 +17,19 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
     taskName1 = {'CI\_HS', 'CI\_MS', 'CI\_LS', 'PI\_HS', 'PI\_MS', 'PI\_LS', 'NI\_HS', 'NI\_MS', 'NI\_LS'};
 
     bestSolutionGBO = fopen('./Results_compare/bestSolutionGBO.txt', 'wt');
-    bestSolutionEA = fopen('./Results_compare/bestSolutionEA.txt', 'wt');
+    bestSolutionGA = fopen('./Results_compare/bestSolutionGA.txt', 'wt');
     bestSolutionDE = fopen('./Results_compare/bestSolutionDE.txt', 'wt');
     bestSolutionPSO = fopen('./Results_compare/bestSolutionPSO.txt', 'wt');
     aveSolutionGBO = fopen('./Results_compare/aveSolutionGBO.txt', 'wt');
-    aveSolutionEA = fopen('./Results_compare/aveSolutionEA.txt', 'wt');
+    aveSolutionGA = fopen('./Results_compare/aveSolutionGA.txt', 'wt');
     aveSolutionDE = fopen('./Results_compare/aveSolutionDE.txt', 'wt');
     aveSolutionPSO = fopen('./Results_compare/aveSolutionPSO.txt', 'wt');
     stdGBO = fopen('./Results_compare/stdGBO.txt', 'wt');
-    stdEA = fopen('./Results_compare/stdEA.txt', 'wt');
+    stdGA = fopen('./Results_compare/stdGA.txt', 'wt');
     stdDE = fopen('./Results_compare/stdDE.txt', 'wt');
     stdPSO = fopen('./Results_compare/stdPSO.txt', 'wt');
     clockGBO = fopen('./Results_compare/clockGBO.txt', 'wt');
-    clockEA = fopen('./Results_compare/clockEA.txt', 'wt');
+    clockGA = fopen('./Results_compare/clockGA.txt', 'wt');
     clockDE = fopen('./Results_compare/clockDE.txt', 'wt');
     clockPSO = fopen('./Results_compare/clockPSO.txt', 'wt');
 
@@ -41,13 +41,13 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
         aveInd = gen;
 
         GBO = data_GBO(i);
-        EA = data_EA(i);
+        GA = data_GA(i);
         DE = data_DE(i);
         PSO = data_PSO(i);
         objTask1GBO = mean(GBO.EvBestFitness(Task1, :));
         objTask2GBO = mean(GBO.EvBestFitness(Task2, :));
-        objTask1EA = mean(EA.EvBestFitness(Task1, :));
-        objTask2EA = mean(EA.EvBestFitness(Task2, :));
+        objTask1GA = mean(GA.EvBestFitness(Task1, :));
+        objTask2GA = mean(GA.EvBestFitness(Task2, :));
         objTask1DE = mean(DE.EvBestFitness(Task1, :));
         objTask2DE = mean(DE.EvBestFitness(Task2, :));
         objTask1PSO = mean(PSO.EvBestFitness(Task1, :));
@@ -61,13 +61,13 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
         stdTask1GBO = std(stdTaskGBO(Task1, :));
         stdTask2GBO = std(stdTaskGBO(Task2, :));
 
-        bestTask1EA = min(min(EA.EvBestFitness(Task1, :)));
-        bestTask2EA = min(min(EA.EvBestFitness(Task2, :)));
-        aveTask1EA = objTask1EA(aveInd);
-        aveTask2EA = objTask2EA(aveInd);
-        stdTaskEA = EA.EvBestFitness(:, aveInd);
-        stdTask1EA = std(stdTaskEA(Task1, :));
-        stdTask2EA = std(stdTaskEA(Task2, :));
+        bestTask1GA = min(min(GA.EvBestFitness(Task1, :)));
+        bestTask2GA = min(min(GA.EvBestFitness(Task2, :)));
+        aveTask1GA = objTask1GA(aveInd);
+        aveTask2GA = objTask2GA(aveInd);
+        stdTaskGA = GA.EvBestFitness(:, aveInd);
+        stdTask1GA = std(stdTaskGA(Task1, :));
+        stdTask2GA = std(stdTaskGA(Task2, :));
 
         bestTask1DE = min(min(DE.EvBestFitness(Task1, :)));
         bestTask2DE = min(min(DE.EvBestFitness(Task2, :)));
@@ -86,14 +86,14 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
         stdTask2PSO = std(stdTaskPSO(Task2, :));
 
         aveClockGBO = mean(GBO.wall_clock_time());
-        aveClockEA = mean(EA.wall_clock_time());
+        aveClockGA = mean(GA.wall_clock_time());
         aveClockDE = mean(DE.wall_clock_time());
         aveClockPSO = mean(PSO.wall_clock_time());
 
         fprintf(bestSolutionGBO, '%f\n', bestTask1GBO);
         fprintf(bestSolutionGBO, '%f\n', bestTask2GBO);
-        fprintf(bestSolutionEA, '%f\n', bestTask1EA);
-        fprintf(bestSolutionEA, '%f\n', bestTask2EA);
+        fprintf(bestSolutionGA, '%f\n', bestTask1GA);
+        fprintf(bestSolutionGA, '%f\n', bestTask2GA);
         fprintf(bestSolutionDE, '%f\n', bestTask1DE);
         fprintf(bestSolutionDE, '%f\n', bestTask2DE);
         fprintf(bestSolutionPSO, '%f\n', bestTask1PSO);
@@ -101,8 +101,8 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
 
         fprintf(aveSolutionGBO, '%f\n', aveTask1GBO);
         fprintf(aveSolutionGBO, '%f\n', aveTask2GBO);
-        fprintf(aveSolutionEA, '%f\n', aveTask1EA);
-        fprintf(aveSolutionEA, '%f\n', aveTask2EA);
+        fprintf(aveSolutionGA, '%f\n', aveTask1GA);
+        fprintf(aveSolutionGA, '%f\n', aveTask2GA);
         fprintf(aveSolutionDE, '%f\n', aveTask1DE);
         fprintf(aveSolutionDE, '%f\n', aveTask2DE);
         fprintf(aveSolutionPSO, '%f\n', aveTask1PSO);
@@ -110,15 +110,15 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
 
         fprintf(stdGBO, '%f\n', stdTask1GBO);
         fprintf(stdGBO, '%f\n', stdTask2GBO);
-        fprintf(stdEA, '%f\n', stdTask1EA);
-        fprintf(stdEA, '%f\n', stdTask2EA);
+        fprintf(stdGA, '%f\n', stdTask1GA);
+        fprintf(stdGA, '%f\n', stdTask2GA);
         fprintf(stdDE, '%f\n', stdTask1DE);
         fprintf(stdDE, '%f\n', stdTask2DE);
         fprintf(stdPSO, '%f\n', stdTask1PSO);
         fprintf(stdPSO, '%f\n', stdTask2PSO);
 
         fprintf(clockGBO, '%f\n', aveClockGBO);
-        fprintf(clockEA, '%f\n', aveClockEA);
+        fprintf(clockGA, '%f\n', aveClockGA);
         fprintf(clockDE, '%f\n', aveClockDE);
         fprintf(clockPSO, '%f\n', aveClockPSO);
 
@@ -126,7 +126,7 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
 
         plot(x(xstart:last(2 * i - 1)), objTask1GBO(start:last(2 * i - 1)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x(xstart:last(2 * i - 1)), objTask1EA(start:last(2 * i - 1)), 'y', 'Linewidth', 1);
+        plot(x(xstart:last(2 * i - 1)), objTask1GA(start:last(2 * i - 1)), 'y', 'Linewidth', 1);
         hold on;
         plot(x(xstart:last(2 * i - 1)), objTask1DE(start:last(2 * i - 1)), 'g', 'Linewidth', 1);
         hold on;
@@ -134,7 +134,7 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
         hold on;
 
         title(['T1', ' ', 'in', ' ', char(taskName1(i))]);
-        t1 = legend('MFGBO', 'MFEA', 'MFDE', 'MFPSO');
+        t1 = legend('MFGBO', 'MFGA', 'MFDE', 'MFPSO');
         xlabel('Generation');
         ylabel('Fitness');
         axis([xstart last(2 * i - 1) -inf inf]);
@@ -144,7 +144,7 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
         h2 = figure(2);
         plot(x(xstart:last(2 * i)), objTask2GBO(start:last(2 * i)), 'r', 'Linewidth', 1.5);
         hold on;
-        plot(x(xstart:last(2 * i)), objTask2EA(start:last(2 * i)), 'y', 'Linewidth', 1.5);
+        plot(x(xstart:last(2 * i)), objTask2GA(start:last(2 * i)), 'y', 'Linewidth', 1.5);
         hold on;
         plot(x(xstart:last(2 * i)), objTask2DE(start:last(2 * i)), 'g', 'Linewidth', 1.5);
         hold on;
@@ -152,7 +152,7 @@ function convergeTrend_compare(data_GBO, data_EA, data_DE, data_PSO, reps, gen, 
         hold on
 
         title(['T2', ' ', 'in', ' ', char(taskName1(i))]);
-        t2 = legend('MFGBO', 'MFEA', 'MFDE', 'MFPSO');
+        t2 = legend('MFGBO', 'MFGA', 'MFDE', 'MFPSO');
         xlabel('Generation');
         ylabel('Fitness');
         axis([xstart last(2 * i) -inf inf]);
