@@ -1,6 +1,5 @@
 function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, p_il, reps)
     %MFEA function: implementation of MFEA algorithm
-    clc
     tic
 
     if mod(pop, 2) ~= 0
@@ -41,7 +40,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, p_il, reps)
     bestobj = Inf(1, no_of_tasks);
 
     for rep = 1:reps
-        disp(rep) % display the value of variable X without printing the variable name.
+        disp(['MFPSO: ', num2str(rep), ' test'])
 
         for i = 1:pop
             population(i) = Particle();

@@ -2,7 +2,6 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps)
     % MFEA
     % 参数(任务组, 种群数量, 迭代次数, 选择过程函数, 随机匹配概率, 使用局部优化函数的概率)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
-    clc
     tic % 计时开始
 
     % 保证种群数量为2的整数倍
@@ -35,7 +34,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps)
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
 
     for rep = 1:reps
-        disp(rep)
+        disp(['MFEA: ', num2str(rep), ' test'])
 
         % 生成种群
         for i = 1:pop

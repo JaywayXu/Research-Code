@@ -1,6 +1,5 @@
 function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
     %MFEA function: implementation of MFEA algorithm
-    clc
     tic
 
     if mod(pop, 2) ~= 0
@@ -30,7 +29,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
     bestFncErrorValue = zeros(100, 60);
 
     for rep = 1:reps
-        disp(rep)
+        disp(['MFDE: ', num2str(rep), ' test'])
 
         for i = 1:pop
             population(i) = Chromosome();

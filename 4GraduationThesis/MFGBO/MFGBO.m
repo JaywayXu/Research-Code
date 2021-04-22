@@ -2,7 +2,6 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
     % MFGBO
     % 参数(任务组, 种群数量, 迭代次数, 随机匹配概率, LEO局部逃逸概率, 用局部优化函数的概率)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
-    clc
     tic % 计时开始
 
     % 保证种群数量为2的整数倍
@@ -38,7 +37,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
     Worst_Xs = zeros(no_of_tasks, D_multitask);
 
     for rep = 1:reps
-        disp(rep)
+        disp(['MFGBO: ', num2str(rep), ' test'])
 
         % 生成种群
         for i = 1:pop
