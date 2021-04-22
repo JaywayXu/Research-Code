@@ -7,7 +7,7 @@ pr = 0.5; % Probability Parameter
 reps = 20; % repetitions 20
 
 benchmark_num = 9;
-is_run = true; % 是否运行，false则直接读取mat文件
+is_run = false; % 是否运行，false则直接读取mat文件
 
 if is_run
 
