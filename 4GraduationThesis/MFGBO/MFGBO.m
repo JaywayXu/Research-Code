@@ -118,10 +118,10 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
             for i = 1:pop
                 % 分类交配关键代码
                 A1 = fix(rand(1, pop) * pop) + 1;
-                r1 = A1(1); % 主个体
 
                 if rand() < rmp
-                    % 随机选取其他3个个体
+                    % 随机选取其他4个个体
+                    r1 = A1(1);
                     r2 = A1(2);
                     r3 = A1(3);
                     r4 = A1(4);
@@ -130,9 +130,16 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
                     Best_X = Best_Xs(randi([1, no_of_tasks]));
                     Worst_X = Worst_Xs(randi([1, no_of_tasks]));
                 else
-                    % 当前任务内选取其他3个个体
-                    sf = population(r1).skill_factor;
-                    iter = 2;
+                    % 当前个体的任务因子内选取其他4个个体
+                    sf = population(i).skill_factor;
+                    iter = 1;
+
+                    while population(iter).skill_factor ~= sf
+                        iter = iter + 1;
+                    end
+
+                    r1 = A1(iter);
+                    iter = iter + 1;
 
                     while population(iter).skill_factor ~= sf
                         iter = iter + 1;
