@@ -35,7 +35,7 @@ class Draw:
         ax.set_xlabel('Iter')
         ax.set_ylabel('Best score')
         ax.set_xlim(0, )
-        ax.set_ylim(0, ylim)
+        # ax.set_ylim(0, ylim)
         ax.legend()
         ax.set_title(title)
 
@@ -51,12 +51,13 @@ class Draw:
                 np.array([xlim_u, xlim_l]).mean())-1]
             y_xu = np.array(cc_list)[:, xlim_u-1]
             arg_y_xl = np.argsort(y_xl)
-            ylim = y_xl[arg_y_xl[3]] * 1.2
-            if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*100):
-                ylim = y_xl[arg_y_xl[2]] * 1.2
-            if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*100):
-                ylim = y_xl[arg_y_xl[1]] * 1.2
-            axins.set_ylim(y_xu.min()-ylim/10, ylim)
+            if len(cc_list) > 3:
+                ylim = y_xl[arg_y_xl[3]] * 1.2
+                if y_xl[arg_y_xl[3]] > (y_xl[arg_y_xl[2]]*100):
+                    ylim = y_xl[arg_y_xl[2]] * 1.2
+                if y_xl[arg_y_xl[2]] > (y_xl[arg_y_xl[1]]*100):
+                    ylim = y_xl[arg_y_xl[1]] * 1.2
+                axins.set_ylim(y_xu.min()-ylim/10, ylim)
             # loc1 loc2: 坐标系的四个角
             # 1 (右上) 2 (左上) 3(左下) 4(右下)
             mark_inset(ax, axins, loc1=3, loc2=1, fc="none", ec='k', lw=1)
