@@ -7,13 +7,13 @@ pr = 0.5; % Probability Parameter
 reps = 20; % repetitions 20
 
 benchmark_num = 9;
-is_run = false; % 是否运行，false则直接读取mat文件
+is_run = true; % 是否运行，false则直接读取mat文件
 
 if is_run
 
     for index = 1:benchmark_num
+        disp(['Benchmark: ', num2str(index)])
         Tasks = benchmark(index);
-        % TODO
         data_MFGBO(index) = MFGBO(Tasks, pop_M, gen, rmp, pr, p_il, reps);
 
         % "task_for_comparison_with_SOO" compares performance of corresponding task in MFO with SOO.
