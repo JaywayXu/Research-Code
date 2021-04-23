@@ -2,7 +2,6 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
     % 单任务GBO
     % 参数(任务, 种群数量, 迭代次数, LEO局部逃逸概率, 使用局部优化函数的概率, 独立运行测试次数)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
-    clc
     tic % 计时开始
 
     % 保证种群数量为2的整数倍
@@ -20,8 +19,7 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
 
     for rep = 1:reps
         % 独立运行测试
-
-        disp(rep)
+        disp(['SOGBO: ', num2str(rep), ' test'])
 
         % 生成种群
         for i = 1:pop
