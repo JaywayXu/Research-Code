@@ -189,6 +189,13 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
                 Xnew = zeros(1, D_multitask);
 
+                for j = 1:D_multitask
+                    ro = alpha .* (2 * rand - 1);
+                    X3 = X(i, j) - ro .* (X2(j) - X1(j));
+                    ra = rand; rb = rand;
+                    Xnew(j) = ra .* (rb .* X1(j) + (1 - rb) .* X2(j)) + (1 - ra) .* X3; % Eq.(27)
+                end
+
                 % Local escaping operator(LEO)                              % Eq.(28)
                 lb = 0;
                 ub = 1;
