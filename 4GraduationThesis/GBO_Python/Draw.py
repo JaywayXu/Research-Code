@@ -134,15 +134,15 @@ class Draw:
         else:
             plt.show()
 
-    def drawFunction3D(self, lb, ub, fobj):
+    def drawFunction3D(self, lb, ub, fobj, isSave=False, figName=None):
         '''绘制函数3D图(2-dim)'''
         lb = lb[0]
         ub = ub[0]
 
         figure = plt.figure()
         axes = Axes3D(figure)
-        X = np.arange(lb, ub, 1)
-        Y = np.arange(lb, ub, 1)
+        X = np.arange(lb, ub, 0.1)
+        Y = np.arange(lb, ub, 0.1)
 
         X, Y = np.meshgrid(X, Y)
         Z = np.zeros(X.shape)
@@ -153,7 +153,8 @@ class Draw:
         axes.plot_surface(X, Y, Z, cmap='rainbow')
         print(fobj.__doc__)
 
+        if isSave:
+            plt.savefig(figName)
+            plt.close()
         if self.isShow:
             plt.show()
-        else:
-            plt.close()
