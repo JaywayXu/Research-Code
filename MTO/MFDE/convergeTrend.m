@@ -16,12 +16,12 @@ function convergeTrend(data_MFDE, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     taskName = {'CI_HS', 'CI_MS', 'CI_LS', 'PI_HS', 'PI_MS', 'PI_LS', 'NI_HS', 'NI_MS', 'NI_LS'};
     taskName1 = {'CI\_HS', 'CI\_MS', 'CI\_LS', 'PI\_HS', 'PI\_MS', 'PI\_LS', 'NI\_HS', 'NI\_MS', 'NI\_LS'};
 
-    bestSolutionMFO = fopen('./MFDEResults/bestSolutionMFO.txt', 'wt');
-    bestSolutionSO = fopen('./MFDEResults/bestSolutionSO.txt', 'wt');
-    aveSolutionMFO = fopen('./MFDEResults/aveSolutionMFO.txt', 'wt');
-    aveSolutionSO = fopen('./MFDEResults/aveSolutionSO.txt', 'wt');
-    stdMFO = fopen('./MFDEResults/stdMFO.txt', 'wt');
-    stdSO = fopen('./MFDEResults/stdSO.txt', 'wt');
+    bestSolutionMFO = fopen('./Results/bestSolutionMFO.txt', 'wt');
+    bestSolutionSO = fopen('./Results/bestSolutionSO.txt', 'wt');
+    aveSolutionMFO = fopen('./Results/aveSolutionMFO.txt', 'wt');
+    aveSolutionSO = fopen('./Results/aveSolutionSO.txt', 'wt');
+    stdMFO = fopen('./Results/stdMFO.txt', 'wt');
+    stdSO = fopen('./Results/stdSO.txt', 'wt');
 
     % last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
     last = gen * ones(1, 2*benchNum);
@@ -114,10 +114,10 @@ function convergeTrend(data_MFDE, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         axis([xstart last(2 * i) -inf inf]);
         set(t2, 'Fontsize', 20);
         set(gca, 'Fontsize', 16);
-        outPath0 = ['./MFDEResults/', char(taskName(i)), '1.png'];
-        outPath0_1 = ['./MFDEResults/', char(taskName(i)), '1.eps'];
-        outPath1 = ['./MFDEResults/', char(taskName(i)), '2.png'];
-        outPath1_1 = ['./MFDEResults/', char(taskName(i)), '2.eps'];
+        outPath0 = ['./Results/', char(taskName(i)), '1.png'];
+        outPath0_1 = ['./Results/', char(taskName(i)), '1.eps'];
+        outPath1 = ['./Results/', char(taskName(i)), '2.png'];
+        outPath1_1 = ['./Results/', char(taskName(i)), '2.eps'];
         print(h1, '-dpng', outPath0);
         print(h1, '-depsc', outPath0_1);
         print(h2, '-dpng', outPath1);

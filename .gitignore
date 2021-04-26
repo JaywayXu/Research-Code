@@ -46,10 +46,9 @@
 
 ## temporary Project file ignore
 data_*
+Results*/
 4GraduationThesis/GBO_Python/Data/
 4GraduationThesis/GBO_Python/PloterroFigure/
 4GraduationThesis/GBO_Python/Excel/
 4GraduationThesis/GBO_Python/FunctionFigure/
-MTO/MFDE/MFDEResults/
-4GraduationThesis/MFGBO/MFGBOResults/
-4GraduationThesis/MFGBO/Results_compare/
+
