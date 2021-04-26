@@ -7,7 +7,7 @@ pr = 0.5; % Probability Parameter
 reps = 30; % repetitions 20
 
 benchmark_num = 9;
-is_run = true; % 是否运行，false则直接读取mat文件
+is_run = false; % 是否运行，false则直接读取mat文件
 
 if is_run
 
@@ -27,15 +27,26 @@ if is_run
 
         task_for_comparison_with_SOO = 2;
         data_SOO_2(index) = SOGBO(Tasks(task_for_comparison_with_SOO), pop_S, gen, pr, p_il, reps);
+
+        data_EA(index) = MFEA(Tasks, pop_M, gen, 'elitist', rmp, p_il, reps);
+        data_DE(index) = MFDE(Tasks, pop_M, gen, 'elitist', rmp, p_il, reps);
+        data_PSO(index) = MFPSO(Tasks, pop_M, gen, rmp, p_il, reps);
     end
 
     % draw
     save('data_MFGBO', 'data_MFGBO');
     save('data_SOO_1', 'data_SOO_1');
     save('data_SOO_2', 'data_SOO_2');
+    save('data_EA', 'data_EA');
+    save('data_DE', 'data_DE');
+    save('data_PSO', 'data_PSO');
 end
 
 load('data_MFGBO', 'data_MFGBO');
 load('data_SOO_1', 'data_SOO_1');
 load('data_SOO_2', 'data_SOO_2');
-convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchmark_num)
+load('data_EA', 'data_EA');
+load('data_DE', 'data_DE');
+load('data_PSO', 'data_PSO');
+convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchmark_num);
+convergeTrend_compare(data_MFGBO, data_EA, data_DE, data_PSO, reps, gen, benchmark_num);
