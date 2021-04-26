@@ -1,4 +1,4 @@
-function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
+function convergeTrend(data_MFO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     Task1 = [];
     Task2 = [];
 
@@ -16,14 +16,14 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     taskName = {'CI_HS', 'CI_MS', 'CI_LS', 'PI_HS', 'PI_MS', 'PI_LS', 'NI_HS', 'NI_MS', 'NI_LS'};
     taskName1 = {'CI\_HS', 'CI\_MS', 'CI\_LS', 'PI\_HS', 'PI\_MS', 'PI\_LS', 'NI\_HS', 'NI\_MS', 'NI\_LS'};
 
-    bestSolutionMFO = fopen('./MFGBOResults/bestSolutionMFO.txt', 'wt');
-    bestSolutionSO = fopen('./MFGBOResults/bestSolutionSO.txt', 'wt');
-    aveSolutionMFO = fopen('./MFGBOResults/aveSolutionMFO.txt', 'wt');
-    aveSolutionSO = fopen('./MFGBOResults/aveSolutionSO.txt', 'wt');
-    stdMFO = fopen('./MFGBOResults/stdMFO.txt', 'wt');
-    stdSO = fopen('./MFGBOResults/stdSO.txt', 'wt');
-    clockMFO = fopen('./MFGBOResults/clockMFO.txt', 'wt');
-    clockSO = fopen('./MFGBOResults/clockSO.txt', 'wt');
+    bestSolutionMFO = fopen('./Results/bestSolutionMFO.txt', 'wt');
+    bestSolutionSO = fopen('./Results/bestSolutionSO.txt', 'wt');
+    aveSolutionMFO = fopen('./Results/aveSolutionMFO.txt', 'wt');
+    aveSolutionSO = fopen('./Results/aveSolutionSO.txt', 'wt');
+    stdMFO = fopen('./Results/stdMFO.txt', 'wt');
+    stdSO = fopen('./Results/stdSO.txt', 'wt');
+    clockMFO = fopen('./Results/clockMFO.txt', 'wt');
+    clockSO = fopen('./Results/clockSO.txt', 'wt');
 
     % last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
     last = gen * ones(1, 2 * benchNum);
@@ -34,19 +34,19 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         xstart = 1;
         aveInd = gen;
 
-        MFGBO = data_MFGBO(i);
+        MFO = data_MFO(i);
         SOO_1 = data_SOO_1(i);
         SOO_2 = data_SOO_2(i);
-        objTask1MFO = mean(MFGBO.EvBestFitness(Task1, :));
-        objTask2MFO = mean(MFGBO.EvBestFitness(Task2, :));
+        objTask1MFO = mean(MFO.EvBestFitness(Task1, :));
+        objTask2MFO = mean(MFO.EvBestFitness(Task2, :));
         objTask1SO = mean(SOO_1.EvBestFitness);
         objTask2SO = mean(SOO_2.EvBestFitness);
 
-        bestTask1MFO = min(min(MFGBO.EvBestFitness(Task1, :)));
-        bestTask2MFO = min(min(MFGBO.EvBestFitness(Task2, :)));
+        bestTask1MFO = min(min(MFO.EvBestFitness(Task1, :)));
+        bestTask2MFO = min(min(MFO.EvBestFitness(Task2, :)));
         aveTask1MFO = objTask1MFO(aveInd);
         aveTask2MFO = objTask2MFO(aveInd);
-        stdTaskMFO = MFGBO.EvBestFitness(:, aveInd);
+        stdTaskMFO = MFO.EvBestFitness(:, aveInd);
         stdTask1MFO = std(stdTaskMFO(Task1, :));
         stdTask2MFO = std(stdTaskMFO(Task2, :));
 
@@ -57,7 +57,7 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         stdTask1SO = std(SOO_1.EvBestFitness(:, aveInd));
         stdTask2SO = std(SOO_2.EvBestFitness(:, aveInd));
 
-        aveClockMFO = mean(MFGBO.wall_clock_time());
+        aveClockMFO = mean(MFO.wall_clock_time());
         aveClockSO = mean(SOO_1.wall_clock_time) + mean(SOO_2.wall_clock_time);
 
         fprintf(bestSolutionMFO, '%f\n', bestTask1MFO);
@@ -82,7 +82,7 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         hold on;
 
         title(['T1', ' ', 'in', ' ', char(taskName1(i))]);
-        t1 = legend('MFGBO', 'SOGBO');
+        t1 = legend('MFO', 'SOGBO');
         xlabel('Generation');
         ylabel('Fitness');
         axis([xstart last(2 * i - 1) -inf inf]);
@@ -96,14 +96,14 @@ function convergeTrend(data_MFGBO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
         hold on;
 
         title(['T2', ' ', 'in', ' ', char(taskName1(i))]);
-        t2 = legend('MFGBO', 'SOGBO');
+        t2 = legend('MFO', 'SOGBO');
         xlabel('Generation');
         ylabel('Fitness');
         axis([xstart last(2 * i) -inf inf]);
         set(t2, 'Fontsize', 20);
         set(gca, 'Fontsize', 16);
-        outPath0 = ['./MFGBOResults/', char(taskName(i)), '1.png'];
-        outPath1 = ['./MFGBOResults/', char(taskName(i)), '2.png'];
+        outPath0 = ['./Results/', char(taskName(i)), '1.png'];
+        outPath1 = ['./Results/', char(taskName(i)), '2.png'];
         print(h1, '-dpng', outPath0);
         print(h2, '-dpng', outPath1);
         close(h1);
