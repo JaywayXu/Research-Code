@@ -227,10 +227,14 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
                 child(i) = Chromosome();
                 child(i).rnvec = Xnew;
 
-                % 随机遗传r1或r2的技能因子
-                if rand() < 0.5
+                % 随机遗传主个体或r1、r2的技能因子
+                rd = randi(3);
+
+                if rd == 1
+                    child(i).skill_factor = population(i).skill_factor;
+                elseif rd == 2
                     child(i).skill_factor = population(r1).skill_factor;
-                else
+                elseif rd == 3
                     child(i).skill_factor = population(r2).skill_factor;
                 end
 
