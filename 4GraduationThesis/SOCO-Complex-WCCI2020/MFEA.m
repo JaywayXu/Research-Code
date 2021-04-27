@@ -225,7 +225,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
 
             end
 
-            disp(['MFEA Generation = ', num2str(generation), ' best factorial costs = ', num2str(mean(bestobj))]);
+            % disp(['MFEA Generation = ', num2str(generation), ' best factorial costs = ', num2str(mean(bestobj))]);
         end
 
     end

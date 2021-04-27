@@ -112,10 +112,6 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
             alpha = abs(beta .* sin((3 * pi / 2 + sin(3 * pi / 2 * beta)))); % Eq.(14.1)
 
             for i = 1:pop
-                % disp(population(i).skill_factor)
-            end
-
-            for i = 1:pop
                 % 分类交配关键代码
                 % A1 = fix(rand(1, pop) * pop) + 1;
                 A1 = randi(pop, 1, pop);
