@@ -65,14 +65,20 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
             aveClockSO = aveClockSO + SOO(task_i).wall_clock_time;
         end
 
-        for task_i = 1:taskNum
-            fprintf(bestSolutionMFO, '%f\n', bestTaskMFO(task_i));
-            fprintf(bestSolutionSO, '%f\n', bestTaskSO(task_i));
-            fprintf(aveSolutionMFO, '%f\n', aveTaskMFO(task_i));
-            fprintf(aveSolutionSO, '%f\n', aveTaskSO(task_i));
-            fprintf(stdMFO, '%f\n', stdTaskMFO(task_i));
-            fprintf(stdSO, '%f\n', stdTaskSO(task_i));
-        end
+        fprintf(bestSolutionMFO, '%f\n', mean(bestTaskMFO));
+        fprintf(bestSolutionSO, '%f\n', mean(bestTaskSO));
+        fprintf(aveSolutionMFO, '%f\n', mean(aveTaskMFO));
+        fprintf(aveSolutionSO, '%f\n', mean(aveTaskSO));
+        fprintf(stdMFO, '%f\n', mean(stdTaskMFO));
+        fprintf(stdSO, '%f\n', mean(stdTaskSO));
+        % for task_i = 1:taskNum
+        %     fprintf(bestSolutionMFO, '%f\n', bestTaskMFO(task_i));
+        %     fprintf(bestSolutionSO, '%f\n', bestTaskSO(task_i));
+        %     fprintf(aveSolutionMFO, '%f\n', aveTaskMFO(task_i));
+        %     fprintf(aveSolutionSO, '%f\n', aveTaskSO(task_i));
+        %     fprintf(stdMFO, '%f\n', stdTaskMFO(task_i));
+        %     fprintf(stdSO, '%f\n', stdTaskSO(task_i));
+        % end
 
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
