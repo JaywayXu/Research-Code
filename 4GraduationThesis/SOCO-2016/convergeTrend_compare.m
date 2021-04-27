@@ -1,20 +1,27 @@
-function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, benchNum)
-    Task1 = [];
-    Task2 = [];
+function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, benchNum, taskNum)
+    benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
+    % for bi = 1:benchNum
+    %     benchName(bi, :) = 'Benchmark' + num2str(bi);
+    % end
 
-    for i = 1:2:(reps * 2)
-        Task1 = [Task1, i];
-        Task2 = [Task2, i + 1];
+    Task = zeros(taskNum, reps);
+
+    k = 1;
+
+    for i = 1:reps
+
+        for task_i = 1:taskNum
+            Task(task_i, i) = k;
+            k = k + 1;
+        end
+
     end
 
-    x = [];
+    x = zeros(gen);
 
-    for i = 1:(gen + 1)
-        x = [x, i];
+    for i = 1:(gen)
+        x(i) = i;
     end
-
-    taskName = {'CI_HS', 'CI_MS', 'CI_LS', 'PI_HS', 'PI_MS', 'PI_LS', 'NI_HS', 'NI_MS', 'NI_LS'};
-    taskName1 = {'CI\_HS', 'CI\_MS', 'CI\_LS', 'PI\_HS', 'PI\_MS', 'PI\_LS', 'NI\_HS', 'NI\_MS', 'NI\_LS'};
 
     bestSolutionGBO = fopen('./Results_compare/bestSolutionGBO.txt', 'wt');
     bestSolutionGA = fopen('./Results_compare/bestSolutionGA.txt', 'wt');
@@ -28,142 +35,84 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
     stdGA = fopen('./Results_compare/stdGA.txt', 'wt');
     stdDE = fopen('./Results_compare/stdDE.txt', 'wt');
     stdPSO = fopen('./Results_compare/stdPSO.txt', 'wt');
-    clockGBO = fopen('./Results_compare/clockGBO.txt', 'wt');
-    clockGA = fopen('./Results_compare/clockGA.txt', 'wt');
-    clockDE = fopen('./Results_compare/clockDE.txt', 'wt');
-    clockPSO = fopen('./Results_compare/clockPSO.txt', 'wt');
-
-    last = gen * ones(1, 2 * benchNum);
 
     for i = 1:benchNum
-        start = 1;
-        xstart = 1;
         aveInd = gen;
 
         GBO = data_GBO(i);
         GA = data_GA(i);
         DE = data_DE(i);
         PSO = data_PSO(i);
-        objTask1GBO = mean(GBO.EvBestFitness(Task1, :));
-        objTask2GBO = mean(GBO.EvBestFitness(Task2, :));
-        objTask1GA = mean(GA.EvBestFitness(Task1, :));
-        objTask2GA = mean(GA.EvBestFitness(Task2, :));
-        objTask1DE = mean(DE.EvBestFitness(Task1, :));
-        objTask2DE = mean(DE.EvBestFitness(Task2, :));
-        objTask1PSO = mean(PSO.EvBestFitness(Task1, :));
-        objTask2PSO = mean(PSO.EvBestFitness(Task2, :));
 
-        bestTask1GBO = min(min(GBO.EvBestFitness(Task1, :)));
-        bestTask2GBO = min(min(GBO.EvBestFitness(Task2, :)));
-        aveTask1GBO = objTask1GBO(aveInd);
-        aveTask2GBO = objTask2GBO(aveInd);
         stdTaskGBO = GBO.EvBestFitness(:, aveInd);
-        stdTask1GBO = std(stdTaskGBO(Task1, :));
-        stdTask2GBO = std(stdTaskGBO(Task2, :));
-
-        bestTask1GA = min(min(GA.EvBestFitness(Task1, :)));
-        bestTask2GA = min(min(GA.EvBestFitness(Task2, :)));
-        aveTask1GA = objTask1GA(aveInd);
-        aveTask2GA = objTask2GA(aveInd);
         stdTaskGA = GA.EvBestFitness(:, aveInd);
-        stdTask1GA = std(stdTaskGA(Task1, :));
-        stdTask2GA = std(stdTaskGA(Task2, :));
-
-        bestTask1DE = min(min(DE.EvBestFitness(Task1, :)));
-        bestTask2DE = min(min(DE.EvBestFitness(Task2, :)));
-        aveTask1DE = objTask1DE(aveInd);
-        aveTask2DE = objTask2DE(aveInd);
         stdTaskDE = DE.EvBestFitness(:, aveInd);
-        stdTask1DE = std(stdTaskDE(Task1, :));
-        stdTask2DE = std(stdTaskDE(Task2, :));
-
-        bestTask1PSO = min(min(PSO.EvBestFitness(Task1, :)));
-        bestTask2PSO = min(min(PSO.EvBestFitness(Task2, :)));
-        aveTask1PSO = objTask1PSO(aveInd);
-        aveTask2PSO = objTask2PSO(aveInd);
         stdTaskPSO = PSO.EvBestFitness(:, aveInd);
-        stdTask1PSO = std(stdTaskPSO(Task1, :));
-        stdTask2PSO = std(stdTaskPSO(Task2, :));
 
-        aveClockGBO = mean(GBO.wall_clock_time());
-        aveClockGA = mean(GA.wall_clock_time());
-        aveClockDE = mean(DE.wall_clock_time());
-        aveClockPSO = mean(PSO.wall_clock_time());
+        for task_i = 1:taskNum
+            objTaskGBO(task_i, :) = mean(GBO.EvBestFitness(Task(task_i, :), :));
+            bestTaskGBO(task_i, :) = min(min(GBO.EvBestFitness(Task(task_i, :), :)));
+            aveTaskGBO(task_i, :) = objTaskGBO(task_i, aveInd);
+            stdTaskGBO(task_i, :) = std(stdTaskGBO(task_i, :));
 
-        fprintf(bestSolutionGBO, '%f\n', bestTask1GBO);
-        fprintf(bestSolutionGBO, '%f\n', bestTask2GBO);
-        fprintf(bestSolutionGA, '%f\n', bestTask1GA);
-        fprintf(bestSolutionGA, '%f\n', bestTask2GA);
-        fprintf(bestSolutionDE, '%f\n', bestTask1DE);
-        fprintf(bestSolutionDE, '%f\n', bestTask2DE);
-        fprintf(bestSolutionPSO, '%f\n', bestTask1PSO);
-        fprintf(bestSolutionPSO, '%f\n', bestTask2PSO);
+            objTaskGA(task_i, :) = mean(GA.EvBestFitness(Task(task_i, :), :));
+            bestTaskGA(task_i, :) = min(min(GA.EvBestFitness(Task(task_i, :), :)));
+            aveTaskGA(task_i, :) = objTaskGA(task_i, aveInd);
+            stdTaskGA(task_i, :) = std(stdTaskGA(task_i, :));
 
-        fprintf(aveSolutionGBO, '%f\n', aveTask1GBO);
-        fprintf(aveSolutionGBO, '%f\n', aveTask2GBO);
-        fprintf(aveSolutionGA, '%f\n', aveTask1GA);
-        fprintf(aveSolutionGA, '%f\n', aveTask2GA);
-        fprintf(aveSolutionDE, '%f\n', aveTask1DE);
-        fprintf(aveSolutionDE, '%f\n', aveTask2DE);
-        fprintf(aveSolutionPSO, '%f\n', aveTask1PSO);
-        fprintf(aveSolutionPSO, '%f\n', aveTask2PSO);
+            objTaskDE(task_i, :) = mean(DE.EvBestFitness(Task(task_i, :), :));
+            bestTaskDE(task_i, :) = min(min(DE.EvBestFitness(Task(task_i, :), :)));
+            aveTaskDE(task_i, :) = objTaskDE(task_i, aveInd);
+            stdTaskDE(task_i, :) = std(stdTaskDE(task_i, :));
 
-        fprintf(stdGBO, '%f\n', stdTask1GBO);
-        fprintf(stdGBO, '%f\n', stdTask2GBO);
-        fprintf(stdGA, '%f\n', stdTask1GA);
-        fprintf(stdGA, '%f\n', stdTask2GA);
-        fprintf(stdDE, '%f\n', stdTask1DE);
-        fprintf(stdDE, '%f\n', stdTask2DE);
-        fprintf(stdPSO, '%f\n', stdTask1PSO);
-        fprintf(stdPSO, '%f\n', stdTask2PSO);
+            objTaskPSO(task_i, :) = mean(PSO.EvBestFitness(Task(task_i, :), :));
+            bestTaskPSO(task_i, :) = min(min(PSO.EvBestFitness(Task(task_i, :), :)));
+            aveTaskPSO(task_i, :) = objTaskPSO(task_i, aveInd);
+            stdTaskPSO(task_i, :) = std(stdTaskPSO(task_i, :));
+        end
 
-        fprintf(clockGBO, '%f\n', aveClockGBO);
-        fprintf(clockGA, '%f\n', aveClockGA);
-        fprintf(clockDE, '%f\n', aveClockDE);
-        fprintf(clockPSO, '%f\n', aveClockPSO);
+        for task_i = 1:taskNum
+            fprintf(bestSolutionGBO, '%f\n', bestTaskGBO(task_i));
+            fprintf(aveSolutionGBO, '%f\n', aveTaskGBO(task_i));
+            fprintf(stdGBO, '%f\n', stdTaskGBO(task_i));
 
-        h1 = figure(1);
+            fprintf(bestSolutionGA, '%f\n', bestTaskGA(task_i));
+            fprintf(aveSolutionGA, '%f\n', aveTaskGA(task_i));
+            fprintf(stdGA, '%f\n', stdTaskGA(task_i));
 
-        plot(x(xstart:last(2 * i - 1)), objTask1GBO(start:last(2 * i - 1)), 'r', 'Linewidth', 1);
-        hold on;
-        plot(x(xstart:last(2 * i - 1)), objTask1GA(start:last(2 * i - 1)), 'y', 'Linewidth', 1);
-        hold on;
-        plot(x(xstart:last(2 * i - 1)), objTask1DE(start:last(2 * i - 1)), 'g', 'Linewidth', 1);
-        hold on;
-        plot(x(xstart:last(2 * i - 1)), objTask1PSO(start:last(2 * i - 1)), 'b', 'Linewidth', 1);
-        hold on;
+            fprintf(bestSolutionDE, '%f\n', bestTaskDE(task_i));
+            fprintf(aveSolutionDE, '%f\n', aveTaskDE(task_i));
+            fprintf(stdDE, '%f\n', stdTaskDE(task_i));
 
-        title(['T1', ' ', 'in', ' ', char(taskName1(i))]);
-        t1 = legend('MFGBO', 'MFGA', 'MFDE', 'MFPSO');
-        xlabel('Generation');
-        ylabel('Fitness');
-        axis([xstart last(2 * i - 1) -inf inf]);
-        set(t1, 'Fontsize', 20);
-        set(gca, 'Fontsize', 16);
+            fprintf(bestSolutionPSO, '%f\n', bestTaskPSO(task_i));
+            fprintf(aveSolutionPSO, '%f\n', aveTaskPSO(task_i));
+            fprintf(stdPSO, '%f\n', stdTaskPSO(task_i));
+        end
 
-        h2 = figure(2);
-        plot(x(xstart:last(2 * i)), objTask2GBO(start:last(2 * i)), 'r', 'Linewidth', 1.5);
-        hold on;
-        plot(x(xstart:last(2 * i)), objTask2GA(start:last(2 * i)), 'y', 'Linewidth', 1.5);
-        hold on;
-        plot(x(xstart:last(2 * i)), objTask2DE(start:last(2 * i)), 'g', 'Linewidth', 1.5);
-        hold on;
-        plot(x(xstart:last(2 * i)), objTask2PSO(start:last(2 * i)), 'b', 'Linewidth', 1.5);
-        hold on
+        for task_i = 1:taskNum
+            h = figure('visible', 'off');
+            plot(x, objTaskGBO(task_i, 1:gen), 'r', 'Linewidth', 1);
+            hold on;
+            plot(x, objTaskGA(task_i, 1:gen), 'y', 'Linewidth', 1);
+            hold on;
+            plot(x, objTaskDE(task_i, 1:gen), 'g', 'Linewidth', 1);
+            hold on;
+            plot(x, objTaskPSO(task_i, 1:gen), 'b', 'Linewidth', 1);
+            hold on;
 
-        title(['T2', ' ', 'in', ' ', char(taskName1(i))]);
-        t2 = legend('MFGBO', 'MFGA', 'MFDE', 'MFPSO');
-        xlabel('Generation');
-        ylabel('Fitness');
-        axis([xstart last(2 * i) -inf inf]);
-        set(t2, 'Fontsize', 20);
-        set(gca, 'Fontsize', 16);
-        outPath0 = ['./Results_compare/', char(taskName(i)), '1.png'];
-        outPath1 = ['./Results_compare/', char(taskName(i)), '2.png'];
-        print(h1, '-dpng', outPath0);
-        print(h2, '-dpng', outPath1);
-        close(h1);
-        close(h2);
+            title(['T', num2str(task_i), ' ', 'in', ' ', char(benchName(i))]);
+            t = legend('GBO', 'GA', 'DE', 'PSO');
+            xlabel('Generation');
+            ylabel('Cost');
+            set(t, 'Fontsize', 20);
+            set(gca, 'Fontsize', 16);
+
+            outPath = ['./Results_compare/', char(benchName(i)), num2str(task_i), '.png'];
+            print(h, '-dpng', outPath);
+            close(h);
+
+        end
+
     end
 
 end

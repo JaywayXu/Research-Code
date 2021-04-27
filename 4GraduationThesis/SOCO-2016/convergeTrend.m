@@ -1,20 +1,27 @@
-function convergeTrend(data_MFO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
-    Task1 = [];
-    Task2 = [];
+function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
+    benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
+    % for bi = 1:benchNum
+    %     benchName(bi, :) = 'Benchmark' + num2str(bi);
+    % end
 
-    for i = 1:2:(reps * 2)
-        Task1 = [Task1, i];
-        Task2 = [Task2, i + 1];
+    Task = zeros(taskNum, reps);
+
+    k = 1;
+
+    for i = 1:reps
+
+        for task_i = 1:taskNum
+            Task(task_i, i) = k;
+            k = k + 1;
+        end
+
     end
 
-    x = [];
+    x = zeros(gen);
 
-    for i = 1:(gen + 1)
-        x = [x, i];
+    for i = 1:(gen)
+        x(i) = i;
     end
-
-    taskName = {'CI_HS', 'CI_MS', 'CI_LS', 'PI_HS', 'PI_MS', 'PI_LS', 'NI_HS', 'NI_MS', 'NI_LS'};
-    taskName1 = {'CI\_HS', 'CI\_MS', 'CI\_LS', 'PI\_HS', 'PI\_MS', 'PI\_LS', 'NI\_HS', 'NI\_MS', 'NI\_LS'};
 
     bestSolutionMFO = fopen('./Results/bestSolutionMFO.txt', 'wt');
     bestSolutionSO = fopen('./Results/bestSolutionSO.txt', 'wt');
@@ -25,89 +32,70 @@ function convergeTrend(data_MFO, data_SOO_1, data_SOO_2, reps, gen, benchNum)
     clockMFO = fopen('./Results/clockMFO.txt', 'wt');
     clockSO = fopen('./Results/clockSO.txt', 'wt');
 
-    % last = [600, 1000, 1000, 1000, 1000, 1000, 1000, 300, 1000, 300, 1000, 1000, 300, 1000, 600, 1000, 1000, 1000];
-    last = gen * ones(1, 2 * benchNum);
+    last = gen * ones(1, taskNum * benchNum);
 
     for i = 1:benchNum
         start = 1;
-        step = round(gen / 10);
         xstart = 1;
         aveInd = gen;
 
         MFO = data_MFO(i);
-        SOO_1 = data_SOO_1(i);
-        SOO_2 = data_SOO_2(i);
-        objTask1MFO = mean(MFO.EvBestFitness(Task1, :));
-        objTask2MFO = mean(MFO.EvBestFitness(Task2, :));
-        objTask1SO = mean(SOO_1.EvBestFitness);
-        objTask2SO = mean(SOO_2.EvBestFitness);
+        SOO = data_SOO(:, i);
 
-        bestTask1MFO = min(min(MFO.EvBestFitness(Task1, :)));
-        bestTask2MFO = min(min(MFO.EvBestFitness(Task2, :)));
-        aveTask1MFO = objTask1MFO(aveInd);
-        aveTask2MFO = objTask2MFO(aveInd);
-        stdTaskMFO = MFO.EvBestFitness(:, aveInd);
-        stdTask1MFO = std(stdTaskMFO(Task1, :));
-        stdTask2MFO = std(stdTaskMFO(Task2, :));
+        stdTaskMFO_All = MFO.EvBestFitness(:, aveInd);
 
-        bestTask1SO = min(min(SOO_1.EvBestFitness));
-        bestTask2SO = min(min(SOO_2.EvBestFitness));
-        aveTask1SO = objTask1SO(aveInd);
-        aveTask2SO = objTask2SO(aveInd);
-        stdTask1SO = std(SOO_1.EvBestFitness(:, aveInd));
-        stdTask2SO = std(SOO_2.EvBestFitness(:, aveInd));
+        for task_i = 1:taskNum
+            objTaskMFO(task_i, :) = mean(MFO.EvBestFitness(Task(task_i, :), :));
+            objTaskSO(task_i, :) = mean(SOO(task_i, :).EvBestFitness);
 
-        aveClockMFO = mean(MFO.wall_clock_time());
-        aveClockSO = mean(SOO_1.wall_clock_time) + mean(SOO_2.wall_clock_time);
+            bestTaskMFO(task_i, :) = min(min(MFO.EvBestFitness(Task(task_i, :), :)));
+            aveTaskMFO(task_i, :) = objTaskMFO(task_i, aveInd);
+            stdTaskMFO(task_i, :) = std(stdTaskMFO_All(task_i, :));
 
-        fprintf(bestSolutionMFO, '%f\n', bestTask1MFO);
-        fprintf(bestSolutionMFO, '%f\n', bestTask2MFO);
-        fprintf(bestSolutionSO, '%f\n', bestTask1SO);
-        fprintf(bestSolutionSO, '%f\n', bestTask2SO);
-        fprintf(aveSolutionMFO, '%f\n', aveTask1MFO);
-        fprintf(aveSolutionMFO, '%f\n', aveTask2MFO);
-        fprintf(aveSolutionSO, '%f\n', aveTask1SO);
-        fprintf(aveSolutionSO, '%f\n', aveTask2SO);
-        fprintf(stdMFO, '%f\n', stdTask1MFO);
-        fprintf(stdMFO, '%f\n', stdTask2MFO);
-        fprintf(stdSO, '%f\n', stdTask1SO);
-        fprintf(stdSO, '%f\n', stdTask2SO);
+            bestTaskSO(task_i, :) = min(min(SOO(task_i).EvBestFitness));
+            aveTaskSO(task_i, :) = objTaskSO(task_i, aveInd);
+            stdTaskSO(task_i, :) = std(SOO(task_i).EvBestFitness(:, aveInd));
+
+        end
+
+        aveClockMFO = MFO.wall_clock_time;
+        aveClockSO = 0;
+
+        for task_i = 1:taskNum
+            aveClockSO = aveClockSO + SOO(task_i).wall_clock_time;
+        end
+
+        for task_i = 1:taskNum
+            fprintf(bestSolutionMFO, '%f\n', bestTaskMFO(task_i));
+            fprintf(bestSolutionSO, '%f\n', bestTaskSO(task_i));
+            fprintf(aveSolutionMFO, '%f\n', aveTaskMFO(task_i));
+            fprintf(aveSolutionSO, '%f\n', aveTaskSO(task_i));
+            fprintf(stdMFO, '%f\n', stdTaskMFO(task_i));
+            fprintf(stdSO, '%f\n', stdTaskSO(task_i));
+        end
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
 
-        h1 = figure(1);
-        plot(x(xstart:last(2 * i - 1)), objTask1MFO(start:last(2 * i - 1)), 'r', 'Linewidth', 1);
-        hold on;
-        plot(x(xstart:last(2 * i - 1)), objTask1SO(start:last(2 * i - 1)), 'b', 'Linewidth', 1);
-        hold on;
+        for task_i = 1:taskNum
+            h = figure('visible', 'off');
+            plot(x, objTaskMFO(task_i, 1:gen), 'r', 'Linewidth', 1);
+            hold on;
+            plot(x, objTaskSO(task_i, 1:gen), 'b', 'Linewidth', 1);
+            hold on;
 
-        title(['T1', ' ', 'in', ' ', char(taskName1(i))]);
-        t1 = legend('MFO', 'SOGBO');
-        xlabel('Generation');
-        ylabel('Fitness');
-        axis([xstart last(2 * i - 1) -inf inf]);
-        set(t1, 'Fontsize', 20);
-        set(gca, 'Fontsize', 16);
+            title(['T', num2str(task_i), ' ', 'in', ' ', char(benchName(i))]);
+            t = legend('MFO', 'SOO');
+            xlabel('Generation');
+            ylabel('Cost');
+            set(t, 'Fontsize', 20);
+            set(gca, 'Fontsize', 16);
 
-        h2 = figure(2);
-        plot(x(xstart:last(2 * i)), objTask2MFO(start:last(2 * i)), 'r', 'Linewidth', 1.5);
-        hold on;
-        plot(x(xstart:last(2 * i)), objTask2SO(start:last(2 * i)), 'b', 'Linewidth', 1.5);
-        hold on;
+            outPath = ['./Results/', char(benchName(i)), num2str(task_i), '.png'];
+            print(h, '-dpng', outPath);
+            close(h);
 
-        title(['T2', ' ', 'in', ' ', char(taskName1(i))]);
-        t2 = legend('MFO', 'SOGBO');
-        xlabel('Generation');
-        ylabel('Fitness');
-        axis([xstart last(2 * i) -inf inf]);
-        set(t2, 'Fontsize', 20);
-        set(gca, 'Fontsize', 16);
-        outPath0 = ['./Results/', char(taskName(i)), '1.png'];
-        outPath1 = ['./Results/', char(taskName(i)), '2.png'];
-        print(h1, '-dpng', outPath0);
-        print(h2, '-dpng', outPath1);
-        close(h1);
-        close(h2);
+        end
+
     end
 
 end
