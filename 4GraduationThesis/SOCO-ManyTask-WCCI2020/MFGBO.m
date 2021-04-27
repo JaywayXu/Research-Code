@@ -1,4 +1,4 @@
-function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
+function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
     % MFGBO
     % 参数(任务组, 种群数量, 迭代次数, 随机匹配概率, LEO局部逃逸概率, 用局部优化函数的概率)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
@@ -19,16 +19,12 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
     D = zeros(1, no_of_tasks); % 每个任务解的维数
 
     for i = 1:no_of_tasks
-        D(i) = Tasks(i).dims;
+        D(i) = Tasks(i).dim;
     end
 
     D_multitask = max(D); %个体的维数(所有任务中最大的维数)
 
-    % 局部搜索方法，quasi-newton法
-    options = optimoptions(@fminunc, 'Display', 'off', 'Algorithm', 'quasi-newton', 'MaxIter', 5);
-
     fnceval_calls = zeros(1, reps); % 每次独立测试的总评价次数
-    calls_per_individual = zeros(1, pop); % 每个个体的评价次数
     EvBestFitness = zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
     TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
@@ -48,11 +44,11 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
         % 适应值评价
         parfor i = 1:pop
-            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
+            [population(i)] = evaluate(population(i), Tasks, no_of_tasks);
         end
 
         % 更新评价次数
-        fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
+        fnceval_calls(rep) = fnceval_calls(rep);
         TotalEvaluations(rep, 1) = fnceval_calls(rep);
 
         factorial_cost = zeros(1, pop); % 每个个体的因子函数值
@@ -117,7 +113,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
             for i = 1:pop
                 % 分类交配关键代码
-                A1 = fix(rand(1, pop) * pop) + 1;
+                A1 = randi(pop, 1, pop);
 
                 if rand() < rmp
                     % 随机选取其他4个个体
@@ -231,11 +227,11 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
             parfor i = 1:pop
                 % 函数值评价
-                [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
+                [child(i)] = evaluate(child(i), Tasks, no_of_tasks);
             end
 
             % 更新评价次数
-            fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
+            fnceval_calls(rep) = fnceval_calls(rep);
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
 
             % 合并两代种群
@@ -325,7 +321,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
             end
 
-            % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(bestobj)]);
+            % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(mean(bestobj))]);
         end
 
         data_MFGBO.wall_clock_time = toc; % 计时结束

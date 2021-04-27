@@ -127,36 +127,25 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                     Best_X = Best_Xs(randi([1, no_of_tasks]));
                     Worst_X = Worst_Xs(randi([1, no_of_tasks]));
                 else
-                    % 当前个体的任务因子内选取其他4个个体
+                    %% 当前个体的任务因子内选取r1, r2个个体
                     sf = population(i).skill_factor;
-                    iter = 1;
+                    r3 = A1(1);
+                    r4 = A1(2);
+
+                    iter = 3;
 
                     while population(iter).skill_factor ~= sf
-                        iter = iter + 1;
+                        iter = mod(iter, pop) + 1;
                     end
 
                     r1 = A1(iter);
-                    iter = iter + 1;
+                    iter = mod(iter, pop) + 1;
 
                     while population(iter).skill_factor ~= sf
-                        iter = iter + 1;
+                        iter = mod(iter, pop) + 1;
                     end
 
                     r2 = A1(iter);
-                    iter = iter + 1;
-
-                    while population(iter).skill_factor ~= sf
-                        iter = iter + 1;
-                    end
-
-                    r3 = A1(iter);
-                    iter = iter + 1;
-
-                    while population(iter).skill_factor ~= sf
-                        iter = iter + 1;
-                    end
-
-                    r4 = A1(iter);
 
                     % 最优解和最差解从当前任务中选取
                     Best_X = Best_Xs(sf);
@@ -266,7 +255,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
                     if y(j) > pop
                         % 子代里
-                        child(mod(y(j), pop + 1) + 1).factorial_ranks(i) = rank_it;
+                        child(mod(y(j) - 1, pop) + 1).factorial_ranks(i) = rank_it;
                     else
                         % 父代里
                         population(y(j)).factorial_ranks(i) = rank_it;
@@ -277,7 +266,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
                 % 更新最优
                 if y(1) > pop
-                    idx = mod(y(1), pop + 1) + 1;
+                    idx = mod(y(1) - 1, pop) + 1;
 
                     if child(idx).factorial_costs(i) < bestobj(i)
                         bestobj(i) = child(idx).factorial_costs(i);
@@ -297,7 +286,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
                 % 更新最差
                 if y(end) > pop
-                    idx = mod(y(end), pop + 1) + 1;
+                    idx = mod(y(end) - 1, pop) + 1;
 
                     if child(idx).factorial_costs(i) > worstobj(i)
                         worstobj(i) = child(idx).factorial_costs(i);
