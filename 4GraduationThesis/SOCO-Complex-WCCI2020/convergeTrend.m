@@ -1,7 +1,9 @@
 function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
     % benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
-    for bi = 1:benchNum
-        benchName(bi, :) = 'Benchmark' + num2str(bi);
+    benchName = char('Benchmark1');
+
+    for bi = 2:benchNum
+        benchName = char(benchName, ['Benchmark', num2str(bi)]);
     end
 
     Task = zeros(taskNum, reps);
@@ -17,12 +19,13 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
 
     end
 
-    x = zeros(gen);
+    x = zeros(1, gen);
 
-    for i = 1:(gen)
+    for i = 1:gen
         x(i) = i;
     end
 
+    mkdir('./Results/')
     bestSolutionMFO = fopen('./Results/bestSolutionMFO.txt', 'wt');
     bestSolutionSO = fopen('./Results/bestSolutionSO.txt', 'wt');
     aveSolutionMFO = fopen('./Results/aveSolutionMFO.txt', 'wt');
@@ -32,11 +35,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
     clockMFO = fopen('./Results/clockMFO.txt', 'wt');
     clockSO = fopen('./Results/clockSO.txt', 'wt');
 
-    last = gen * ones(1, taskNum * benchNum);
-
     for i = 1:benchNum
-        start = 1;
-        xstart = 1;
         aveInd = gen;
 
         MFO = data_MFO(i);
@@ -73,8 +72,11 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
             fprintf(stdMFO, '%f\n', stdTaskMFO(task_i));
             fprintf(stdSO, '%f\n', stdTaskSO(task_i));
         end
+
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
+
+        mkdir(['./Results/', strrep(benchName(i, :), ' ', '')])
 
         for task_i = 1:taskNum
             h = figure('visible', 'off');
@@ -83,14 +85,14 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
             plot(x, objTaskSO(task_i, 1:gen), 'b', 'Linewidth', 1);
             hold on;
 
-            title(['T', num2str(task_i), ' ', 'in', ' ', char(benchName(i))]);
+            title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
             t = legend('MFO', 'SOO');
             xlabel('Generation');
             ylabel('Cost');
             set(t, 'Fontsize', 20);
             set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results/', char(benchName(i)), num2str(task_i), '.png'];
+            outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
             print(h, '-dpng', outPath);
             close(h);
 
