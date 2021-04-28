@@ -93,8 +93,6 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             fprintf(stdPSO, '%f\n', stdTaskPSO(task_i));
         end
 
-        mkdir(['./Results_compare/', strrep(benchName(i, :), ' ', '')])
-
         for task_i = 1:taskNum
             h = figure('visible', 'off');
             plot(x, objTaskGBO(task_i, 1:gen), 'r', 'Linewidth', 1);
@@ -106,14 +104,14 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             plot(x, objTaskPSO(task_i, 1:gen), 'b', 'Linewidth', 1);
             hold on;
 
-            title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
+            title(['T', num2str(task_i), ' ', 'in', ' ', char(benchName(i))]);
             t = legend('GBO', 'GA', 'DE', 'PSO');
             xlabel('Generation');
             ylabel('Cost');
             set(t, 'Fontsize', 20);
             set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results/', strrep(benchName(i, :), '/Task', num2str(task_i), '.png'];
+            outPath = ['./Results_compare/', char(benchName(i)), 'Task', num2str(task_i), '.png'];
             print(h, '-dpng', outPath);
             close(h);
 

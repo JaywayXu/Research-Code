@@ -1,5 +1,4 @@
 function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
-    % benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
     benchName = char('Benchmark1');
 
     for bi = 2:benchNum
@@ -76,8 +75,6 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
 
-        mkdir(['./Results/', strrep(benchName(i, :), ' ', '')])
-
         for task_i = 1:taskNum
             h = figure('visible', 'off');
             plot(x, objTaskMFO(task_i, 1:gen), 'r', 'Linewidth', 1);
@@ -92,7 +89,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
             set(t, 'Fontsize', 20);
             set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
+            outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
             print(h, '-dpng', outPath);
             close(h);
 

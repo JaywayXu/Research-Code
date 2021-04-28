@@ -1,6 +1,4 @@
 function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
-    % benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
-    
     benchName = char('Benchmark1');
 
     for bi = 2:benchNum
