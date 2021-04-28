@@ -1,12 +1,6 @@
 function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
     benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
 
-    % benchName = char('Benchmark1');
-
-    % for bi = 2:benchNum
-    %     benchName = char(benchName, ['Benchmark', num2str(bi)]);
-    % end
-
     Task = zeros(taskNum, reps);
 
     k = 1;
@@ -42,7 +36,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
         MFO = data_MFO(i);
         SOO = data_SOO(:, i);
 
-        stdTaskMFO_All = MFO.EvBestFitness(:, aveInd);
+        MFO_end = MFO.EvBestFitness(:, aveInd);
 
         for task_i = 1:taskNum
             objTaskMFO(task_i, :) = mean(MFO.EvBestFitness(Task(task_i, :), :));
@@ -50,7 +44,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
 
             bestTaskMFO(task_i, :) = min(min(MFO.EvBestFitness(Task(task_i, :), :)));
             aveTaskMFO(task_i, :) = objTaskMFO(task_i, aveInd);
-            stdTaskMFO(task_i, :) = std(stdTaskMFO_All(task_i, :));
+            stdTaskMFO(task_i, :) = std(MFO_end(Task(task_i, :)));
 
             bestTaskSO(task_i, :) = min(min(SOO(task_i).EvBestFitness));
             aveTaskSO(task_i, :) = objTaskSO(task_i, aveInd);
