@@ -1,8 +1,8 @@
 ## C ##
-# C output files (unix/linux)
-*
-!*/
-!*.*
+# # C output files (unix/linux)
+# *
+# !*/
+# !*.*
 # C output files (windows)
 *.exe
 # C temporary files with .o/.out/.o.*
