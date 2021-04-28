@@ -73,23 +73,41 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             stdTaskPSO(task_i, :) = std(PSO_end(Task(task_i, :)));
         end
 
-        for task_i = 1:taskNum
-            fprintf(bestSolutionGBO, '%f\n', bestTaskGBO(task_i, :));
-            fprintf(aveSolutionGBO, '%f\n', aveTaskGBO(task_i, :));
-            fprintf(stdGBO, '%f\n', stdTaskGBO(task_i, :));
+        fprintf(bestSolutionGBO, '%f\n', mean(bestTaskGBO(task_i)));
+        fprintf(aveSolutionGBO, '%f\n', mean(aveTaskGBO(task_i)));
+        fprintf(stdGBO, '%f\n', mean(stdTaskGBO(task_i)));
 
-            fprintf(bestSolutionGA, '%f\n', bestTaskGA(task_i, :));
-            fprintf(aveSolutionGA, '%f\n', aveTaskGA(task_i, :));
-            fprintf(stdGA, '%f\n', stdTaskGA(task_i, :));
+        fprintf(bestSolutionGA, '%f\n', mean(bestTaskGA(task_i)));
+        fprintf(aveSolutionGA, '%f\n', mean(aveTaskGA(task_i)));
+        fprintf(stdGA, '%f\n', mean(stdTaskGA(task_i)));
 
-            fprintf(bestSolutionDE, '%f\n', bestTaskDE(task_i, :));
-            fprintf(aveSolutionDE, '%f\n', aveTaskDE(task_i, :));
-            fprintf(stdDE, '%f\n', stdTaskDE(task_i, :));
+        fprintf(bestSolutionDE, '%f\n', mean(bestTaskDE(task_i)));
+        fprintf(aveSolutionDE, '%f\n', mean(aveTaskDE(task_i)));
+        fprintf(stdDE, '%f\n', mean(stdTaskDE(task_i)));
 
-            fprintf(bestSolutionPSO, '%f\n', bestTaskPSO(task_i, :));
-            fprintf(aveSolutionPSO, '%f\n', aveTaskPSO(task_i, :));
-            fprintf(stdPSO, '%f\n', stdTaskPSO(task_i, :));
-        end
+        fprintf(bestSolutionPSO, '%f\n', mean(bestTaskPSO(task_i)));
+        fprintf(aveSolutionPSO, '%f\n', mean(aveTaskPSO(task_i)));
+        fprintf(stdPSO, '%f\n', mean(stdTaskPSO(task_i)));
+
+        % for task_i = 1:taskNum
+        %     fprintf(bestSolutionGBO, '%f\n', bestTaskGBO(task_i));
+        %     fprintf(aveSolutionGBO, '%f\n', aveTaskGBO(task_i));
+        %     fprintf(stdGBO, '%f\n', stdTaskGBO(task_i));
+
+        %     fprintf(bestSolutionGA, '%f\n', bestTaskGA(task_i));
+        %     fprintf(aveSolutionGA, '%f\n', aveTaskGA(task_i));
+        %     fprintf(stdGA, '%f\n', stdTaskGA(task_i));
+
+        %     fprintf(bestSolutionDE, '%f\n', bestTaskDE(task_i));
+        %     fprintf(aveSolutionDE, '%f\n', aveTaskDE(task_i));
+        %     fprintf(stdDE, '%f\n', stdTaskDE(task_i));
+
+        %     fprintf(bestSolutionPSO, '%f\n', bestTaskPSO(task_i));
+        %     fprintf(aveSolutionPSO, '%f\n', aveTaskPSO(task_i));
+        %     fprintf(stdPSO, '%f\n', stdTaskPSO(task_i));
+        % end
+
+        mkdir(['./Results_compare/', strrep(benchName(i, :), ' ', '')])
 
         for task_i = 1:taskNum
             h = figure('visible', 'off');
@@ -109,7 +127,7 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             set(t, 'Fontsize', 20);
             set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results_compare/', strrep(benchName(i, :), 'Task', num2str(task_i), '.png'];
+            outPath = ['./Results_compare/', strrep(benchName(i, :), '/Task', num2str(task_i), '.png'];
             print(h, '-dpng', outPath);
             close(h);
 
