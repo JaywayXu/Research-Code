@@ -89,7 +89,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
             set(t, 'Fontsize', 20);
             set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
+            outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
             print(h, '-dpng', outPath);
             close(h);
 

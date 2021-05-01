@@ -127,7 +127,7 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             set(t, 'Fontsize', 20);
             set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results_compare/', strrep(benchName(i, :), '/Task', num2str(task_i), '.png'];
+            outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
             print(h, '-dpng', outPath);
             close(h);
 
