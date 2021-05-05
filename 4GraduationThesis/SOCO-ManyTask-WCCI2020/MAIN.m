@@ -3,7 +3,7 @@ pop_S = 50;
 gen = 1000; % generation count
 rmp = 0.3; % random mating probability
 pr = 0.5; % Probability Parameter
-reps = 10; % repetitions
+reps = 30; % repetitions
 benchmark_num = 10;
 is_run = 1; % 是否运行，false则直接读取mat文件
 
