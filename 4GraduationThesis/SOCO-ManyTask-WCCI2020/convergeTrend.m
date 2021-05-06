@@ -81,27 +81,27 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
 
-        mkdir(['./Results/', strrep(benchName(i, :), ' ', '')])
+        % mkdir(['./Results/', strrep(benchName(i, :), ' ', '')])
 
-        for task_i = 1:taskNum
-            h = figure('visible', 'off');
-            plot(x, objTaskMFO(task_i, 1:gen), 'r', 'Linewidth', 1);
-            hold on;
-            plot(x, objTaskSO(task_i, 1:gen), 'b', 'Linewidth', 1);
-            hold on;
+        % for task_i = 1:taskNum
+        %     h = figure('visible', 'off');
+        %     plot(x, objTaskMFO(task_i, 1:gen), 'r', 'Linewidth', 1);
+        %     hold on;
+        %     plot(x, objTaskSO(task_i, 1:gen), 'b', 'Linewidth', 1);
+        %     hold on;
 
-            title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
-            t = legend('MFO', 'SOO');
-            xlabel('Generation');
-            ylabel('Cost');
-            set(t, 'Fontsize', 20);
-            set(gca, 'Fontsize', 16);
+        %     title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
+        %     t = legend('MFO', 'SOO');
+        %     xlabel('Generation');
+        %     ylabel('Cost');
+        %     set(t, 'Fontsize', 20);
+        %     set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
-            print(h, '-dpng', outPath);
-            close(h);
+        %     outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
+        %     print(h, '-dpng', outPath);
+        %     close(h);
 
-        end
+        % end
 
     end
 
