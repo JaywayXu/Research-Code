@@ -81,6 +81,8 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
 
+        % TODO 将每个benchmark上的所有任务平均之后再画图
+
         % mkdir(['./Results/', strrep(benchName(i, :), ' ', '')])
 
         % for task_i = 1:taskNum
