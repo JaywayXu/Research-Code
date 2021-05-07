@@ -89,58 +89,14 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
         fprintf(aveSolutionPSO, '%f\n', mean(aveTaskPSO(task_i)));
         fprintf(stdPSO, '%f\n', mean(stdTaskPSO(task_i)));
 
-        % for task_i = 1:taskNum
-        %     fprintf(bestSolutionGBO, '%f\n', bestTaskGBO(task_i));
-        %     fprintf(aveSolutionGBO, '%f\n', aveTaskGBO(task_i));
-        %     fprintf(stdGBO, '%f\n', stdTaskGBO(task_i));
-
-        %     fprintf(bestSolutionGA, '%f\n', bestTaskGA(task_i));
-        %     fprintf(aveSolutionGA, '%f\n', aveTaskGA(task_i));
-        %     fprintf(stdGA, '%f\n', stdTaskGA(task_i));
-
-        %     fprintf(bestSolutionDE, '%f\n', bestTaskDE(task_i));
-        %     fprintf(aveSolutionDE, '%f\n', aveTaskDE(task_i));
-        %     fprintf(stdDE, '%f\n', stdTaskDE(task_i));
-
-        %     fprintf(bestSolutionPSO, '%f\n', bestTaskPSO(task_i));
-        %     fprintf(aveSolutionPSO, '%f\n', aveTaskPSO(task_i));
-        %     fprintf(stdPSO, '%f\n', stdTaskPSO(task_i));
-        % end
-
-        % mkdir(['./Results_compare/', strrep(benchName(i, :), ' ', '')])
-
-        % for task_i = 1:taskNum
-        %     h = figure('visible', 'off');
-        %     plot(x, objTaskGBO(task_i, 1:gen), 'r', 'Linewidth', 1);
-        %     hold on;
-        %     plot(x, objTaskGA(task_i, 1:gen), 'y', 'Linewidth', 1);
-        %     hold on;
-        %     plot(x, objTaskDE(task_i, 1:gen), 'g', 'Linewidth', 1);
-        %     hold on;
-        %     plot(x, objTaskPSO(task_i, 1:gen), 'b', 'Linewidth', 1);
-        %     hold on;
-
-        %     title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
-        %     t = legend('GBO', 'GA', 'DE', 'PSO');
-        %     xlabel('Generation');
-        %     ylabel('Cost');
-        %     set(t, 'Fontsize', 20);
-        %     set(gca, 'Fontsize', 16);
-
-        %     outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
-        %     print(h, '-dpng', outPath);
-        %     close(h);
-
-        % end
-
         h = figure('visible', 'off');
-        plot(x, mean(objTaskGBO(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        plot(x, mean(objTaskGBO(:, 1:gen)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x, mean(objTaskGA(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        plot(x, mean(objTaskGA(:, 1:gen)), 'y', 'Linewidth', 1);
         hold on;
-        plot(x, mean(objTaskDE(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        plot(x, mean(objTaskDE(:, 1:gen)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x, mean(objTaskPSO(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        plot(x, mean(objTaskPSO(:, 1:gen)), 'y', 'Linewidth', 1);
         hold on;
 
         title(benchName(i));
@@ -150,7 +106,7 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
         set(t, 'Fontsize', 20);
         set(gca, 'Fontsize', 16);
 
-        outPath = ['./Results_2/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
+        outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
         print(h, '-dpng', outPath);
         close(h);
 

@@ -69,46 +69,14 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
         fprintf(aveSolutionSO, '%f\n', mean(aveTaskSO));
         fprintf(stdMFO, '%f\n', mean(stdTaskMFO));
         fprintf(stdSO, '%f\n', mean(stdTaskSO));
-        % for task_i = 1:taskNum
-        %     fprintf(bestSolutionMFO, '%f\n', bestTaskMFO(task_i));
-        %     fprintf(bestSolutionSO, '%f\n', bestTaskSO(task_i));
-        %     fprintf(aveSolutionMFO, '%f\n', aveTaskMFO(task_i));
-        %     fprintf(aveSolutionSO, '%f\n', aveTaskSO(task_i));
-        %     fprintf(stdMFO, '%f\n', stdTaskMFO(task_i));
-        %     fprintf(stdSO, '%f\n', stdTaskSO(task_i));
-        % end
-
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
 
-        % TODO 将每个benchmark上的所有任务平均之后再画图
-
-        % mkdir(['./Results/', strrep(benchName(i, :), ' ', '')])
-
-        % for task_i = 1:taskNum
-        %     h = figure('visible', 'off');
-        %     plot(x, objTaskMFO(task_i, 1:gen), 'r', 'Linewidth', 1);
-        %     hold on;
-        %     plot(x, objTaskSO(task_i, 1:gen), 'b', 'Linewidth', 1);
-        %     hold on;
-
-        %     title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
-        %     t = legend('MFO', 'SOO');
-        %     xlabel('Generation');
-        %     ylabel('Cost');
-        %     set(t, 'Fontsize', 20);
-        %     set(gca, 'Fontsize', 16);
-
-        %     outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
-        %     print(h, '-dpng', outPath);
-        %     close(h);
-
-        % end
-
+        %  将每个benchmark上的所有任务平均之后再画图
         h = figure('visible', 'off');
-        plot(x, mean(objTaskMFO(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        plot(x, mean(objTaskMFO(:, 1:gen)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x, mean(objTaskSO(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        plot(x, mean(objTaskSO(:, 1:gen)), 'y', 'Linewidth', 1);
         hold on;
 
         title(benchName(i));

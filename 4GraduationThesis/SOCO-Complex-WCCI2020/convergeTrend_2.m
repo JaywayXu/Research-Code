@@ -71,9 +71,9 @@ function convergeTrend_2(data_GBO, data_GBO_2, reps, gen, benchNum, taskNum)
         fprintf(stdGBO_2, '%f\n', mean(stdTaskGBO_2(task_i)));
 
         h = figure('visible', 'off');
-        plot(x, mean(objTaskGBO(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        plot(x, mean(objTaskGBO(:, 1:gen)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x, mean(objTaskGBO_2(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        plot(x, mean(objTaskGBO_2(:, 1:gen)), 'y', 'Linewidth', 1);
         hold on;
 
         title(benchName(i));
