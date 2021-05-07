@@ -62,30 +62,36 @@ function convergeTrend_2(data_GBO, data_GBO_2, reps, gen, benchNum, taskNum)
         fprintf(clockGBO, '%f\n', aveClockGBO);
         fprintf(clockGBO_2, '%f\n', aveClockGBO_2);
 
-        fprintf(bestSolutionGBO, '%f\n', mean(bestTaskGBO(task_i)));
-        fprintf(aveSolutionGBO, '%f\n', mean(aveTaskGBO(task_i)));
-        fprintf(stdGBO, '%f\n', mean(stdTaskGBO(task_i)));
+        for task_i = 1:taskNum
+            fprintf(bestSolutionGBO, '%f\n', bestTaskGBO(task_i, :));
+            fprintf(aveSolutionGBO, '%f\n', aveTaskGBO(task_i, :));
+            fprintf(stdGBO, '%f\n', stdTaskGBO(task_i, :));
 
-        fprintf(bestSolutionGBO_2, '%f\n', mean(bestTaskGBO_2(task_i)));
-        fprintf(aveSolutionGBO_2, '%f\n', mean(aveTaskGBO_2(task_i)));
-        fprintf(stdGBO_2, '%f\n', mean(stdTaskGBO_2(task_i)));
+            fprintf(bestSolutionGBO_2, '%f\n', bestTaskGBO_2(task_i, :));
+            fprintf(aveSolutionGBO_2, '%f\n', aveTaskGBO_2(task_i, :));
+            fprintf(stdGBO_2, '%f\n', stdTaskGBO_2(task_i, :));
+        end
 
-        h = figure('visible', 'off');
-        plot(x, mean(objTaskGBO(:, 1:gen)), 'r', 'Linewidth', 1);
-        hold on;
-        plot(x, mean(objTaskGBO_2(:, 1:gen)), 'y', 'Linewidth', 1);
-        hold on;
+        for task_i = 1:taskNum
+            h = figure('visible', 'off');
+            plot(x, objTaskGBO(task_i, 1:gen), 'r', 'Linewidth', 1);
+            hold on;
+            plot(x, objTaskGBO_2(task_i, 1:gen), 'y', 'Linewidth', 1);
+            hold on;
 
-        title(benchName(i));
-        t = legend('GBO', 'GBO_2');
-        xlabel('Generation');
-        ylabel('Cost');
-        set(t, 'Fontsize', 20);
-        set(gca, 'Fontsize', 16);
+            title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
+            t = legend('GBO', 'GBO_2');
+            xlabel('Generation');
+            ylabel('Cost');
+            set(t, 'Fontsize', 20);
+            set(gca, 'Fontsize', 16);
 
-        outPath = ['./Results_2/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
-        print(h, '-dpng', outPath);
-        close(h);
+            outPath = ['./Results_2/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
+            print(h, '-dpng', outPath);
+            close(h);
+
+        end
+
     end
 
 end
