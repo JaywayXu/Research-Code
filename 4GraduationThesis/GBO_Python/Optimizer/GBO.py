@@ -171,9 +171,9 @@ if __name__ == '__main__':
     from BenchmarkFunctions import BenchmarkFunctions
     bmf = BenchmarkFunctions(D=30)
 
-    for i in range(1, bmf.size+1):
+    for i in range(9, bmf.size+1):
         lb, ub, nV, fobj = bmf.get(i)
-        gbo = GBO(nP, MaxIt, lb, ub, nV, fobj, isDrawPop=False)
+        gbo = GBO(nP, MaxIt, lb, ub, nV, fobj, isDrawPop=True)
         best_cost, best_x, convergence_curve = gbo.run()
 
         draw.drawPloterro([convergence_curve], ['GBO'],

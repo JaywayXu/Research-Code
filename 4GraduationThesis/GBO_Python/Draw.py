@@ -73,7 +73,7 @@ class Draw:
         # fobj
         figure = plt.figure()
         axes = Axes3D(figure)
-        step = 0.2
+        step = 2
         X = np.arange(lb[0], ub[0], step)
         Y = np.arange(lb[1], ub[1], step)
         X, Y = np.meshgrid(X, Y)
@@ -96,12 +96,12 @@ class Draw:
         plt.ylim(lb[1], ub[1])
         plt.title(fobj.__doc__)
 
-        if self.isShow:
-            plt.show()
-        else:
+        if self.isClose:
             plt.ion()
             plt.pause(0.2)
             plt.close()
+        else:
+            plt.show()
 
     def drawPopScatter2D(self, pop_x, lb, ub, fobj):
         '''绘制2D种群分布图(2-dim)'''
@@ -141,8 +141,8 @@ class Draw:
 
         figure = plt.figure()
         axes = Axes3D(figure)
-        X = np.arange(lb, ub, 0.1)
-        Y = np.arange(lb, ub, 0.1)
+        X = np.arange(lb, ub, 1)
+        Y = np.arange(lb, ub, 1)
 
         X, Y = np.meshgrid(X, Y)
         Z = np.zeros(X.shape)
