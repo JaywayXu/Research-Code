@@ -213,16 +213,19 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                 child(i) = Chromosome();
                 child(i).rnvec = Xnew;
 
-                % 随机遗传主个体或r1、r2的技能因子
-                rd = randi(3);
+                % % 随机遗传主个体或r1、r2的技能因子
+                % rd = randi(3);
 
-                if rd == 1
-                    child(i).skill_factor = population(i).skill_factor;
-                elseif rd == 2
-                    child(i).skill_factor = population(r1).skill_factor;
-                elseif rd == 3
-                    child(i).skill_factor = population(r2).skill_factor;
-                end
+                % if rd == 1
+                %     child(i).skill_factor = population(i).skill_factor;
+                % elseif rd == 2
+                %     child(i).skill_factor = population(r1).skill_factor;
+                % elseif rd == 3
+                %     child(i).skill_factor = population(r2).skill_factor;
+                % end
+
+                % 遗传主个体的技能因子
+                child(i).skill_factor = population(i).skill_factor;
 
             end
 
