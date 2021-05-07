@@ -1,9 +1,9 @@
-pop_M = 100; % population size
-pop_S = pop_M;
-gen = 1000; % generation count
+pop_M = 200; % population size
+pop_S = 100;
+gen = 500; % generation count
 rmp = 0.3; % random mating probability
 pr = 0.5; % Probability Parameter
-reps = 30; % repetitions
+reps = 2; % repetitions
 benchmark_num = 10;
 is_run = 0; % 是否运行，false则直接读取mat文件
 
