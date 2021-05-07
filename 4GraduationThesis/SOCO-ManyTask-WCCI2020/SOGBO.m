@@ -18,7 +18,7 @@ function data_SOO = SOGBO(Task, pop, gen, pr, reps)
 
     for rep = 1:reps
         % 独立运行测试
-        disp(['SOGBO: ', num2str(rep), ' test'])
+        % disp(['SOGBO: ', num2str(rep), ' test'])
 
         % 生成种群
         for i = 1:pop
