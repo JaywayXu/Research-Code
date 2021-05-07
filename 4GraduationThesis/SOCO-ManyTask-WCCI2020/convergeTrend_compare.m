@@ -107,31 +107,52 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
         %     fprintf(stdPSO, '%f\n', stdTaskPSO(task_i));
         % end
 
-        mkdir(['./Results_compare/', strrep(benchName(i, :), ' ', '')])
+        % mkdir(['./Results_compare/', strrep(benchName(i, :), ' ', '')])
 
-        for task_i = 1:taskNum
-            h = figure('visible', 'off');
-            plot(x, objTaskGBO(task_i, 1:gen), 'r', 'Linewidth', 1);
-            hold on;
-            plot(x, objTaskGA(task_i, 1:gen), 'y', 'Linewidth', 1);
-            hold on;
-            plot(x, objTaskDE(task_i, 1:gen), 'g', 'Linewidth', 1);
-            hold on;
-            plot(x, objTaskPSO(task_i, 1:gen), 'b', 'Linewidth', 1);
-            hold on;
+        % for task_i = 1:taskNum
+        %     h = figure('visible', 'off');
+        %     plot(x, objTaskGBO(task_i, 1:gen), 'r', 'Linewidth', 1);
+        %     hold on;
+        %     plot(x, objTaskGA(task_i, 1:gen), 'y', 'Linewidth', 1);
+        %     hold on;
+        %     plot(x, objTaskDE(task_i, 1:gen), 'g', 'Linewidth', 1);
+        %     hold on;
+        %     plot(x, objTaskPSO(task_i, 1:gen), 'b', 'Linewidth', 1);
+        %     hold on;
 
-            title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
-            t = legend('GBO', 'GA', 'DE', 'PSO');
-            xlabel('Generation');
-            ylabel('Cost');
-            set(t, 'Fontsize', 20);
-            set(gca, 'Fontsize', 16);
+        %     title(['T', num2str(task_i), ' ', 'in', ' ', benchName(i, :)]);
+        %     t = legend('GBO', 'GA', 'DE', 'PSO');
+        %     xlabel('Generation');
+        %     ylabel('Cost');
+        %     set(t, 'Fontsize', 20);
+        %     set(gca, 'Fontsize', 16);
 
-            outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
-            print(h, '-dpng', outPath);
-            close(h);
+        %     outPath = ['./Results_compare/', strrep(benchName(i, :), ' ', ''), '/Task', num2str(task_i), '.png'];
+        %     print(h, '-dpng', outPath);
+        %     close(h);
 
-        end
+        % end
+
+        h = figure('visible', 'off');
+        plot(x, mean(objTaskGBO(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        hold on;
+        plot(x, mean(objTaskGA(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        hold on;
+        plot(x, mean(objTaskDE(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        hold on;
+        plot(x, mean(objTaskPSO(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        hold on;
+
+        title(benchName(i));
+        t = legend('GBO', 'GA', 'DE', 'PSO');
+        xlabel('Generation');
+        ylabel('Cost');
+        set(t, 'Fontsize', 20);
+        set(gca, 'Fontsize', 16);
+
+        outPath = ['./Results_2/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
+        print(h, '-dpng', outPath);
+        close(h);
 
     end
 

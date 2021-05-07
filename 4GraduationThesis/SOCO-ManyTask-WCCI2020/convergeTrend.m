@@ -105,6 +105,22 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
 
         % end
 
+        h = figure('visible', 'off');
+        plot(x, mean(objTaskMFO(:, 1:gen), 2), 'r', 'Linewidth', 1);
+        hold on;
+        plot(x, mean(objTaskSO(:, 1:gen), 2), 'y', 'Linewidth', 1);
+        hold on;
+
+        title(benchName(i));
+        t = legend('MFO', 'SOO');
+        xlabel('Generation');
+        ylabel('Cost');
+        set(t, 'Fontsize', 20);
+        set(gca, 'Fontsize', 16);
+
+        outPath = ['./Results/', strrep(benchName(i, :), ' ', ''), 'Task', num2str(task_i), '.png'];
+        print(h, '-dpng', outPath);
+        close(h);
     end
 
 end
