@@ -33,6 +33,11 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
     stdGA = fopen('./Results_compare/stdGA.txt', 'wt');
     stdDE = fopen('./Results_compare/stdDE.txt', 'wt');
     stdPSO = fopen('./Results_compare/stdPSO.txt', 'wt');
+    % clock
+    clockGBO = fopen('./Results_compare/clockGBO.txt', 'wt');
+    clockGA = fopen('./Results_compare/clockGA.txt', 'wt');
+    clockDE = fopen('./Results_compare/clockDE.txt', 'wt');
+    clockPSO = fopen('./Results_compare/clockPSO.txt', 'wt');
 
     for i = 1:benchNum
         aveInd = gen;
@@ -68,6 +73,16 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             aveTaskPSO(task_i, :) = objTaskPSO(task_i, aveInd);
             stdTaskPSO(task_i, :) = std(PSO_end(Task(task_i, :)));
         end
+
+        % clock
+        aveClockGBO = GBO.wall_clock_time;
+        aveClockGA = GA.wall_clock_time;
+        aveClockDE = DE.wall_clock_time;
+        aveClockPSO = PSO.wall_clock_time;
+        fprintf(clockGBO, '%f\n', aveClockGBO);
+        fprintf(clockGA, '%f\n', aveClockGA);
+        fprintf(clockDE, '%f\n', aveClockDE);
+        fprintf(clockPSO, '%f\n', aveClockPSO);
 
         for task_i = 1:taskNum
             fprintf(bestSolutionGBO, '%f\n', bestTaskGBO(task_i, :));
