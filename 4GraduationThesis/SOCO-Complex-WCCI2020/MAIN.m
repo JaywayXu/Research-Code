@@ -19,17 +19,17 @@ if is_run
             data_SOO(task_i, index) = SOGBO(Tasks(task_i), pop_S, gen, pr, reps);
         end
 
-        data_GA(index) = MFEA(Tasks, pop_M, gen, 'elitist', rmp, reps);
-        data_DE(index) = MFDE(Tasks, pop_M, gen, 'elitist', rmp, reps);
-        data_PSO(index) = MFPSO(Tasks, pop_M, gen, rmp, reps);
+        % data_GA(index) = MFEA(Tasks, pop_M, gen, 'elitist', rmp, reps);
+        % data_DE(index) = MFDE(Tasks, pop_M, gen, 'elitist', rmp, reps);
+        % data_PSO(index) = MFPSO(Tasks, pop_M, gen, rmp, reps);
     end
 
     save('data_MFGBO', 'data_MFGBO');
     % save('data_MFGBO_2', 'data_MFGBO_2');
     save('data_SOO', 'data_SOO');
-    save('data_GA', 'data_GA');
-    save('data_DE', 'data_DE');
-    save('data_PSO', 'data_PSO');
+    % save('data_GA', 'data_GA');
+    % save('data_DE', 'data_DE');
+    % save('data_PSO', 'data_PSO');
 end
 
 load('data_MFGBO', 'data_MFGBO');
