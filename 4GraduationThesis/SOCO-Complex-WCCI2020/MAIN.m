@@ -5,7 +5,7 @@ rmp = 0.3; % random mating probability
 pr = 0.5; % Probability Parameter
 reps = 30; % repetitions
 benchmark_num = 10;
-is_run = 1; % 是否运行，false则直接读取mat文件
+is_run = 0; % 是否运行，false则直接读取mat文件
 
 if is_run
 
