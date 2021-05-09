@@ -58,7 +58,7 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
 
         for task_i = 1:taskNum
             objTaskGBO(task_i, :) = mean(GBO.EvBestFitness(Task(task_i, :), :));
-            bestTaskGBO(task_i, :) = min(min(GA.EvBestFitness(Task(task_i, :), :)));
+            bestTaskGBO(task_i, :) = min(min(GBO.EvBestFitness(Task(task_i, :), :)));
             aveTaskGBO(task_i, :) = objTaskGBO(task_i, aveInd);
             stdTaskGBO(task_i, :) = std(GBO_end(Task(task_i, :)));
 
