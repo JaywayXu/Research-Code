@@ -77,7 +77,7 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             aveTaskPSO(task_i, :) = objTaskPSO(task_i, aveInd);
             stdTaskPSO(task_i, :) = std(PSO_end(Task(task_i, :)));
         end
-        
+
         % clock
         aveClockGBO = GBO.wall_clock_time;
         aveClockGA = GA.wall_clock_time;
@@ -114,8 +114,8 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
         plot(x, mean(objTaskPSO(:, 1:gen)), 'y', 'Linewidth', 1);
         hold on;
 
-        title(benchName(i));
-        t = legend('GBO', 'GA', 'DE', 'PSO');
+        title(['Average Cost in ', benchName(i)]);
+        t = legend('MFGBO', 'MFGA', 'MFDE', 'MFPSO');
         xlabel('Generation');
         ylabel('Cost');
         set(t, 'Fontsize', 20);

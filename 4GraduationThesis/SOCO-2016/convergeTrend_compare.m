@@ -113,8 +113,8 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
             plot(x, objTaskPSO(task_i, 1:gen), 'b', 'Linewidth', 1);
             hold on;
 
-            title(['T', num2str(task_i), ' ', 'in', ' ', char(benchName(i))]);
-            t = legend('GBO', 'GA', 'DE', 'PSO');
+            title(['T', num2str(task_i), ' in ', char(benchName(i))]);
+            t = legend('MFGBO', 'MFGA', 'MFDE', 'MFPSO');
             xlabel('Generation');
             ylabel('Cost');
             set(t, 'Fontsize', 20);
