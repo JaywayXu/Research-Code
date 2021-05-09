@@ -127,7 +127,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                     Best_X = Best_Xs(randi([1, no_of_tasks]));
                     Worst_X = Worst_Xs(randi([1, no_of_tasks]));
                 else
-                    %% 当前个体的任务因子内选取r1, r2个个体
+                    % 当前个体的任务因子内选取r1, r2个个体
                     sf = population(i).skill_factor;
                     r3 = A1(1);
                     r4 = A1(2);
@@ -210,19 +210,19 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                 Xnew(Xnew < lb) = lb;
 
                 % 生成新个体
-                child(i) = Chromosome();
-                child(i).rnvec = Xnew;
+                Chromosome_new = Chromosome();
+                Chromosome_new.rnvec = Xnew;
 
                 % 遗传主个体的技能因子
-                child(i).skill_factor = population(i).skill_factor;
-                sf = child(i).skill_factor;
+                Chromosome_new.skill_factor = population(i).skill_factor;
+                sf = Chromosome_new.skill_factor;
 
                 % 评价
-                child(i) = evaluate(child(i), Tasks, no_of_tasks);
+                Chromosome_new = evaluate(Chromosome_new, Tasks, no_of_tasks);
 
                 % 更新最优，锦标赛选择
-                if child(i).factorial_costs(sf) < population(i).factorial_costs(sf)
-                    population(i) = child(i);
+                if Chromosome_new.factorial_costs(sf) < population(i).factorial_costs(sf)
+                    population(i) = Chromosome_new;
 
                     % 更新最大值
                     if population(i).factorial_costs(sf) < bestobj(sf)

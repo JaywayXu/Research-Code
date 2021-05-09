@@ -6,6 +6,7 @@ rmp = 0.3; % random mating probability
 pr = 0.5; % Probability Parameter
 reps = 30; % repetitions
 benchmark_num = 9;
+task_num = 2;
 is_run = 1; % 是否运行，false则直接读取mat文件
 
 if is_run
@@ -37,5 +38,5 @@ load('data_SOO', 'data_SOO');
 load('data_GA', 'data_GA');
 load('data_DE', 'data_DE');
 load('data_PSO', 'data_PSO');
-convergeTrend(data_MFGBO, data_SOO, reps, gen, benchmark_num, 2);
-convergeTrend_compare(data_MFGBO, data_GA, data_DE, data_PSO, reps, gen, benchmark_num, 2);
+convergeTrend(data_MFGBO, data_SOO, reps, gen, benchmark_num, task_num);
+convergeTrend_compare(data_MFGBO, data_GA, data_DE, data_PSO, reps, gen, benchmark_num, task_num);

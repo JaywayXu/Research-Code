@@ -113,6 +113,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
             for i = 1:pop
                 % 分类交配关键代码
+                % A1 = fix(rand(1, pop) * pop) + 1;
                 A1 = randi(pop, 1, pop);
 
                 if rand() < rmp
@@ -209,119 +210,42 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                 Xnew(Xnew < lb) = lb;
 
                 % 生成新个体
-                child(i) = Chromosome();
-                child(i).rnvec = Xnew;
+                Chromosome_new = Chromosome();
+                Chromosome_new.rnvec = Xnew;
 
-                % 随机遗传主个体或r1、r2的技能因子
-                rd = randi(3);
+                % 遗传主个体的技能因子
+                Chromosome_new.skill_factor = population(i).skill_factor;
+                sf = Chromosome_new.skill_factor;
 
-                if rd == 1
-                    child(i).skill_factor = population(i).skill_factor;
-                elseif rd == 2
-                    child(i).skill_factor = population(r1).skill_factor;
-                elseif rd == 3
-                    child(i).skill_factor = population(r2).skill_factor;
-                end
+                % 评价
+                Chromosome_new = evaluate(Chromosome_new, Tasks, no_of_tasks);
 
-            end
+                % 更新最优，锦标赛选择
+                if Chromosome_new.factorial_costs(sf) < population(i).factorial_costs(sf)
+                    population(i) = Chromosome_new;
 
-            parfor i = 1:pop
-                % 函数值评价
-                [child(i)] = evaluate(child(i), Tasks, no_of_tasks);
-            end
-
-            % 更新评价次数
-            fnceval_calls(rep) = fnceval_calls(rep);
-            TotalEvaluations(rep, generation) = fnceval_calls(rep);
-
-            % 合并两代种群
-            factorial_cost_pop = zeros(1, pop);
-            factorial_cost_child = zeros(1, pop);
-
-            for i = 1:no_of_tasks
-                % 统计个体在每个任务上的因子排名
-
-                for j = 1:pop
-                    factorial_cost_pop(j) = population(j).factorial_costs(i);
-                    factorial_cost_child(j) = child(j).factorial_costs(i);
-                end
-
-                % 对当前任务的函数值进行排序，统计父子种群中的排名
-                [~, y] = sort([factorial_cost_pop, factorial_cost_child]);
-                rank_it = 1;
-
-                for j = 1:2 * pop
-
-                    if y(j) > pop
-                        % 子代里
-                        child(mod(y(j) - 1, pop) + 1).factorial_ranks(i) = rank_it;
-                    else
-                        % 父代里
-                        population(y(j)).factorial_ranks(i) = rank_it;
-                    end
-
-                    rank_it = rank_it +1;
-                end
-
-                % 更新最优
-                if y(1) > pop
-                    idx = mod(y(1) - 1, pop) + 1;
-
-                    if child(idx).factorial_costs(i) < bestobj(i)
-                        bestobj(i) = child(idx).factorial_costs(i);
-                        bestInd_data(rep, i) = child(idx);
-                        Best_Xs(i, :) = child(idx).rnvec;
-                    end
-
-                else
-
-                    if population(y(1)).factorial_costs(i) < bestobj(i)
-                        bestobj(i) = population(y(1)).factorial_costs(i);
-                        bestInd_data(rep, i) = population(y(1));
-                        Best_Xs(i, :) = population(y(1)).rnvec;
+                    % 更新最大值
+                    if population(i).factorial_costs(sf) < bestobj(sf)
+                        bestobj(sf) = population(i).factorial_costs(sf);
+                        bestInd_data(rep, sf) = population(i);
+                        Best_Xs(sf, :) = population(i).rnvec;
                     end
 
                 end
 
                 % 更新最差
-                if y(end) > pop
-                    idx = mod(y(end) - 1, pop) + 1;
-
-                    if child(idx).factorial_costs(i) > worstobj(i)
-                        worstobj(i) = child(idx).factorial_costs(i);
-                        Worst_Xs(i, :) = child(idx).rnvec;
-                    end
-
-                else
-
-                    if population(y(end)).factorial_costs(i) > worstobj(i)
-                        worstobj(i) = population(y(end)).factorial_costs(i);
-                        Worst_Xs(i, :) = population(y(end)).rnvec;
-                    end
-
-                end
-
-                EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
-            end
-
-            for i = 1:pop
-                % 更新每个个体的技能因子和标量适应值
-                [xxx, yyy] = min(population(i).factorial_ranks);
-                population(i).skill_factor = yyy;
-                population(i).scalar_fitness = 1 / xxx;
-                [xxx, yyy] = min(child(i).factorial_ranks);
-                child(i).skill_factor = yyy;
-                child(i).scalar_fitness = 1 / xxx;
-
-                % 一对一锦标赛选取下一代
-                if child(i).scalar_fitness > population(i).scalar_fitness
-                    % 替换原种群中的个体
-                    population(i) = child(i);
+                if population(i).factorial_costs(sf) > worstobj(sf)
+                    worstobj(sf) = population(i).factorial_costs(sf);
+                    Worst_Xs(sf, :) = population(i).rnvec;
                 end
 
             end
 
-            % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(mean(bestobj))]);
+            % 更新评价次数
+            TotalEvaluations(rep, generation) = fnceval_calls(rep);
+            EvBestFitness(sf + 2 * (rep - 1), generation) = bestobj(sf);
+
+            % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(bestobj)]);
         end
 
         data_MFGBO.wall_clock_time = toc; % 计时结束

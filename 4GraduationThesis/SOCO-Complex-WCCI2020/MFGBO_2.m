@@ -235,7 +235,6 @@ function data_MFGBO = MFGBO_2(Tasks, pop, gen, rmp, pr, reps)
             end
 
             % 更新评价次数
-            fnceval_calls(rep) = fnceval_calls(rep);
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
 
             % 合并两代种群
