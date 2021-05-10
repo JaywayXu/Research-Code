@@ -76,7 +76,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
         h = figure('visible', 'off');
         plot(x, mean(objTaskMFO(:, 1:gen)), 'r', 'Linewidth', 1);
         hold on;
-        plot(x, mean(objTaskSO(:, 1:gen)), 'y', 'Linewidth', 1);
+        plot(x, mean(objTaskSO(:, 1:gen)), 'b', 'Linewidth', 1);
         hold on;
 
         title(benchName(i));
