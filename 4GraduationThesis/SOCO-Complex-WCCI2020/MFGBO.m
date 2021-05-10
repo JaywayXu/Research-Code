@@ -44,7 +44,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
         % 适应值评价
         parfor i = 1:pop
-            [population(i)] = evaluate(population(i), Tasks, no_of_tasks);
+            population(i) = evaluate(population(i), Tasks, no_of_tasks);
         end
 
         % 更新评价次数
@@ -243,7 +243,10 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
             % 更新评价次数
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
-            EvBestFitness(sf + 2 * (rep - 1), generation) = bestobj(sf);
+            % 更新每代最优适应值
+            for i = 1:no_of_tasks
+                EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
+            end
 
             % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(bestobj)]);
         end
