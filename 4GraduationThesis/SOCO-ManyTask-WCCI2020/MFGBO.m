@@ -25,7 +25,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
     D_multitask = max(D); %个体的维数(所有任务中最大的维数)
 
     fnceval_calls = zeros(1, reps); % 每次独立测试的总评价次数
-    EvBestFitness = zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
+    EvBestFitness = inf * zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
     TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
     worstobj = zeros(1, no_of_tasks); % 每个任务对最差解
@@ -44,7 +44,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
         % 适应值评价
         parfor i = 1:pop
-            [population(i)] = evaluate(population(i), Tasks, no_of_tasks);
+            population(i) = evaluate(population(i), Tasks, no_of_tasks);
         end
 
         % 更新评价次数

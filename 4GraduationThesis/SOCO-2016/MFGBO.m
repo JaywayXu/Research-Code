@@ -29,7 +29,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
 
     fnceval_calls = zeros(1, reps); % 每次独立测试的总评价次数
     calls_per_individual = zeros(1, pop); % 每个个体的评价次数
-    EvBestFitness = zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
+    EvBestFitness = inf * zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
     TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
     worstobj = zeros(1, no_of_tasks); % 每个任务对最差解
