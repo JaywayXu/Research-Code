@@ -1,4 +1,4 @@
-function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, reps)
+function data_MFPSO = MFPSO(Tasks, pop, gen, eva_num, rmp, reps)
     %MFEA function: implementation of MFEA algorithm
     tic
 
@@ -33,8 +33,8 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, reps)
 
     fnceval_calls = zeros(1, reps);
     calls_per_individual = zeros(1, pop);
-    EvBestFitness = zeros(no_of_tasks * reps, gen); % best fitness found
-    TotalEvaluations = zeros(reps, gen); % total number of task evaluations so fer
+    % EvBestFitness = zeros(no_of_tasks * reps, gen); % best fitness found
+    % TotalEvaluations = zeros(reps, gen); % total number of task evaluations so fer
     bestobj = Inf(1, no_of_tasks);
 
     for rep = 1:reps
@@ -70,7 +70,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, reps)
 
             bestobj(i) = population(1).factorial_costs(i);
             gbest(i, :) = population(1).rnvec;
-            EvBestFitness(i + 2 * (rep - 1), 1) = bestobj(i);
+            EvBestFitness(i + no_of_tasks * (rep - 1), 1) = bestobj(i);
             bestInd_data(rep, i) = population(1);
         end
 
@@ -98,7 +98,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, reps)
         ite = 1;
         noImpove = 0;
 
-        while ite <= gen
+        while ite <= gen && TotalEvaluations(rep, ite) < eva_num
             w1 = wmax - (wmax - wmin) * ite / gen;
 
             if ~mod(ite, 10) && noImpove >= 20
@@ -128,6 +128,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, reps)
             end
 
             fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
+            TotalEvaluations(rep, ite + 1) = fnceval_calls(rep);
 
             factorial_cost = zeros(1, pop);
 
@@ -153,7 +154,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, rmp, reps)
                     noImpove = noImpove + 1;
                 end
 
-                EvBestFitness(i + 2 * (rep - 1), ite + 1) = bestobj(i);
+                EvBestFitness(i + no_of_tasks * (rep - 1), ite + 1) = bestobj(i);
 
             end
 

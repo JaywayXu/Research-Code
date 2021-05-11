@@ -1,4 +1,4 @@
-function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
+function data_MFEA = MFEA(Tasks, pop, gen, eva_num, selection_process, rmp, reps)
     % MFEA
     % 参数(任务组, 种群数量, 迭代次数, 选择过程函数, 随机匹配概率, 使用局部优化函数的概率)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
@@ -26,8 +26,8 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
 
     fnceval_calls = zeros(1, reps); % 总评价次数
     calls_per_individual = zeros(1, pop); % 每个个体的评价次数
-    EvBestFitness = zeros(no_of_tasks * reps, gen); % 每个任务上每代最优解
-    TotalEvaluations = zeros(reps, gen); % 每代的总评价次数
+    % EvBestFitness = zeros(no_of_tasks * reps, gen); % 每个任务上每代最优解
+    % TotalEvaluations = zeros(reps, gen); % 每代的总评价次数
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
 
     for rep = 1:reps
@@ -68,7 +68,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
             end
 
             bestobj(i) = population(1).factorial_costs(i);
-            EvBestFitness(i + 2 * (rep - 1), 1) = bestobj(i);
+            EvBestFitness(i + no_of_tasks * (rep - 1), 1) = bestobj(i);
             bestInd_data(rep, i) = population(1); % 每个任务上最优解对应的个体
         end
 
@@ -102,7 +102,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
         sigma = 0.02; % 高斯变异的标准差
         generation = 1;
 
-        while generation <= gen
+        while generation <= gen && TotalEvaluations(rep, generation) < eva_num
             generation = generation + 1;
             indorder = randperm(pop); % 随机排列
             count = 1;
@@ -192,7 +192,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
                     bestInd_data(rep, i) = intpopulation(1);
                 end
 
-                EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
+                EvBestFitness(i + no_of_tasks * (rep - 1), generation) = bestobj(i);
             end
 
             for i = 1:2 * pop
