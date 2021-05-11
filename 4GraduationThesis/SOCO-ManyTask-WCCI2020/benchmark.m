@@ -1,6 +1,6 @@
 function Tasks = benchmark(ID)
 %BENCHMARK function
-    task_size = 50;
+    task_size = 10;
     dim = 50;
     choice_functions = [];
     switch(ID)

@@ -1,8 +1,8 @@
-pop_M = 200; % MF种群数量
-pop_S = 50; % SO种群数量
+pop_M = 100; % MF种群数量
+pop_S = pop_M; % SO种群数量
 gen = 500; % 最大迭代次数
 benchmark_num = 10; % 测试集数量 10
-task_num = 50; % 任务数量 2
+task_num = 10; % 任务数量 2
 eva_num_M = pop_M * gen; % MF最大评价次数
 eva_num_S = eva_num_M / task_num; % SO最大评价次数
 reps = 20; % 独立重复运行次数 30
