@@ -44,11 +44,11 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
         % 适应值评价
         parfor i = 1:pop
-            population(i) = evaluate(population(i), Tasks, no_of_tasks);
+            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, no_of_tasks);
         end
 
         % 更新评价次数
-        fnceval_calls(rep) = fnceval_calls(rep);
+        fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
         TotalEvaluations(rep, 1) = fnceval_calls(rep);
 
         factorial_cost = zeros(1, pop); % 每个个体的因子函数值
@@ -213,12 +213,20 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                 Chromosome_new = Chromosome();
                 Chromosome_new.rnvec = Xnew;
 
-                % 遗传主个体的技能因子
-                Chromosome_new.skill_factor = population(i).skill_factor;
+                % 遗传主个体的技能因子，或变异
+                pm = 0.1;
+
+                if rand() < pm
+                    % 变异
+                    Chromosome_new.skill_factor = randi(no_of_tasks);
+                else
+                    Chromosome_new.skill_factor = population(i).skill_factor;
+                end
+
                 sf = Chromosome_new.skill_factor;
 
                 % 评价
-                Chromosome_new = evaluate(Chromosome_new, Tasks, no_of_tasks);
+                [Chromosome_new, calls_per_individual(i)] = evaluate(Chromosome_new, Tasks, no_of_tasks);
 
                 % 更新最优，锦标赛选择
                 if Chromosome_new.factorial_costs(sf) < population(i).factorial_costs(sf)
@@ -242,13 +250,14 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
             end
 
             % 更新评价次数
+            fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
             % 更新每代最优适应值
             for i = 1:no_of_tasks
                 EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
             end
 
-            % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(bestobj)]);
+            % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(sum(bestobj))]);
         end
 
         data_MFGBO.wall_clock_time = toc; % 计时结束
