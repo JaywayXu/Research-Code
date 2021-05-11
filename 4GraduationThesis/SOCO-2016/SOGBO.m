@@ -1,8 +1,10 @@
-function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
+function data_SOO = SOGBO(Task, pop, gen, eva_num, reps)
     % 单任务GBO
-    % 参数(任务, 种群数量, 迭代次数, LEO局部逃逸概率, 使用局部优化函数的概率, 独立运行测试次数)
+    % 参数(任务, 种群数量, 迭代次数, 最大评价次数, LEO局部逃逸概率, 独立运行测试次数)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
     tic % 计时开始
+    pr = 0.5; % Probability Parameter in GBO
+    options = optimoptions(@fminunc, 'Display', 'off', 'Algorithm', 'quasi-newton', 'MaxIter', 2); % settings for individual learning
 
     % 保证种群数量为2的整数倍
     if mod(pop, 2) ~= 0
@@ -10,12 +12,11 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
     end
 
     D = Task.dims; % 任务维数
-    options = optimoptions(@fminunc, 'Display', 'off', 'Algorithm', 'quasi-newton', 'MaxIter', 2); % settings for individual learning
 
     fnceval_calls = zeros(1, reps); % 每次独立测试的总评价次数
     calls_per_individual = zeros(1, pop); %每个个体的评价次数
-    EvBestFitness = zeros(reps, gen); % 每次次独立测试每代的最优解
-    TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
+    % EvBestFitness = zeros(reps, gen); % 每次次独立测试每代的最优解
+    % TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
 
     for rep = 1:reps
         % 独立运行测试
@@ -29,7 +30,7 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
 
         % 适应值评价
         parfor i = 1:pop
-            [population(i), calls_per_individual(i)] = evaluate_SOO(population(i), Task, p_il, options);
+            [population(i), calls_per_individual(i)] = evaluate_SOO(population(i), Task, 0, options);
         end
 
         % 更新评价次数
@@ -47,11 +48,11 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
 
         generation = 1;
 
-        while generation < gen
+        while generation < gen && TotalEvaluations(rep, generation) < eva_num
             % 主循环
             generation = generation + 1;
 
-            beta = 0.2 + (1.2 - 0.2) * (1 - (generation / gen)^3)^2; % Eq.(14.2)
+            beta = 0.2 + (1.2 - 0.2) * (1 - (TotalEvaluations(rep, generation-1) / eva_num)^3)^2; % Eq.(14.2)
             alpha = abs(beta .* sin((3 * pi / 2 + sin(3 * pi / 2 * beta)))); % Eq.(14.1)
 
             % GBO算法部分
@@ -120,7 +121,7 @@ function data_SOO = SOGBO(Task, pop, gen, pr, p_il, reps)
                 % 计算适应值
                 Chromosome_new = Chromosome();
                 Chromosome_new.rnvec = Xnew;
-                [Chromosome_new, calls_per_individual(i)] = evaluate_SOO(Chromosome_new, Task, p_il, options);
+                [Chromosome_new, calls_per_individual(i)] = evaluate_SOO(Chromosome_new, Task, 0, options);
 
                 % 更新最优
                 if Chromosome_new.factorial_costs < population(i).factorial_costs

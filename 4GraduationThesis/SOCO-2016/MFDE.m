@@ -1,4 +1,4 @@
-function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
+function data_MFDE = MFDE(Tasks, pop, gen, eva_num,  selection_process, rmp, p_il, reps)
     %MFEA function: implementation of MFEA algorithm
     tic
 
@@ -23,8 +23,8 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
 
     fnceval_calls = zeros(1, reps);
     calls_per_individual = zeros(1, pop);
-    EvBestFitness = zeros(no_of_tasks * reps, gen); % best fitness found
-    TotalEvaluations = zeros(reps, gen); % total number of task evaluations so fer
+    % EvBestFitness = zeros(no_of_tasks * reps, gen); % best fitness found
+    % TotalEvaluations = zeros(reps, gen); % total number of task evaluations so fer
     bestobj = Inf(1, no_of_tasks);
     bestFncErrorValue = zeros(100, 60);
 
@@ -60,7 +60,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
             end
 
             bestobj(i) = population(1).factorial_costs(i);
-            EvBestFitness(i + 2 * (rep - 1), 1) = bestobj(i);
+            EvBestFitness(i + no_of_tasks * (rep - 1), 1) = bestobj(i);
             bestInd_data(rep, i) = population(1);
         end
 
@@ -89,7 +89,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
         pCR = 0.9;
         generation = 1;
 
-        while generation < gen
+        while generation < gen && TotalEvaluations(rep, generation) < eva_num
             generation = generation + 1;
             count = 1;
 
@@ -205,7 +205,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, selection_process, rmp, p_il, reps)
                     bestInd_data(rep, i) = intpopulation(1);
                 end
 
-                EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
+                EvBestFitness(i + no_of_tasks * (rep - 1), generation) = bestobj(i);
 
                 if mod(fnceval_calls(rep), 3000) == 0
                     bestFncErrorValue(fnceval_calls(rep) / 3000, 1) = fnceval_calls(rep);
