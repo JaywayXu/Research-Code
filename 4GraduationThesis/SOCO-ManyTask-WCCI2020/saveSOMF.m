@@ -53,13 +53,10 @@ function saveSOMF(data_MFO, data_SOO, reps, benchNum, taskNum)
             aveClockSO = aveClockSO + SOO(task_i).wall_clock_time;
         end
 
-        for task_i = 1:taskNum
-            fprintf(aveSolutionMFO, '%f\n', mean(aveTaskMFO));
-            fprintf(aveSolutionSO, '%f\n', mean(aveTaskSO));
-            fprintf(stdMFO, '%f\n', mean(stdTaskMFO));
-            fprintf(stdSO, '%f\n', mean(stdTaskSO));
-        end
-
+        fprintf(aveSolutionMFO, '%f\n', mean(aveTaskMFO));
+        fprintf(aveSolutionSO, '%f\n', mean(aveTaskSO));
+        fprintf(stdMFO, '%f\n', mean(stdTaskMFO));
+        fprintf(stdSO, '%f\n', mean(stdTaskSO));
         fprintf(clockMFO, '%f\n', aveClockMFO);
         fprintf(clockSO, '%f\n', aveClockSO);
 
