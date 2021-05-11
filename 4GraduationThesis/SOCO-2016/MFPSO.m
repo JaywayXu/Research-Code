@@ -130,6 +130,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, eva_num, rmp, p_il, reps)
             end
 
             fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
+            TotalEvaluations(rep, ite + 1) = fnceval_calls(rep);
 
             factorial_cost = zeros(1, pop);
 
