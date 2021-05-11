@@ -21,7 +21,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, eva_num, rmp, reps)
     D = zeros(1, no_of_tasks); % 每个任务解的维数
 
     for i = 1:no_of_tasks
-        D(i) = Tasks(i).dims;
+        D(i) = Tasks(i).dim;
     end
 
     D_multitask = max(D); %个体的维数(所有任务中最大的维数)
