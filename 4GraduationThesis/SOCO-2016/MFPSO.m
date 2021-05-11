@@ -1,4 +1,4 @@
-function data_MFPSO = MFPSO(Tasks, pop, gen, eva_num, rmp, p_il, reps)
+function data_MFPSO = MFPSO(Tasks, pop, gen, eva_num, rmp, reps)
     %MFEA function: implementation of MFEA algorithm
     tic
 
@@ -49,7 +49,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, eva_num, rmp, p_il, reps)
         end
 
         parfor i = 1:pop
-            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
+            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, 0, no_of_tasks, options);
         end
 
         fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
@@ -126,7 +126,7 @@ function data_MFPSO = MFPSO(Tasks, pop, gen, eva_num, rmp, p_il, reps)
             end
 
             parfor i = 1:pop
-                [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
+                [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, 0, no_of_tasks, options);
             end
 
             fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);

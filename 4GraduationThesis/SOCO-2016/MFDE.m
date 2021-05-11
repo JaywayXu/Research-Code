@@ -1,4 +1,4 @@
-function data_MFDE = MFDE(Tasks, pop, gen, eva_num,  selection_process, rmp, p_il, reps)
+function data_MFDE = MFDE(Tasks, pop, gen, eva_num,  selection_process, rmp, reps)
     %MFEA function: implementation of MFEA algorithm
     tic
 
@@ -38,7 +38,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, eva_num,  selection_process, rmp, p_i
         end
 
         parfor i = 1:pop
-            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
+            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, 0, no_of_tasks, options);
         end
 
         fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
@@ -177,7 +177,7 @@ function data_MFDE = MFDE(Tasks, pop, gen, eva_num,  selection_process, rmp, p_i
             end
 
             parfor i = 1:pop
-                [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
+                [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, 0, no_of_tasks, options);
             end
 
             fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);

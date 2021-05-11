@@ -22,9 +22,9 @@ if is_run
             data_SOO(task_i, index) = SOGBO(Tasks(task_i), pop_S, gen, eva_num_S, reps);
         end
 
-        data_GA(index) = MFEA(Tasks, pop_M, gen, eva_num_M, 'elitist', rmp, 0, reps);
-        data_DE(index) = MFDE(Tasks, pop_M, gen, eva_num_M, 'elitist', rmp, 0, reps);
-        data_PSO(index) = MFPSO(Tasks, pop_M, gen, eva_num_M, rmp, 0, reps);
+        data_GA(index) = MFEA(Tasks, pop_M, gen, eva_num_M, 'elitist', rmp, reps);
+        data_DE(index) = MFDE(Tasks, pop_M, gen, eva_num_M, 'elitist', rmp, reps);
+        data_PSO(index) = MFPSO(Tasks, pop_M, gen, eva_num_M, rmp, reps);
     end
 
     save('data_MFGBO', 'data_MFGBO');

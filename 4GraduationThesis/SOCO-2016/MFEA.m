@@ -1,4 +1,4 @@
-function data_MFEA = MFEA(Tasks, pop, gen, eva_num, selection_process, rmp, p_il, reps)
+function data_MFEA = MFEA(Tasks, pop, gen, eva_num, selection_process, rmp, reps)
     % MFEA
     % 参数(任务组, 种群数量, 迭代次数, 选择过程函数, 随机匹配概率, 使用局部优化函数的概率)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
@@ -45,7 +45,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, eva_num, selection_process, rmp, p_il
 
         % 适应值评价
         parfor i = 1:pop
-            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
+            [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, 0, no_of_tasks, options);
         end
 
         % 更新评价次数
@@ -161,7 +161,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, eva_num, selection_process, rmp, p_il
 
             parfor i = 1:pop
                 % 函数值评价
-                [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
+                [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, 0, no_of_tasks, options);
             end
 
             % 更新评价次数
