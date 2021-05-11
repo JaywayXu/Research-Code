@@ -42,7 +42,7 @@ function convergeTrend(data_MFO, data_SOO, reps, gen, benchNum, taskNum)
             objTaskMFO(task_i, :) = mean(MFO.EvBestFitness(Task(task_i, :), :));
             objTaskSO(task_i, :) = mean(SOO(task_i, :).EvBestFitness);
 
-            bestTaskMFO(task_i, :) = min(min(MFO.EvBestFitness(Task(task_i, :), :)));
+            bestTaskMFO(task_i, :) = min(MFO.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskMFO(task_i, :) = objTaskMFO(task_i, aveInd);
             stdTaskMFO(task_i, :) = std(MFO_end(Task(task_i, :)));
 

@@ -46,12 +46,12 @@ function convergeTrend_2(data_GBO, data_GBO_2, reps, gen, benchNum, taskNum)
 
         for task_i = 1:taskNum
             objTaskGBO(task_i, :) = mean(GBO.EvBestFitness(Task(task_i, :), :));
-            bestTaskGBO(task_i, :) = min(min(GBO_2.EvBestFitness(Task(task_i, :), :)));
+            bestTaskGBO(task_i, :) = min(GBO.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskGBO(task_i, :) = objTaskGBO(task_i, aveInd);
             stdTaskGBO(task_i, :) = std(GBO_end(Task(task_i, :)));
 
             objTaskGBO_2(task_i, :) = mean(GBO_2.EvBestFitness(Task(task_i, :), :));
-            bestTaskGBO_2(task_i, :) = min(min(GBO_2.EvBestFitness(Task(task_i, :), :)));
+            bestTaskGBO_2(task_i, :) = min(GBO_2.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskGBO_2(task_i, :) = objTaskGBO_2(task_i, aveInd);
             stdTaskGBO_2(task_i, :) = std(GBO_2_end(Task(task_i, :)));
         end

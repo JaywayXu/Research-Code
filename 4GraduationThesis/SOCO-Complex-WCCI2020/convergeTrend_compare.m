@@ -58,22 +58,22 @@ function convergeTrend_compare(data_GBO, data_GA, data_DE, data_PSO, reps, gen, 
 
         for task_i = 1:taskNum
             objTaskGBO(task_i, :) = mean(GBO.EvBestFitness(Task(task_i, :), :));
-            bestTaskGBO(task_i, :) = min(min(GBO.EvBestFitness(Task(task_i, :), :)));
+            bestTaskGBO(task_i, :) = min(GBO.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskGBO(task_i, :) = objTaskGBO(task_i, aveInd);
             stdTaskGBO(task_i, :) = std(GBO_end(Task(task_i, :)));
 
             objTaskGA(task_i, :) = mean(GA.EvBestFitness(Task(task_i, :), :));
-            bestTaskGA(task_i, :) = min(min(GA.EvBestFitness(Task(task_i, :), :)));
+            bestTaskGA(task_i, :) = min(GA.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskGA(task_i, :) = objTaskGA(task_i, aveInd);
             stdTaskGA(task_i, :) = std(GA_end(Task(task_i, :)));
 
             objTaskDE(task_i, :) = mean(DE.EvBestFitness(Task(task_i, :), :));
-            bestTaskDE(task_i, :) = min(min(DE.EvBestFitness(Task(task_i, :), :)));
+            bestTaskDE(task_i, :) = min(DE.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskDE(task_i, :) = objTaskDE(task_i, aveInd);
             stdTaskDE(task_i, :) = std(DE_end(Task(task_i, :)));
 
             objTaskPSO(task_i, :) = mean(PSO.EvBestFitness(Task(task_i, :), :));
-            bestTaskPSO(task_i, :) = min(min(PSO.EvBestFitness(Task(task_i, :), :)));
+            bestTaskPSO(task_i, :) = min(PSO.EvBestFitness(Task(task_i, :), aveInd));
             aveTaskPSO(task_i, :) = objTaskPSO(task_i, aveInd);
             stdTaskPSO(task_i, :) = std(PSO_end(Task(task_i, :)));
         end
