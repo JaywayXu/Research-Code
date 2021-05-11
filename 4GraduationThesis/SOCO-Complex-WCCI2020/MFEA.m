@@ -189,7 +189,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, reps)
                 % 更新每个任务的最优解和最优个体
                 if intpopulation(1).factorial_costs(i) <= bestobj(i)
                     bestobj(i) = intpopulation(1).factorial_costs(i);
-                    bestInd_data(i) = intpopulation(1);
+                    bestInd_data(rep, i) = intpopulation(1);
                 end
 
                 EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
