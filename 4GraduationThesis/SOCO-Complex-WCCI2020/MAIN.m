@@ -20,6 +20,7 @@ if is_run
             disp(['SOTask: ', num2str(task_i)]);
             data_SOO(task_i, index) = SOGBO(Tasks(task_i), pop_S, gen, pr, reps);
         end
+        
         data_GA(index) = MFEA(Tasks, pop_M, gen, 'elitist', rmp, reps);
         data_DE(index) = MFDE(Tasks, pop_M, gen, 'elitist', rmp, reps);
         data_PSO(index) = MFPSO(Tasks, pop_M, gen, rmp, reps);

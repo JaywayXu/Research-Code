@@ -216,8 +216,16 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
                 Chromosome_new = Chromosome();
                 Chromosome_new.rnvec = Xnew;
 
-                % 遗传主个体的技能因子
-                Chromosome_new.skill_factor = population(i).skill_factor;
+                % 遗传主个体的技能因子，或变异
+                pm = 0.1;
+
+                if rand() < pm
+                    % 变异
+                    Chromosome_new.skill_factor = randi(no_of_tasks);
+                else
+                    Chromosome_new.skill_factor = population(i).skill_factor;
+                end
+
                 sf = Chromosome_new.skill_factor;
 
                 % 函数值评价
