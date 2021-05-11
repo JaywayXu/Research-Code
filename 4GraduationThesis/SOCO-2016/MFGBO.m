@@ -76,7 +76,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
             Best_Xs(i, :) = population(y(1)).rnvec;
             worstobj(i) = population(y(end)).factorial_costs(i);
             Worst_Xs(i, :) = population(y(end)).rnvec;
-            EvBestFitness(i + 2 * (rep - 1), 1) = bestobj(i);
+            EvBestFitness(i + no_of_tasks * (rep - 1), 1) = bestobj(i);
             bestInd_data(rep, i) = population(1); % 每个任务上最优解对应的个体
         end
 
@@ -249,7 +249,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, p_il, reps)
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
             % 更新每代最优适应值
             for i = 1:no_of_tasks
-                EvBestFitness(i + 2 * (rep - 1), generation) = bestobj(i);
+                EvBestFitness(i + no_of_tasks * (rep - 1), generation) = bestobj(i);
             end
 
             % disp(['MFGBO Generation = ', num2str(generation), ' best factorial costs = ', num2str(bestobj)]);
