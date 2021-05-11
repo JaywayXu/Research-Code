@@ -1,8 +1,10 @@
-function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
+function data_MFGBO = MFGBO(Tasks, pop, gen, eva_num, rmp, reps)
     % MFGBO
-    % 参数(任务组, 种群数量, 迭代次数, 随机匹配概率, LEO局部逃逸概率, 用局部优化函数的概率)
+    % 参数(任务组, 种群数量, 迭代次数, 随机匹配概率, 独立运行次数)
     % 返回值(data.wall_clock_time, data.EvBestFitness, data.bestInd_data, data.TotalEvaluations)
     tic % 计时开始
+    pm = 0.1; % Probability of mutation
+    pr = 0.5; % Probability Parameter in GBO
 
     % 保证种群数量为2的整数倍
     if mod(pop, 2) ~= 0
@@ -25,8 +27,8 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
     D_multitask = max(D); %个体的维数(所有任务中最大的维数)
 
     fnceval_calls = zeros(1, reps); % 每次独立测试的总评价次数
-    EvBestFitness = inf * zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
-    TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
+    % EvBestFitness = inf * zeros(no_of_tasks * reps, gen); % 每次测试的每个任务上每代最优解
+    % TotalEvaluations = zeros(reps, gen); % 每次独立测试每代的总评价次数
     bestobj = inf * (ones(1, no_of_tasks)); % 每个任务的最优解
     worstobj = zeros(1, no_of_tasks); % 每个任务对最差解
     Best_Xs = zeros(no_of_tasks, D_multitask);
@@ -104,11 +106,11 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
 
         generation = 1;
 
-        while generation <= gen
+        while generation <= gen && TotalEvaluations(rep, generation) < eva_num
             % 主循环
             generation = generation + 1;
 
-            beta = 0.2 + (1.2 - 0.2) * (1 - (generation / gen)^3)^2; % Eq.(14.2)
+            beta = 0.2 + (1.2 - 0.2) * (1 - (TotalEvaluations(rep, generation - 1) / eva_num)^3)^2; % Eq.(14.2)
             alpha = abs(beta .* sin((3 * pi / 2 + sin(3 * pi / 2 * beta)))); % Eq.(14.1)
 
             for i = 1:pop
@@ -214,8 +216,6 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
                 Chromosome_new.rnvec = Xnew;
 
                 % 遗传主个体的技能因子，或变异
-                pm = 0.1;
-
                 if rand() < pm
                     % 变异
                     Chromosome_new.skill_factor = randi(no_of_tasks);
