@@ -72,7 +72,6 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, rmp, pr, reps)
             Best_Xs(i, :) = population(y(1)).rnvec;
             worstobj(i) = population(y(end)).factorial_costs(i);
             Worst_Xs(i, :) = population(y(end)).rnvec;
-            i + no_of_tasks * (rep - 1)
             EvBestFitness(i + no_of_tasks * (rep - 1), 1) = bestobj(i);
             bestInd_data(rep, i) = population(1); % 每个任务上最优解对应的个体
         end
