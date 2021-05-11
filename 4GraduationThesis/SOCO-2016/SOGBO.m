@@ -52,7 +52,7 @@ function data_SOO = SOGBO(Task, pop, gen, eva_num, reps)
             % 主循环
             generation = generation + 1;
 
-            beta = 0.2 + (1.2 - 0.2) * (1 - (TotalEvaluations(rep, generation-1) / eva_num)^3)^2; % Eq.(14.2)
+            beta = 0.2 + (1.2 - 0.2) * (1 - (TotalEvaluations(rep, generation - 1) / eva_num)^3)^2; % Eq.(14.2)
             alpha = abs(beta .* sin((3 * pi / 2 + sin(3 * pi / 2 * beta)))); % Eq.(14.1)
 
             % GBO算法部分

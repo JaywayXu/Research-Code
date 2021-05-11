@@ -111,7 +111,7 @@ function data_MFGBO = MFGBO(Tasks, pop, gen, eva_num, rmp, reps)
             % 主循环
             generation = generation + 1;
 
-            beta = 0.2 + (1.2 - 0.2) * (1 - (TotalEvaluations(rep, generation-1) / eva_num)^3)^2; % Eq.(14.2)
+            beta = 0.2 + (1.2 - 0.2) * (1 - (TotalEvaluations(rep, generation - 1) / eva_num)^3)^2; % Eq.(14.2)
             alpha = abs(beta .* sin((3 * pi / 2 + sin(3 * pi / 2 * beta)))); % Eq.(14.1)
 
             for i = 1:pop
