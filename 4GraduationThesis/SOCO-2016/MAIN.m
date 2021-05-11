@@ -5,7 +5,7 @@ benchmark_num = 9; % 测试集数量 9
 task_num = 2; % 任务数量 2
 eva_num_M = pop_M * gen; % MF最大评价次数
 eva_num_S = eva_num_M / task_num; % SO最大评价次数
-reps = 1; % 独立重复运行次数 30
+reps = 20; % 独立重复运行次数 30
 is_run = 1; % 是否运行，false则直接读取mat文件
 
 rmp = 0.3; % random mating probability
