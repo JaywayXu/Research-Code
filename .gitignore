@@ -24,7 +24,7 @@
 *.log
 *.toc
 # PDF output files
-*.pdf
+# *.pdf
 # Latexmk
 *.fdb_latexmk
 # SyncTeX
