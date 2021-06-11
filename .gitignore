@@ -47,3 +47,6 @@
 ## temporary Project file ignore
 data_*
 Results*/
+*.pickle
+*.h5
+*.hf5
