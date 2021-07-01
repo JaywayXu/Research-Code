@@ -118,7 +118,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps, n
                         child(count).isTran = 0;
                         child(count + 1).isTran = 0;
                     else
-
+                        % 不同文化间杂交
                         switch ncx
                             case 1
                                 child(count) = spcrossover(child(count), population(p1), population(p2));
@@ -143,7 +143,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps, n
                                 child(count) = geocrossover(child(count), population(p1), population(p2));
                                 child(count + 1) = geocrossover(child(count + 1), population(p2), population(p1));
                             case 8
-
+                                % adpt
                                 if rand(1) < 0.5
                                     alpha = population(p1).cx_factor;
                                 else
@@ -203,6 +203,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps, n
                     end
 
                 else
+                    % mutate
                     child(count) = mutate(child(count), population(p1), D_multitask, mum);
                     child(count).skill_factor = population(p1).skill_factor;
                     child(count).cx_factor = population(p1).cx_factor;
@@ -221,6 +222,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps, n
             for i = 1:pop
                 [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
 
+                % 在子种群中统计最佳交叉因子
                 if child(i).parNum ~= 0
                     cfc = child(i).factorial_costs(child(i).skill_factor);
                     pfc = population(child(i).parNum).factorial_costs(population(child(i).parNum).skill_factor);
@@ -238,9 +240,9 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps, n
             if any(impNum)
                 [maxNum, maxInd] = max(impNum);
             else
-
+                % 没有更好的迁移交叉因子
                 if generation <= ginterval + 1
-
+                    % 靠前的代数
                     for i = 2:generation - 1
                         prCfb_Count(cfbRecord(i)) = prCfb_Count(cfbRecord(i)) + 1;
                     end
@@ -258,6 +260,7 @@ function data_MFEA = MFEA(Tasks, pop, gen, selection_process, rmp, p_il, reps, n
 
             cfbRecord(generation) = maxInd;
 
+            % 交叉因子自适应
             for i = 1:pop
 
                 if child(i).parNum ~= 0
