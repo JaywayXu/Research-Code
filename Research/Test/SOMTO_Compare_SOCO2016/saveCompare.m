@@ -1,6 +1,8 @@
-function saveCompare(dataNameList, reps, benchNum, taskNum)
-    benchName = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
+function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
+    algoNum = length(algoNameList);
+    benchNum = length(benchNameList);
 
+    % 构造访问每个任务的下标矩阵
     Task = zeros(taskNum, reps);
 
     k = 1;
@@ -14,88 +16,95 @@ function saveCompare(dataNameList, reps, benchNum, taskNum)
 
     end
 
-    mkdir('./Results_Compare/')
-    aveSolutionGBO = fopen('./Results_Compare/aveSolutionGBO.txt', 'wt');
-    aveSolutionGA = fopen('./Results_Compare/aveSolutionGA.txt', 'wt');
-    aveSolutionDE = fopen('./Results_Compare/aveSolutionDE.txt', 'wt');
-    aveSolutionPSO = fopen('./Results_Compare/aveSolutionPSO.txt', 'wt');
-    stdGBO = fopen('./Results_Compare/stdGBO.txt', 'wt');
-    stdGA = fopen('./Results_Compare/stdGA.txt', 'wt');
-    stdDE = fopen('./Results_Compare/stdDE.txt', 'wt');
-    stdPSO = fopen('./Results_Compare/stdPSO.txt', 'wt');
-    % clock
-    clockGBO = fopen('./Results_Compare/clockGBO.txt', 'wt');
-    clockGA = fopen('./Results_Compare/clockGA.txt', 'wt');
-    clockDE = fopen('./Results_Compare/clockDE.txt', 'wt');
-    clockPSO = fopen('./Results_Compare/clockPSO.txt', 'wt');
+    % load and prepare
+    benchTaskAlgoEBF = zeros(benchNum, taskNum, algoNum * reps, gen);
+    clockData = zeros(benchNum, algoNum);
 
-    for i = 1:benchNum
-        aveInd_GBO = size(data_GBO(i).EvBestFitness, 2);
-        aveInd_GA = size(data_GA(i).EvBestFitness, 2);
-        aveInd_DE = size(data_DE(i).EvBestFitness, 2);
-        aveInd_PSO = size(data_PSO(i).EvBestFitness, 2);
+    for algo_i = 1:algoNum
+        dataName = ['data_', algoNameList{algo_i}];
+        load(['./Data/', dataName], dataName);
+        data = eval(dataName);
 
-        GBO = data_GBO(i);
-        GA = data_GA(i);
-        DE = data_DE(i);
-        PSO = data_PSO(i);
+        for bench_i = 1:benchNum
+            benchData = data(bench_i);
+            clockData(bench_i, algo_i) = benchData.wall_clock_time;
 
-        GBO_end = GBO.EvBestFitness(:, aveInd_GBO);
-        GA_end = GA.EvBestFitness(:, aveInd_GA);
-        DE_end = DE.EvBestFitness(:, aveInd_DE);
-        PSO_end = PSO.EvBestFitness(:, aveInd_PSO);
-
-        for task_i = 1:taskNum
-            objTaskGBO(task_i, :) = mean(GBO.EvBestFitness(Task(task_i, :), :));
-            aveTaskGBO(task_i, :) = objTaskGBO(task_i, aveInd_GBO);
-            stdTaskGBO(task_i, :) = std(GBO_end(Task(task_i, :)));
-
-            objTaskGA(task_i, :) = mean(GA.EvBestFitness(Task(task_i, :), :));
-            aveTaskGA(task_i, :) = objTaskGA(task_i, aveInd_GA);
-            stdTaskGA(task_i, :) = std(GA_end(Task(task_i, :)));
-
-            objTaskDE(task_i, :) = mean(DE.EvBestFitness(Task(task_i, :), :));
-            aveTaskDE(task_i, :) = objTaskDE(task_i, aveInd_DE);
-            stdTaskDE(task_i, :) = std(DE_end(Task(task_i, :)));
-
-            objTaskPSO(task_i, :) = mean(PSO.EvBestFitness(Task(task_i, :), :));
-            aveTaskPSO(task_i, :) = objTaskPSO(task_i, aveInd_PSO);
-            stdTaskPSO(task_i, :) = std(PSO_end(Task(task_i, :)));
-        end
-
-        % clock
-        aveClockGBO = GBO.wall_clock_time;
-        aveClockGA = GA.wall_clock_time;
-        aveClockDE = DE.wall_clock_time;
-        aveClockPSO = PSO.wall_clock_time;
-        fprintf(clockGBO, '%f\n', aveClockGBO);
-        fprintf(clockGA, '%f\n', aveClockGA);
-        fprintf(clockDE, '%f\n', aveClockDE);
-        fprintf(clockPSO, '%f\n', aveClockPSO);
-
-        % score
-        score = zeros(1, length(dataNameList));
-
-        for data_i = 1:length(dataNameList)
-
-            for rep = 1:reps
-                score(data_i) = MFEA_AKT.EvBestFitness(Task)
+            for task_i = 1:taskNum
+                benchTaskAlgoEBF(bench_i, task_i, (algo_i - 1) * reps + 1:algo_i * reps, :) = benchData.EvBestFitness(Task(task_i, :), 1:gen); % reps * gen
             end
 
         end
 
+    end
+
+    % calculate score
+    score = zeros(benchNum, algoNum, gen);
+    scoreEnd = zeros(benchNum, algoNum);
+    convergence = zeros(benchNum, task_i, algoNum, gen);
+
+    for bench_i = 1:benchNum
+
         for task_i = 1:taskNum
-            fprintf(aveSolutionGBO, '%f\n', aveTaskGBO(task_i, :));
-            fprintf(stdGBO, '%f\n', stdTaskGBO(task_i, :));
+            meanEBF = mean(benchTaskAlgoEBF(bench_i, task_i, :, :));
+            stdEBF = std(benchTaskAlgoEBF(bench_i, task_i, :, :));
+            perScore = (benchTaskAlgoEBF(bench_i, task_i, :, :) - meanEBF) ./ stdEBF;
 
-            fprintf(aveSolutionGA, '%f\n', aveTaskGA(task_i, :));
-            fprintf(stdGA, '%f\n', stdTaskGA(task_i, :));
+            perAlgoScore = zeros(1, taskNum, algoNum, gen);
 
-            fprintf(aveSolutionDE, '%f\n', aveTaskDE(task_i, :));
-            fprintf(stdDE, '%f\n', stdTaskDE(task_i, :));
+            for algo_i = 1:algoNum
+                perAlgoScore(1, task_i, algo_i, :) = mean(perScore(1, 1, (algo_i - 1) * reps + 1:algo_i * reps, :));
+                convergence(bench_i, task_i, algo_i, :) = mean(benchTaskAlgoEBF(bench_i, task_i, (algo_i - 1) * reps + 1:algo_i * reps, :));
+            end
 
-            fprintf(aveSolutionPSO, '%f\n', aveTaskPSO(task_i, :));
-            fprintf(stdPSO, '%f\n', stdTaskPSO(task_i, :));
+        end
+
+        score(bench_i, :, :) = reshape(mean(perAlgoScore), [1, algoNum, gen]);
+        scoreEnd(bench_i, :) = reshape(score(bench_i, :, gen), [1, algoNum]);
+
+    end
+
+    % save data
+    mkdir('./Results_Compare/')
+    scoreFile = fopen('./Results_Compare/score.txt', 'wt');
+    clockFile = fopen('./Results_Compare/clock.txt', 'wt');
+
+    % save score
+    for bench_i = 1:length(benchNameList)
+
+        for algo_i = 1:length(algoNameList)
+            % 每个算法数据
+            fprintf(scoreFile, '%f\t', scoreEnd(bench_i, algo_i));
+            fprintf(clockFile, '%f\t', clockData(bench_i, algo_i));
+        end
+
+        fprintf(scoreFile, '\n');
+        fprintf(clockFile, '\n');
+
+    end
+
+    % draw convergence figure
+    mkdir('./Results_Figure/')
+
+    for bench_i = 1:benchNum
+
+        for task_i = 1:taskNum
+            fig = figure('Visible', 'off');
+            x = 1:gen;
+
+            for algo_i = 1:length(algoNameList)
+                y = log(reshape(convergence(bench_i, task_i, algo_i, :), [1, gen]));
+                plot(x, y, ...
+                    'LineWidth', 1.5)
+                hold on
+            end
+
+            % plot(reshape(score(bench_i, :, :), [algoNum, gen]))
+            title(benchNameList{bench_i})
+            xlabel('Generation')
+            ylabel('log(Score)')
+            legend(strrep(algoNameList, '_', '\_'))
+
+            saveas(fig, ['./Results_Figure/', int2str(bench_i), '_', benchNameList{bench_i}, int2str(task_i), '.png']);
         end
 
     end

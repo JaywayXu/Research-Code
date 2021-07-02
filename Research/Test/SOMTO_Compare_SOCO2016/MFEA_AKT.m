@@ -1,10 +1,9 @@
-function data_MFEA = MFEA_AKT(Tasks, pop, gen, eva_num, selection_process, rmp, reps)
+function data_MFEA = MFEA_AKT(Tasks, pop, gen, eva_num, selection_process, rmp, reps, ncx)
     %MFEA function: implementation of MFEA algorithm
     %     clc
     tic
 
     p_il = 0;
-    ncx = 8;
 
     if mod(pop, 2) ~= 0
         pop = pop + 1;
