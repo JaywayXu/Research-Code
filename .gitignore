@@ -45,6 +45,7 @@
 *.DS_Store
 
 ## temporary Project file ignore
+data_*
 Data/
 Results*/
 *.pickle
