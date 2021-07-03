@@ -92,7 +92,7 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
             for algo_i = 1:length(algoNameList)
                 y = log(reshape(convergence(bench_i, task_i, algo_i, :), [1, gen]));
                 plot(x, y, ...
-                    'LineWidth', 1.5)
+                    'LineWidth', 1)
                 hold on
             end
 
