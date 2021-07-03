@@ -38,28 +38,26 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
     end
 
     % calculate score
-    score = zeros(benchNum, algoNum, gen);
     scoreEnd = zeros(benchNum, algoNum);
     convergence = zeros(benchNum, task_i, algoNum, gen);
 
     for bench_i = 1:benchNum
 
         for task_i = 1:taskNum
-            meanEBF = mean(benchTaskAlgoEBF(bench_i, task_i, :, :));
-            stdEBF = std(benchTaskAlgoEBF(bench_i, task_i, :, :));
-            perScore = (benchTaskAlgoEBF(bench_i, task_i, :, :) - meanEBF) ./ stdEBF;
+            meanEBF = mean(benchTaskAlgoEBF(bench_i, task_i, :, gen));
+            stdEBF = std(benchTaskAlgoEBF(bench_i, task_i, :, gen));
+            perScore = (benchTaskAlgoEBF(bench_i, task_i, :, gen) - meanEBF) ./ stdEBF;
 
-            perAlgoScore = zeros(1, taskNum, algoNum, gen);
+            perAlgoScore = zeros(1, taskNum, algoNum, 1);
 
             for algo_i = 1:algoNum
-                perAlgoScore(1, task_i, algo_i, :) = mean(perScore(1, 1, (algo_i - 1) * reps + 1:algo_i * reps, :));
+                perAlgoScore(1, task_i, algo_i, 1) = mean(perScore(1, 1, (algo_i - 1) * reps + 1:algo_i * reps, 1));
                 convergence(bench_i, task_i, algo_i, :) = mean(benchTaskAlgoEBF(bench_i, task_i, (algo_i - 1) * reps + 1:algo_i * reps, :));
             end
 
         end
 
-        score(bench_i, :, :) = reshape(mean(perAlgoScore), [1, algoNum, gen]);
-        scoreEnd(bench_i, :) = reshape(score(bench_i, :, gen), [1, algoNum]);
+        scoreEnd(bench_i, :) = reshape(mean(perAlgoScore), [1, algoNum]);
 
     end
 
