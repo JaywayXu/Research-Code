@@ -1,0 +1,21 @@
+## C ##
+# C output files (windows)
+*.exe
+# C temporary files with .o/.out/.o.*
+*.o
+*.out
+*.o.*
+
+## JAVA ##
+# JAVA output files
+*.class
+
+## Python ##
+# Python temporary files
+*.py[cod]
+
+## macOS ##
+# macOS temporary files
+._*
+# macos trash files
+*.DS_Store
