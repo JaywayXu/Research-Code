@@ -17,13 +17,13 @@ class Manage:
         self.bmf = BenchmarkFunctions(D=self.nV)
         self.every_fun_list = []
         self.name_list = ['GBO', 'GA', 'DE', 'PSO']
-        self.best_cost_name = "BestCost_%dD_%dT" % (
+        self.best_cost_name = "data_BestCost_%dD_%dT" % (
             self.nV, self.testNum)
-        self.ave_cost_name = "AverageCost_%dD_%dT" % (
+        self.ave_cost_name = "data_AverageCost_%dD_%dT" % (
             self.nV, self.testNum)
-        self.var_cost_name = "VarianceCost_%dD_%dT" % (
+        self.var_cost_name = "data_VarianceCost_%dD_%dT" % (
             self.nV, self.testNum)
-        self.ave_cc_name = "ConvergenceCurve_%dD_%dT" % (
+        self.ave_cc_name = "data_ConvergenceCurve_%dD_%dT" % (
             self.nV, self.testNum)
 
     def initData(self, fname):
