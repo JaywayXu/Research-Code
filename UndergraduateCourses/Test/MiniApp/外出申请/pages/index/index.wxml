@@ -1,5 +1,0 @@
-<!--index.wxml-->
-
-<view class="section__ctn">
-  <image class="img" src="/images/xxx.png" mode="widthFix"/>
-</view>
