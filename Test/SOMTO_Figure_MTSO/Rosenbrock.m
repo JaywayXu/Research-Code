@@ -10,5 +10,11 @@ function obj = Rosenbrock(var)
         new = 100*(xnext-xi^2)^2 + (xi-1)^2;
         sum = sum + new;
     end
+
+    % by lyc 防止1维出错
+    if dim == 1
+        sum = 100*(var(1)-var(1)^2)^2 + (var(1)-1)^2; 
+    end
+
     obj = sum  ;
 end
