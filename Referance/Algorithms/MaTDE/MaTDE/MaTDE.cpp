@@ -543,7 +543,7 @@ void final_report() {
     int i, j, l;
 
     for (i = 0; i < task_num; i++) {
-        sprintf(name, "Result\\30 RUNS results for task %d.txt", i + 1);
+        sprintf(name, "./Result/30 RUNS results for task %d.txt", i + 1);
         fopen(name, "w");
         for (j = 0; j < RUNS; j++) {
             if (j < RUNS - 1)
@@ -565,13 +565,13 @@ void final_report() {
         }
     }
 
-    fopen("Result/final results.txt", "w");
+    fopen("./Result/final results.txt", "w");
     for (i = 0; i < task_num; i++) {
         fprintf(pf, "task%d:%lf\n", i + 1, sum[i][MAX_GEN / RECORD_FRE] / RUNS);
     }
     fclose(pf);
 
-    sprintf(name, "Result/Convergence Curve.txt");
+    sprintf(name, "./Result/Convergence Curve.txt");
     fopen(name, "w");
     for (i = 0; i <= MAX_GEN / RECORD_FRE; i++) {
         for (j = 0; j < task_num; j++) fprintf(pf, "%lf\t", sum[j][i] / RUNS);
@@ -581,7 +581,7 @@ void final_report() {
     fclose(pf);
 
     for (i = 0; i < task_num; i++) {
-        sprintf(name, "Result/TLC record for task%d.txt", i + 1);
+        sprintf(name, "./Result/TLC record for task%d.txt", i + 1);
         fopen(name, "w");
         for (j = 0; j < MAX_GEN / RECORD_FRE; j++) {
             fprintf(pf, "GEN %d ~ %d: ", j * RECORD_FRE, (j + 1) * RECORD_FRE);
@@ -608,7 +608,7 @@ int main(int argc, char *argv[]) {
         srand(job);
         MaTDE();
     }
-    // final_report();
+    final_report();
 
     return 0;
 }
