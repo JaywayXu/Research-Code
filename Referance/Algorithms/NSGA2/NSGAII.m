@@ -83,6 +83,7 @@ function NSGAII(params, MultiObj)
     stopCondition = false;
 
     while ~stopCondition
+        pause(0.5)
 
         % Merge the parent and the children
         R = [P; Q];
