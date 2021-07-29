@@ -78,6 +78,15 @@ pop = DetermineDomination(pop);
 % Initialize Estimated Pareto Front
 EP = pop(~[pop.IsDominated]);
 
+% Plotting and verbose
+EPC = [EP.Cost];
+h_fig = figure(1);
+h_par = scatter(EPC(1, :), EPC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
+grid on; xlabel('f1'); ylabel('f2');
+drawnow;
+axis square;
+
 %% Main Loop
 
 for it = 1:MaxIt
@@ -129,9 +138,15 @@ for it = 1:MaxIt
     end
 
     % Plot EP
-    figure(1);
-    PlotCosts(EP);
-    pause(0.01);
+    EPC = [EP.Cost];
+    figure(h_fig); delete(h_rep);
+    h_par = scatter(EPC(1, :), EPC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+    h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
+
+    grid on; xlabel('f1'); ylabel('f2');
+    drawnow;
+    axis square;
+    pause(0.1);
 
     % Display Iteration Information
     disp(['Iteration ' num2str(it) ': Number of Pareto Solutions = ' num2str(numel(EP))]);
