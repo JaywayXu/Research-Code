@@ -71,6 +71,7 @@ function NSGAII(params, MultiObj)
 
     if (size(Pfit, 2) == 3)
         h_fig = figure(1);
+        h_par = scatter3(Pfit(1:Np, 1), Pfit(1:Np, 2), Pfit(1:Np, 3), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
         h_rep = plot3(Pfit(:, 1), Pfit(:, 2), Pfit(:, 3), 'ok'); hold on;
         grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
         drawnow;
@@ -83,7 +84,7 @@ function NSGAII(params, MultiObj)
     stopCondition = false;
 
     while ~stopCondition
-        pause(0.5)
+        pause(0.01)
 
         % Merge the parent and the children
         R = [P; Q];
@@ -110,6 +111,7 @@ function NSGAII(params, MultiObj)
 
         if (size(Rfit, 2) == 3)
             figure(h_fig); delete(h_rep);
+            h_par = scatter3(Rfit(1:Np, 1), Rfit(1:Np, 2), Rfit(1:Np, 3), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
             h_rep = plot3(Rfit(1:Np, 1), Rfit(1:Np, 2), Rfit(1:Np, 3), 'ok'); hold on;
 
             if (isfield(MultiObj, 'truePF'))
