@@ -19,8 +19,10 @@ close all;
 %% Problem Definition
 
 CostFunction = @(x) ZDT(x); % Cost Function
+% CostFunction = @(x) MOP2(x); % Cost Function
+% CostFunction = @(x) Viennet2(x); % Cost Function
 
-nVar = 3; % Number of Decision Variables
+nVar = 2; % Number of Decision Variables
 
 VarSize = [nVar 1]; % Decision Variables Matrix Size
 
@@ -56,7 +58,7 @@ empty_individual.g = [];
 empty_individual.IsDominated = [];
 
 % Initialize Goal Point
-%z=inf(nObj,1);
+% z=inf(nObj,1);
 z = zeros(nObj, 1);
 
 % Create Initial Population
@@ -79,13 +81,26 @@ pop = DetermineDomination(pop);
 EP = pop(~[pop.IsDominated]);
 
 % Plotting and verbose
-EPC = [EP.Cost];
-h_fig = figure(1);
-h_par = scatter(EPC(1, :), EPC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
-h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
-grid on; xlabel('f1'); ylabel('f2');
-drawnow;
-axis square;
+EPC = reshape([EP.Cost], [nObj, size(EP, 1)]);
+popC = reshape([pop.Cost], [nObj, size(pop, 1)]);
+
+if (nObj == 2)
+    h_fig = figure(1);
+    h_par_pop = scatter(popC(1, :), popC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+    h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
+    grid on; xlabel('f1'); ylabel('f2');
+    drawnow;
+    axis square;
+end
+
+if (nObj == 3)
+    h_fig = figure(1);
+    h_par_pop = scatter3(popC(1, :), popC(2, :), popC(3, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+    h_rep = plot3(EPC(1, :), EPC(2, :), EPC(3, :), 'ok'); hold on;
+    grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
+    drawnow;
+    axis square;
+end
 
 %% Main Loop
 
@@ -138,15 +153,30 @@ for it = 1:MaxIt
     end
 
     % Plot EP
-    EPC = [EP.Cost];
-    figure(h_fig); delete(h_rep);
-    h_par = scatter(EPC(1, :), EPC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
-    h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
+    EPC = reshape([EP.Cost], [nObj, size(EP, 1)]);
+    popC = reshape([pop.Cost], [nObj, size(pop, 1)]);
 
-    grid on; xlabel('f1'); ylabel('f2');
-    drawnow;
-    axis square;
-    pause(0.1);
+    if (nObj == 2)
+        figure(h_fig); delete(h_rep);
+        h_par_pop = scatter(popC(1, :), popC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+        h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
+
+        grid on; xlabel('f1'); ylabel('f2');
+        drawnow;
+        axis square;
+    end
+
+    if (nObj == 3)
+        figure(h_fig); delete(h_rep);
+        h_par_pop = scatter3(popC(1, :), popC(2, :), popC(3, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+        h_rep = plot3(EPC(1, :), EPC(2, :), EPC(3, :), 'ok'); hold on;
+
+        grid on; xlabel('f1'); ylabel('f2');
+        drawnow;
+        axis square;
+    end
+
+    pause(0.01);
 
     % Display Iteration Information
     disp(['Iteration ' num2str(it) ': Number of Pareto Solutions = ' num2str(numel(EP))]);
@@ -157,7 +187,7 @@ end
 
 disp(' ');
 
-EPC = [EP.Cost];
+EPC = reshape([EP.Cost], [nObj, size(EP, 1)]);
 
 for j = 1:nObj
 
