@@ -18,11 +18,11 @@ close all;
 
 %% Problem Definition
 
-% CostFunction = @(x) ZDT(x); % Cost Function
+CostFunction = @(x) ZDT(x); % Cost Function
 % CostFunction = @(x) MOP2(x); % Cost Function
-CostFunction = @(x) Viennet2(x); % Cost Function
+% CostFunction = @(x) Viennet2(x); % Cost Function
 
-nVar = 2; % Number of Decision Variables
+nVar = 3; % Number of Decision Variables
 
 VarSize = [nVar 1]; % Decision Variables Matrix Size
 
