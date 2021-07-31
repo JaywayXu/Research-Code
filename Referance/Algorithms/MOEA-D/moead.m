@@ -88,6 +88,11 @@ if (nObj == 2)
     h_fig = figure(1);
     h_par_pop = scatter(popC(1, :), popC(2, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
     h_rep = plot(EPC(1, :), EPC(2, :), 'ok'); hold on;
+
+    % for i = 1:length(sp)
+    %     plot([0, sp(i).lambda(1)], [0,sp(i).lambda(2)]); hold on;
+    % end
+
     grid on; xlabel('f1'); ylabel('f2');
     drawnow;
     axis square;
