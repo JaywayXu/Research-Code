@@ -18,9 +18,9 @@ close all;
 
 %% Problem Definition
 
-CostFunction = @(x) ZDT(x); % Cost Function
+% CostFunction = @(x) ZDT(x); % Cost Function
 % CostFunction = @(x) MOP2(x); % Cost Function
-% CostFunction = @(x) Viennet2(x); % Cost Function
+CostFunction = @(x) Viennet2(x); % Cost Function
 
 nVar = 2; % Number of Decision Variables
 
@@ -102,6 +102,11 @@ if (nObj == 3)
     h_fig = figure(1);
     h_par_pop = scatter3(popC(1, :), popC(2, :), popC(3, :), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
     h_rep = plot3(EPC(1, :), EPC(2, :), EPC(3, :), 'ok'); hold on;
+
+    % for i = 1:length(sp)
+    %     plot3([0, sp(i).lambda(1)], [0, sp(i).lambda(2)], [0, sp(i).lambda(3)]); hold on;
+    % end
+
     grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
     drawnow;
     axis square;
