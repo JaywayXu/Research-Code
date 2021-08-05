@@ -1,6 +1,6 @@
 function Proposed(Problem, NVARS, OBJS1, LBOUND1, UBOUND1, LBOUND2, UBOUND2, population1, population2, ini_pop)
 
-    for run = 1:30
+    for run = 1:1 % 30
         r = 30;
         rand('state', sum(100 * clock))
         proc = 0.9;
@@ -12,16 +12,56 @@ function Proposed(Problem, NVARS, OBJS1, LBOUND1, UBOUND1, LBOUND2, UBOUND2, pop
         population1 = update_population(population1, OBJS1, Problem, NVARS, T1, ini_pop);
         population2 = update_population(population2, OBJS1, Problem, NVARS, T2, ini_pop);
         generation = 0;
-        G = 8;
+        G = 8; % 迁移解个数
         d = [];
 
-        while generation < 500
+        % % Plotting and verbose
+        % clf
+
+        % if (size(population1.f, 2) == 2)
+        %     h_fig1 = figure(1);
+        %     h_par1 = scatter(population1.f(:, 1), population1.f(:, 2), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+        %     h_rep1 = plot(population1.f(:, 1), population1.f(:, 2), 'ok'); hold on;
+        %     grid on; xlabel('f1'); ylabel('f2');
+        %     % drawnow;
+        %     axis square;
+        % end
+
+        % if (size(population2.f, 2) == 2)
+        %     h_fig2 = figure(2);
+        %     h_par2 = scatter(population2.f(:, 1), population2.f(:, 2), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+        %     h_rep2 = plot(population2.f(:, 1), population2.f(:, 2), 'ok'); hold on;
+        %     grid on; xlabel('f1'); ylabel('f2');
+        %     % drawnow;
+        %     axis square;
+        % end
+
+        % if (size(population1.f, 2) == 3)
+        %     h_fig1 = figure(1);
+        %     h_par1 = scatter3(population1.f(:, 1), population1.f(:, 2), population1.f(:, 3), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+        %     h_rep1 = plot3(population1.f(:, 1), population1.f(:, 2), population1.f(:, 3), 'ok'); hold on;
+        %     grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
+        %     % drawnow;
+        %     axis square;
+        % end
+
+        % if (size(population2.f, 2) == 3)
+        %     h_fig2 = figure(2);
+        %     h_par2 = scatter3(population2.f(:, 1), population2.f(:, 2), population2.f(:, 3), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+        %     h_rep2 = plot3(population2.f(:, 1), population2.f(:, 2), population2.f(:, 3), 'ok'); hold on;
+        %     grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
+        %     % drawnow;
+        %     axis square;
+        % end
+
+        while generation < 500 % 500
             str = ['Problem : ' num2str(Problem) ', run : ' num2str(run) ', generation : ' num2str(generation)];
             disp(str);
             [~, shareindividuals1] = designation(population2, population1, G, 1, LBOUND1, UBOUND1, LBOUND2, UBOUND2);
             [~, shareindividuals2] = designation(population1, population2, G, 2, LBOUND1, UBOUND1, LBOUND2, UBOUND2);
             cr1 = rand(G, 1);
             cr2 = rand(G, 1);
+            % 扰动迁移解
             shareindividuals1.x(cr1 < 0.5, :) = (2 * rand(1)) * shareindividuals1.x(cr1 < 0.5, :);
             shareindividuals2.x(cr2 < 0.5, :) = (2 * rand(1)) * shareindividuals2.x(cr2 < 0.5, :);
 
@@ -57,16 +97,20 @@ function Proposed(Problem, NVARS, OBJS1, LBOUND1, UBOUND1, LBOUND2, UBOUND2, pop
 
             end
 
+            % 重置迁移标志
             population1.sign = zeros(ini_pop, 1);
             population2.sign = zeros(ini_pop, 1);
+            % 将本代迁移解合并到种群中
             population1.x = [population1.x; shareindividuals2.x(:, 1:NVARS(1))];
             population1.rank = [population1.rank; ones(G, 1)];
             population1.sign = [population1.sign; shareindividuals2.sign];
             population2.x = [population2.x; shareindividuals1.x(:, 1:NVARS(2))];
             population2.rank = [population2.rank; ones(G, 1)];
             population2.sign = [population2.sign; shareindividuals1.sign];
+            % 产生子代
             offspring1 = generate(population1, ini_pop - G, proc, disc, prom, dism, Problem, T1, LBOUND1, UBOUND1);
             offspring2 = generate(population2, ini_pop - G, proc, disc, prom, dism, Problem, T2, LBOUND2, UBOUND2);
+            % 合并父代子代
             mixpopulation1 = struct('x', [], 'f', [], 'rank', [], 'sign', []);
             mixpopulation2 = struct('x', [], 'f', [], 'rank', [], 'sign', []);
             mixpopulation1.x = [population1.x; offspring1.x];
@@ -77,11 +121,80 @@ function Proposed(Problem, NVARS, OBJS1, LBOUND1, UBOUND1, LBOUND2, UBOUND2, pop
             mixpopulation2.f = [population2.f; offspring2.f];
             mixpopulation2.rank = [population2.rank; offspring2.rank];
             mixpopulation2.sign = [population2.sign; offspring2.sign];
+            % 根据非支配排序和拥挤度更新下一代
             population1 = update_population(mixpopulation1, OBJS1, Problem, NVARS, T1, ini_pop);
             population2 = update_population(mixpopulation2, OBJS1, Problem, NVARS, T2, ini_pop);
             generation = generation + 1;
 
+            % % Plotting and verbose
+            % if (size(population1.f, 2) == 2)
+            %     figure(h_fig1); delete(h_rep1);
+            %     h_par1 = scatter(population1.f(:, 1), population1.f(:, 2), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+            %     h_rep1 = plot(population1.f(:, 1), population1.f(:, 2), 'ok'); hold on;
+            %     grid on; xlabel('f1'); ylabel('f2');
+            %     drawnow;
+            %     axis square;
+            % end
+
+            % if (size(population2.f, 2) == 2)
+            %     figure(h_fig2); delete(h_rep2);
+            %     h_par2 = scatter(population2.f(:, 1), population2.f(:, 2), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+            %     h_rep2 = plot(population2.f(:, 1), population2.f(:, 2), 'ok'); hold on;
+            %     grid on; xlabel('f1'); ylabel('f2');
+            %     drawnow;
+            %     axis square;
+            % end
+
+            % if (size(population1.f, 2) == 3)
+            %     figure(h_fig1); delete(h_rep1);
+            %     h_par1 = scatter3(population1.f(:, 1), population1.f(:, 2), population1.f(:, 3), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+            %     h_rep1 = plot3(population1.f(:, 1), population1.f(:, 2), population1.f(:, 3), 'ok'); hold on;
+            %     grid on; xlabel('f1'); ylabel('f2');
+            %     drawnow;
+            %     axis square;
+            % end
+
+            % if (size(population2.f, 2) == 3)
+            %     figure(h_fig2); delete(h_rep2);
+            %     h_par2 = scatter3(population2.f(:, 1), population2.f(:, 2), population2.f(:, 3), 20, 'filled', 'markerFaceAlpha', 0.3, 'MarkerFaceColor', [128 193 219] ./ 255); hold on;
+            %     h_rep2 = plot3(population2.f(:, 1), population2.f(:, 2), population2.f(:, 3), 'ok'); hold on;
+            %     grid on; xlabel('f1'); ylabel('f2');
+            %     drawnow;
+            %     axis square;
+            % end
+
         end
+
+        % plot end population and save
+        if (size(population1.f, 2) == 2)
+            h1 = figure('Visible', 'off');
+            plot(population1.f(:, 1), population1.f(:, 2), 'ok'); hold on;
+            grid on; xlabel('f1'); ylabel('f2');
+        end
+
+        if (size(population2.f, 2) == 2)
+            h2 = figure('Visible', 'off');
+            plot(population2.f(:, 1), population2.f(:, 2), 'ok'); hold on;
+            grid on; xlabel('f1'); ylabel('f2');
+        end
+
+        if (size(population1.f, 2) == 3)
+            h1 = figure('Visible', 'off');
+            plot3(population1.f(:, 1), population1.f(:, 2), population1.f(:, 3), 'ok'); hold on;
+            grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
+            view([45 45 45]);
+        end
+
+        if (size(population2.f, 2) == 3)
+            h2 = figure('Visible', 'off');
+            plot3(population2.f(:, 1), population2.f(:, 2), population2.f(:, 3), 'ok'); hold on;
+            grid on; xlabel('f1'); ylabel('f2'); zlabel('f3');
+            view([45 45 45]);
+        end
+
+        saveas(h1, ['Results_Figure/Problem' num2str(Problem) ' Task1.png']);
+        saveas(h2, ['Results_Figure/Problem' num2str(Problem) ' Task2.png']);
+        close(h1); close(h2);
 
         load circle
         load concave
