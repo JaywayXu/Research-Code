@@ -192,8 +192,8 @@ function Proposed(Problem, NVARS, OBJS1, LBOUND1, UBOUND1, LBOUND2, UBOUND2, pop
             view([45 45 45]);
         end
 
-        saveas(h1, ['Results_Figure/Problem' num2str(Problem) ' Task1.png']);
-        saveas(h2, ['Results_Figure/Problem' num2str(Problem) ' Task2.png']);
+        saveas(h1, ['Results_Figure/Problem' num2str(Problem) '-Task1.png']);
+        saveas(h2, ['Results_Figure/Problem' num2str(Problem) '-Task2.png']);
         close(h1); close(h2);
 
         load circle
