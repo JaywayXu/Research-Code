@@ -63,7 +63,7 @@ function [r, individuals, ns] = designation(Tpopulation, Spopulation, G, source,
             [~, d(:, t)] = sort(sqrt(sum((repmat(x(t, :), n, 1) - y).^2, 2)));
         end
 
-        d = d'
+        d = d';
         ns = d(1:G); % 取G个S种群中距离非支配迁移解最近的解，进行本次迁移
         size(ns)
         individuals = struct('x', [], 'f', [], 'rank', [], 'sign', []);
