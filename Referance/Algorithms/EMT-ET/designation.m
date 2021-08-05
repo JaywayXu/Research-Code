@@ -65,7 +65,6 @@ function [r, individuals, ns] = designation(Tpopulation, Spopulation, G, source,
 
         d = d';
         ns = d(1:G); % 取G个S种群中距离非支配迁移解最近的解，进行本次迁移
-        size(ns)
         individuals = struct('x', [], 'f', [], 'rank', [], 'sign', []);
         individuals.x = Spopulation.x(ns, :);
         individuals.sign = ones(G, 1);
