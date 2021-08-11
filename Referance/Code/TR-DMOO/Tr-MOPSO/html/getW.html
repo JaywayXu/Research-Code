@@ -1,0 +1,189 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>getW</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="getW.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> [W, K, n1, n2]=getW(Xs, Xt, mu, lambda, dim, kind, p1, p2, p3)
+<span class="comment">%&#21407;TCA&#26041;&#27861;</span>
+<span class="comment">%Xs&#65306;&#28304;&#22495;&#25968;&#25454;</span>
+<span class="comment">%Xt&#65306;&#30446;&#26631;&#22495;&#25968;&#25454;&#65292;&#19982;Xs&#34892;&#25968;&#30456;&#21516;</span>
+<span class="comment">%mu&#65306;&#24179;&#34913;&#22240;&#23376;&#65292;&#36234;&#22823;&#36234;&#37325;&#35270;&#26144;&#23556;&#21518;&#30340;&#30456;&#20284;&#24230;&#65292;&#36234;&#23567;&#36234;&#37325;&#35270;W&#30340;&#22797;&#26434;&#24230;</span>
+<span class="comment">%lambda&#65306;&#26412;&#26041;&#27861;&#19981;&#20351;&#29992;&#35813;&#21442;&#25968;&#65292;&#21482;&#26159;&#20026;&#20102;&#24418;&#24335;&#30340;&#32479;&#19968;</span>
+<span class="comment">%dim&#65306;&#24403;dim&#20026;&#22823;&#20110;&#31561;&#20110;1&#30340;&#25972;&#25968;&#26102;&#65292;dim&#20026;&#38477;&#32500;&#30340;&#30446;&#26631;&#32500;&#25968;&#65307;</span>
+<span class="comment">%     &#24403;dim&#20026;&#22823;&#20110;0&#23567;&#20110;1&#30340;&#23567;&#25968;&#26102;&#65292;&#25152;&#21462;&#29305;&#24449;&#21521;&#37327;&#23545;&#24212;&#30340;&#29305;&#24449;&#20540;&#30340;&#21644;&gt;=&#20840;&#37096;&#29305;&#24449;&#20540;&#21152;&#21644;*dim</span>
+<span class="comment">%kind&#65306;&#26680;&#20989;&#25968;&#36873;&#25321;:'Gaussian'&#12289;'Laplacian'&#12289;'Polynomial',&#20854;&#20182;&#19968;&#24459;&#36820;&#22238;-1</span>
+<span class="comment">%p1,p2,p3&#65306;&#26680;&#20989;&#25968;&#25152;&#35201;&#38468;&#24102;&#30340;&#21442;&#25968;</span>
+<span class="comment">%W&#65306;&#21464;&#25442;&#30697;&#38453;n1+n2-&gt;dim</span>
+<span class="comment">%K&#65306;&#24453;&#21464;&#25442;&#30697;&#38453;</span>
+<span class="comment">%n1,n2&#65306;&#28304;&#25968;&#25454;&#65292;&#30446;&#26631;&#25968;&#25454;&#30340;&#25968;&#30446;</span>
+
+    n1 = size(Xs, 2);
+	n2 = size(Xt, 2);
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;K %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    X(:,1:n1)=Xs;
+    X(:,n1+1:n1+n2)=Xt;
+    <span class="keyword">for</span> i=1:n1+n2
+        <span class="keyword">for</span> j=1:n1+n2
+            K(i,j)=getKernel(X(:,i), X(:,j), kind, p1, p2, p3);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;L %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    L(1:n1, 1:n1)=ones(n1, n1)/(n1*n1);
+    L(n1+1:n1+n2, n1+1:n1+n2)=ones(n2, n2)/(n2*n2);
+    L(1:n1, n1+1:n1+n2)=ones(n1, n2)/(-n1*n2);
+    L(n1+1:n1+n2, 1:n1)=ones(n2, n1)/(-n1*n2);
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;H %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    H=eye(n1+n2)-ones(n1+n2, n1+n2)/(n1+n2);
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;W %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    Temp=(eye(n1+n2)+mu*K*L*K)^(-1)*K*H*K;
+    [V,D]=eig(Temp);
+    V=real(V);
+    D=real(D);
+    D=diag(D);
+    [D,I]=sort(D,<span class="string">'descend'</span>);
+
+    <span class="keyword">if</span> dim&gt;0 &amp;&amp; dim&lt;1
+        count=0;
+        cur=0;
+        s=sum(D);
+        <span class="keyword">while</span> cur/s&lt;dim
+            count=count+1;
+            cur=cur+D(count);
+        <span class="keyword">end</span>
+    <span class="keyword">else</span>
+        count=dim;
+    <span class="keyword">end</span>
+
+    I=I(1:count,1);
+    W=V(:,I');
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function [W, K, n1, n2]=getW(Xs, Xt, mu, lambda, dim, kind, p1, p2, p3)
+%原TCA方法
+%Xs：源域数据
+%Xt：目标域数据，与Xs行数相同
+%mu：平衡因子，越大越重视映射后的相似度，越小越重视W的复杂度
+%lambda：本方法不使用该参数，只是为了形式的统一
+%dim：当dim为大于等于1的整数时，dim为降维的目标维数；
+%     当dim为大于0小于1的小数时，所取特征向量对应的特征值的和>=全部特征值加和*dim
+%kind：核函数选择:'Gaussian'、'Laplacian'、'Polynomial',其他一律返回-1
+%p1,p2,p3：核函数所要附带的参数
+%W：变换矩阵n1+n2->dim
+%K：待变换矩阵
+%n1,n2：源数据，目标数据的数目
+
+    n1 = size(Xs, 2);
+	n2 = size(Xt, 2);
+    
+%%%%%%%%%%% 计算K %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    X(:,1:n1)=Xs;
+    X(:,n1+1:n1+n2)=Xt;
+    for i=1:n1+n2 
+        for j=1:n1+n2 
+            K(i,j)=getKernel(X(:,i), X(:,j), kind, p1, p2, p3);
+        end
+    end
+    
+%%%%%%%%%%% 计算L %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    L(1:n1, 1:n1)=ones(n1, n1)/(n1*n1);
+    L(n1+1:n1+n2, n1+1:n1+n2)=ones(n2, n2)/(n2*n2);
+    L(1:n1, n1+1:n1+n2)=ones(n1, n2)/(-n1*n2);
+    L(n1+1:n1+n2, 1:n1)=ones(n2, n1)/(-n1*n2);
+    
+%%%%%%%%%%% 计算H %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    H=eye(n1+n2)-ones(n1+n2, n1+n2)/(n1+n2);
+    
+%%%%%%%%%%% 计算W %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    Temp=(eye(n1+n2)+mu*K*L*K)^(-1)*K*H*K;
+    [V,D]=eig(Temp);
+    V=real(V);
+    D=real(D);
+    D=diag(D);
+    [D,I]=sort(D,'descend');
+    
+    if dim>0 && dim<1
+        count=0;
+        cur=0;
+        s=sum(D);
+        while cur/s<dim
+            count=count+1;
+            cur=cur+D(count);
+        end
+    else
+        count=dim;
+    end
+    
+    I=I(1:count,1);
+    W=V(:,I');
+
+    
+
+##### SOURCE END #####
+--></body></html>

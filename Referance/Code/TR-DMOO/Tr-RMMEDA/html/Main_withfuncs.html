@@ -1,0 +1,1311 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Main</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="Main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">FDA4</a></li><li><a href="#4">FDA5</a></li><li><a href="#6">FDA5_iso</a></li><li><a href="#8">FDA5_dec</a></li><li><a href="#10">DIMP2</a></li><li><a href="#12">dMOP2</a></li><li><a href="#14">dMOP2_iso</a></li><li><a href="#16">dMOP2_dec</a></li><li><a href="#18">dMOP3</a></li><li><a href="#20">HE2</a></li><li><a href="#22">HE7</a></li><li><a href="#24">HE9</a></li><li><a href="#28">step 2. use TCA to get the initial population at the next moment</a></li><li><a href="#29">transfer</a></li><li><a href="#30">step 3. use RM-MEDA to get the POF at every moment with the initial population</a></li><li><a href="#33">FDA4</a></li><li><a href="#35">FDA5</a></li><li><a href="#37">FDA5_iso</a></li><li><a href="#39">dMOP2</a></li><li><a href="#41">dMOP2_iso</a></li><li><a href="#43">dMOP2_dec</a></li><li><a href="#45">dMOP3</a></li><li><a href="#47">HE2</a></li><li><a href="#49">HE7 &lt;---- [-1,1]</a></li><li><a href="#51">HE9</a></li></ul><h2>Called Functions</h2><ul><li><a href="#Main">Main </a></li><li><a href="#getBenchmarkPOF">getBenchmarkPOF </a></li><li><a href="#getFunc">getFunc </a></li><li><a href="#getNewY">getNewY </a></li><li><a href="#getW">getW </a></li><li><a href="#RMMEDA">RMMEDA </a></li></ul></div><h2>FDA4<a name="2"></a></h2><h2>FDA5<a name="4"></a></h2><h2>FDA5_iso<a name="6"></a></h2><h2>FDA5_dec<a name="8"></a></h2><h2>DIMP2<a name="10"></a></h2><h2>dMOP2<a name="12"></a></h2><h2>dMOP2_iso<a name="14"></a></h2><h2>dMOP2_dec<a name="16"></a></h2><h2>dMOP3<a name="18"></a></h2><h2>HE2<a name="20"></a></h2><h2>HE7<a name="22"></a></h2><h2>HE9<a name="24"></a></h2><h2>step 2. use TCA to get the initial population at the next moment<a name="28"></a></h2><h2>transfer<a name="29"></a></h2><h2>step 3. use RM-MEDA to get the POF at every moment with the initial population<a name="30"></a></h2><h2>FDA4<a name="33"></a></h2><h2>FDA5<a name="35"></a></h2><h2>FDA5_iso<a name="37"></a></h2><h2>dMOP2<a name="39"></a></h2><h2>dMOP2_iso<a name="41"></a></h2><h2>dMOP2_dec<a name="43"></a></h2><h2>dMOP3<a name="45"></a></h2><h2>HE2<a name="47"></a></h2><h2>HE7 &lt;---- [-1,1]<a name="49"></a></h2><h2>HE9<a name="51"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function Main()
+    clear 
+    clc
+    warning off
+    for testfunc=1:1
+        clearvars -except testfunc 
+        clc
+        close all;
+        functions = {'FDA4', 'FDA5', 'FDA5_iso', 'FDA5_dec', 'DIMP2', 'dMOP2', ...
+            'dMOP2_iso', 'dMOP2_dec', 'dMOP3', 'HE2', 'HE7', 'HE9'};
+        T_paramiter = [10 5 100
+           10 10 200
+           10 25 500
+           10 50 1000
+           1 10 200
+           1 50 1000
+           20 10 200
+           20 50 1000];
+        switch testfunc
+            case 1
+                %% FDA4
+                Problem.FObj = @F1;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 12;                         %number of X
+                Problem.NObj    = 3;            % number of objectives
+            case 2
+                %% FDA5
+                Problem.FObj = @F2;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 12;                         %number of X
+                Problem.NObj    = 3;            % number of objectives
+            case 3
+                %% FDA5_iso
+                Problem.FObj = @F3;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 12;                         %number of X
+                Problem.NObj    = 3;            % number of objectives
+            case 4
+                %% FDA5_dec
+                Problem.FObj = @F4;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 12;                         %number of X
+                Problem.NObj    = 3;            % number of objectives
+            case 5
+                %% DIMP2
+                Problem.FObj = @F5;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 6
+                %% dMOP2
+                Problem.FObj = @F6;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 7
+                %% dMOP2_iso
+                Problem.FObj = @F7;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 8
+                %% dMOP2_dec
+                Problem.FObj = @F8;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 9
+                %% dMOP3
+                Problem.FObj = @F9;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 10
+                %% HE2
+                Problem.FObj = @F10;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 30;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 11
+                %% HE7
+                Problem.FObj = @F11;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives
+            case 12
+                %% HE9
+                Problem.FObj = @F12;
+                Problem.Name = functions{testfunc};        % name of test problem
+                n = 10;                         %number of X
+                Problem.NObj    = 2;            % number of objectives                                        
+            otherwise
+                disp([funcname ' Not Found!']);
+        end
+        Problem.XLow    = zeros(n,1);  % lower boundary of decision variables
+        Problem.XUpp    = ones(n,1);   % upper boundary of decision variables
+        [n, Fn, Ft] = getFunc(functions{testfunc});
+        Generator.Name  = 'LPCA';       % name of generator
+        Generator.NClu  = 5;            % parameter of generator, the number of clusters(default) 
+        Generator.Iter  = 50;           % maximum trainning steps in LPCA
+        Generator.Exte  = 0.25;         % parameter of generator, extension rate(default)
+        
+        NIni = 200;          
+        IterMax = 200;
+
+        for group =1:size(T_paramiter,1)
+            mkdir(['.\Results\' functions{testfunc} '\group' num2str(group)]);
+            fprintf('running %s \n',functions{testfunc});
+            
+            t= 0;%the initial moment
+            TruePOF = [];
+			%% step 1. use RM-MEDA to get a POF at the initial moment with randomly generated population
+            Pareto = RMMEDA( Problem, Generator, NIni, IterMax, t, testfunc, group, 0, TruePOF);
+            POF = Pareto.F';
+            for T = 1:T_paramiter(group,3)/T_paramiter(group,2)
+            %% step 2. use TCA to get the initial population at the next moment
+                sampleN = 400;
+                Xs = rand(sampleN, n);
+                for i=1:1:sampleN
+                    [Fs(:,i),~] = Problem.FObj(Xs(i,:),t);
+                end
+                t= 1/T_paramiter(group,1)*(T-1);%next moment
+                F = @(x)Ft(x, t);
+                Xt = rand(sampleN, n);
+                for i=1:1:sampleN
+                    [Fa(:,i),~] = Problem.FObj(Xt(i,:),t);
+                end
+
+                %% transfer
+                mu = 0.5;
+                lambda = 'unused';
+                dim = 20;
+                kind = 'Gaussian';  
+                p1 = 1;
+                p2 = 'unused';
+                p3 = 'unused';
+                W = getW(Fs, Fa, mu, lambda, dim, kind, p1, p2, p3);
+                POF_deduced = getNewY(Fs, Fa, POF', W, kind, p1, p2, p3);
+                dis_px = @(p, x)sum((getNewY(Fs, Fa, F(x)', W, kind, p1, p2, p3) - p).^2);
+                initn = size(POF_deduced, 2);
+                init_population = zeros(initn, n);
+                for i = 1:initn
+                    init_population(i,:) = fmincon(@(x)dis_px(POF_deduced(:,i), x), rand(1,n), ...
+                        [], [], [], [], zeros(1,n), ones(1,n), [], optimset('display', 'off'));
+                end
+                %% step 3. use RM-MEDA to get the POF at every moment with the initial population
+                TruePOF = getBenchmarkPOF(testfunc,group,T);
+                Pareto = RMMEDA( Problem, Generator, NIni, IterMax, t, testfunc, group, T, TruePOF, init_population);                    
+                POF = Pareto.F';
+            end
+        end
+    end
+end
+
+function [F,V]  = F1(X,t)
+%% FDA4
+    N = 12;
+    M = 3;
+    G = abs(sin(pi*t/2));
+    g = sum((X(M:N) - G).^2);
+    F = [(1+g)*prod(cos(X(1:M-1)*pi/2))
+        (1+g)*prod(cos(X(1:M-2)*pi/2))*sin(X(M-1)*pi/2)
+        (1+g)*sin(X(1)*pi/2)];
+    V = 0.0;
+
+end
+
+function [F,V] = F2(X,t)
+%% FDA5
+     N = 12;
+    M = 3;    
+    G = abs(sin(pi*t/2));
+    g = G+sum((X(M:N)-G).^2);
+    F = 1+100*sin(pi*t/2)^4;
+    y1 = X(1:M-1).^F;
+    y2 = X(1:M-2).^F;
+    y3 = X(M-1).^F;
+    y4 = X(1).^F;
+
+    F = [(1+g)*prod(cos(y1.*pi/2))
+        (1+g)*prod(cos(y2*pi/2))*sin(y3*pi/2)
+        (1+g)*sin(y4*pi/2)];        
+    V = 0.0;
+end
+
+function [F,V] = F3(X,t)
+    %% FDA5_iso
+    N = 12;
+    M = 3;
+    G = abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = G+sum((min(0, floor(X(M:N)-B)).*(G*(B-X(M:N))/B-min(0,floor(C-X(M:N)))*(1-G).*(X(M:N)-C)/(1-C))).^2);    
+    K = 1+100*sin(pi*t/2)^4;
+    y1 = X(1:M-1).^K;
+    y2 = X(1:M-2).^K;
+    y3 = X(M-1).^K;
+    y4 = X(1).^K;
+    F = [(1+g)*prod(cos(y1*pi/2))
+        (1+g)*prod(cos(y2*pi/2))*sin(y3*pi/2)
+        (1+g)*sin(y4*pi/2)];
+    V = 0.0;
+
+end
+
+function [F,V] = F4(X,t)    
+ % FDA5_dec
+    N = 12;
+    Fn = 3;
+    M = 3;
+
+    G = abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = G+sum(((floor(X(M:N)-G+B)*(1-C+(G-B)/B)/(G-B)+1/B+floor(G+B-X(M:N))*(1-C+(1-G-B)/B)/(1-G-B)).*(abs(X(M:N)-G)-B)+1).^2);
+    K = 1+100*sin(pi*t/2)^4;
+    y1 = X(1:M-1).^K;
+    y2 = X(1:M-2).^K;
+    y3 = X(M-1).^K;
+    y4 = X(1).^K;
+    
+    F = [(1+g)*prod(cos(y1*pi/2))
+        (1+g)*prod(cos(y2*pi/2))*sin(y3*pi/2)
+        (1+g)*sin(y4*pi/2)];
+    V = 0.0;
+end
+
+function [F,V] = F5(X,t)
+% DIMP2   <REPLACE_WITH_DASH_DASH- [-2,2]
+    N = 10;
+    Fn = 2;
+    G = sin((pi*t/2+2*pi*(2:N)/(N+1)).^2);
+    f = X(1);
+    g = 1+2*(N-1)+sum((X(2:end)-G).^2-2*cos(3*pi*(X(2:end)-G)));
+    h = 1-sqrt(f/g);
+    
+    F = [f
+        g*h];
+    V = 0.0;
+end
+
+function [F,V] = F6(X,t)
+    %% dMOP2
+    N = 10;
+    Fn = 2;
+
+    H = 0.75*sin(pi*t/2)+1.25;
+    G = sin(pi*t/2);
+    f = X(1);
+    g = 1+9*sum((X(2:end)-G).^2);
+    h = 1-(f/g)^H;    
+    F = [f
+        g*h];    
+    V = 0.0;
+    
+end
+
+function [F,V] = F7(X,t)
+     %% dMOP2_iso
+    N = 10;
+    Fn = 2;
+
+    H = 0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = sin(pi*t/2);
+    f = X(1);
+    g = 1+9*sum((min(0, floor(X(2:end)-B)).*(G*(B-X(2:end))/B-min(0,floor(C-X(2:end)))*(1-G).*(X(2:end)-C)/(1-C))).^2);
+    h = 1-(f/g)^H;
+    
+    F = [f
+        g*h];
+    V = 0.0;
+
+end
+
+function [F,V] = F8(X,t)
+%% dMOP2_dec
+    n = 10;
+    Fn = 2;
+    H = 0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = sin(pi*t/2);
+    f = X(1);
+    g = 1+9*sum((((floor(X(2:end)-G+B)*(1-C+(G-B)/B)/(G-B)+1/B+floor(G+B-X(2:end))*(1-C+(1-G-B)/B)/(1-G-B)).*(abs(X(2:end)-G)-B)+1)-G).^2);    
+    h = 1-(f/g)^H;    
+    F = [f
+        g*h];
+    V = 0.0;
+end
+
+function [F,V] = F9(X,t)
+    %% dMOP3
+    n = 10;
+    Fn = 2;
+
+    H = 0.75*sin(pi*t/2)+1.25;
+    G = sin(pi*t/2);
+    f = X(1);
+    g = 1+9*sum((X(2:end)-G).^2);
+    h = 1-sqrt(f/g);
+    
+    F = [f
+        g*h];
+    V = 0.0;
+end
+
+function [F,V] = F10(X,t)
+     %% HE2
+    N = 30;
+    Fn = 2;
+
+    H = 0.75*sin(pi*t/2)+1.25;
+    f = X(1);
+    g = 1+9*sum(X(2:end))/(N-1);
+    h = 1-sqrt(f/g)^H-(f/g)^H*sin(10*pi*f);
+    F = [f
+        g*h];
+    V = 0.0;
+end
+
+function [F,V] = F11(X,t)
+%% HE7 <REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH [-1,1]
+    N = 10;
+    Fn = 2;
+
+    H = 0.75*sin(pi*t/2)+1.25;
+    f = X(1)+2/numel(3:2:N)*sum((X(3:2:N)-1-(0.3*X(1)^2*cos(24*pi*X(1)+4*(3:2:N)*pi/N)+0.6*X(1)).*cos(6*pi*X(1)+(3:2:N)*pi/N)).^2);
+    g = 2-sqrt(X(1))+2/numel(2:2:N)*sum((X(2:2:N)-1-(0.3*X(1)^2*cos(24*pi*X(1)+4*(2:2:N)*pi/N)+0.6*X(1)).*sin(6*pi*X(1)+(2:2:N)*pi/N)).^2);
+    h = 1-(f/g)^H;
+
+    F = [f
+        g*h];
+    V = 0.0;
+end
+
+function [F,V] = F12(X,t)
+        %% HE9
+    n = 10;
+    Fn = 2;
+
+    H = 0.75*sin(pi*t/2)+1.25;
+    f = X(1)+2/numel(3:2:n)*sum((X(3:2:n)-sin(6*pi*X(1)+(3:2:n)*pi/n)).^2);
+    g = 2-X(1)^2+2/numel(2:2:n)*sum((X(2:2:n)-sin(6*pi*X(1)+(2:2:n)*pi/n)).^2);
+    h = 1-(f/g)^H;
+
+    F = [f
+        g*h];
+    V = 0.0;
+end
+
+##### SOURCE END #####
+--></body></html>
+<a name="Main"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Main</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="Main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Main function for Tr-MOPSO</a></li><li><a href="#4">step 1. use the MOPSO to get a POF at the initial moment with randomly generated population</a></li><li><a href="#5">step 2. use TCA to get the initial population at the next moment</a></li><li><a href="#6">step 3. use MOPSO to get the POF at every moment with the initial population</a></li></ul></div><h2>Main function for Tr-MOPSO<a name="1"></a></h2><pre class="codeinput">clear
+clc
+
+function_name = {<span class="string">'FDA4'</span>, <span class="string">'FDA5'</span>, <span class="string">'FDA5_iso'</span>, <span class="string">'FDA5_dec'</span>, <span class="string">'DIMP2'</span>, <span class="string">'dMOP2'</span>, <span class="keyword">...</span>
+    <span class="string">'dMOP2_iso'</span>, <span class="string">'dMOP2_dec'</span>, <span class="string">'dMOP3'</span>, <span class="string">'HE2'</span>, <span class="string">'HE7'</span>, <span class="string">'HE9'</span>};
+</pre><pre class="codeinput"><span class="keyword">for</span> testfunc = 1:1
+    clearvars <span class="string">-except</span> <span class="string">testfunc</span> <span class="string">function_name</span>
+
+    [n, Fn, Ft] = getFunc(function_name{testfunc});
+    T_parameter = [
+        10 5 100
+        10 10 200
+        10 25 500
+        10 50 1000
+        1 10 200
+        1 50 1000
+        20 10 200
+        20 50 1000];
+
+    nVar    = n;            <span class="comment">% Number of Decision Variables</span>
+    VarSize = [1 nVar];     <span class="comment">% Size of Decision Variables Matrix</span>
+    VarMin  = 0;            <span class="comment">% Lower Bound of Variables</span>
+    VarMax  = 1;            <span class="comment">% Upper Bound of Variables</span>
+    MaxIt   = 200;          <span class="comment">% Max iteration</span>
+    nPop    = 200;          <span class="comment">% Population Size</span>
+
+    <span class="keyword">for</span> group =1:size(T_parameter,1)
+</pre><pre class="codeinput">        mkdir([<span class="string">'.\Results\'</span> function_name{testfunc} <span class="string">'\group'</span> num2str(group)]);
+        fprintf(<span class="string">'running %s \n'</span>,function_name{testfunc});
+
+        t0 = 0;             <span class="comment">% the initial moment</span>
+        CostFunction = @(x)Ft(x, t0);
+</pre><h2>step 1. use the MOPSO to get a POF at the initial moment with randomly generated population<a name="4"></a></h2><pre class="codeinput">        POF = MOPSO(CostFunction, VarMin, VarMax, VarSize, nPop, MaxIt);
+
+        <span class="keyword">for</span> T = 1:T_parameter(group,3)/T_parameter(group,2)
+</pre><h2>step 2. use TCA to get the initial population at the next moment<a name="5"></a></h2><pre class="codeinput">            sampleN = 400;
+            <span class="keyword">for</span> i=1:sampleN
+                tempParticle = unifrnd(VarMin,VarMax,VarSize);
+                Fs(:,i)=CostFunction(tempParticle);
+            <span class="keyword">end</span>
+            t = 1/T_parameter(group,1)*(T-1);<span class="comment">%next moment</span>
+            CostFunction = @(x)Ft(x, t);
+            <span class="keyword">for</span> i=1:sampleN
+                tempParticle = unifrnd(VarMin,VarMax,VarSize);
+                Fa(:,i)=CostFunction(tempParticle);
+            <span class="keyword">end</span>
+            mu = 0.5;
+            lambda = <span class="string">'unused'</span>;
+            dim = 20;           <span class="comment">% Deduced dimension</span>
+            kind = <span class="string">'Gaussian'</span>;  <span class="comment">% The dimension of Gaussian Kernel feature space is inifinite,</span>
+            p1 = 1;
+            p2 = <span class="string">'unused'</span>;
+            p3 = <span class="string">'unused'</span>;
+            W = getW(Fs, Fa, mu, lambda, dim, kind, p1, p2, p3);
+            POF_deduced = getNewY(Fs, Fa, POF', W, kind, p1, p2, p3);
+            <span class="comment">% Get initial population by POF_deduced</span>
+            dis_px = @(p, x)sum((getNewY(Fs, Fa, CostFunction(x)', W, kind, p1, p2, p3) - p).^2);
+            initn = size(POF_deduced, 2);
+            init_population = zeros(initn, n);
+            <span class="keyword">for</span> i = 1:initn
+                init_population(i,:) = fmincon(@(x)dis_px(POF_deduced(:,i), x), rand(1,n), <span class="keyword">...</span>
+                    [], [], [], [], zeros(1,n), ones(1,n), [], optimset(<span class="string">'display'</span>, <span class="string">'off'</span>));
+            <span class="keyword">end</span>
+</pre><h2>step 3. use MOPSO to get the POF at every moment with the initial population<a name="6"></a></h2><pre class="codeinput">            TruePOF = getBenchmarkPOF(testfunc,group,T);
+            FILEPATH = [<span class="string">'.\Results\'</span> function_name{testfunc} <span class="string">'\group'</span> num2str(group) <span class="string">'\'</span>];
+            POF = MOPSO(CostFunction, VarMin, VarMax, VarSize, nPop, MaxIt,TruePOF, T, FILEPATH, init_population);
+</pre><pre class="codeinput">        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+\n
+--></body></html>
+<a name="getBenchmarkPOF"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>getBenchmarkPOF</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="getBenchmarkPOF.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> POF_Banchmark = getBenchmarkPOF( testfunc,group,T )
+<span class="comment">%UNTITLED2 Summary of this function goes here</span>
+<span class="comment">%   Detailed explanation goes here</span>
+
+
+    T_paramiter = [10 5 100
+           10 10 200
+           10 25 500
+           10 50 1000
+           1 10 200
+           1 50 1000
+           20 10 200
+           20 50 1000];
+<span class="comment">%     T_paramiter = [1 10 50]; %for test</span>
+
+    <span class="keyword">switch</span> testfunc
+        <span class="keyword">case</span> 1
+            tempFuncName = <span class="string">'FDA4'</span>;
+        <span class="keyword">case</span> 2
+            tempFuncName = <span class="string">'FDA5'</span>;
+        <span class="keyword">case</span> 3
+            tempFuncName = <span class="string">'FDA5'</span>;
+        <span class="keyword">case</span> 4
+            tempFuncName = <span class="string">'FDA5'</span>;
+        <span class="keyword">case</span> 5
+            tempFuncName = <span class="string">'DIMP2'</span>;
+        <span class="keyword">case</span> 6
+            tempFuncName = <span class="string">'DMOP2'</span>;
+        <span class="keyword">case</span> 7
+            tempFuncName = <span class="string">'DMOP2'</span>;
+        <span class="keyword">case</span> 8
+            tempFuncName = <span class="string">'DMOP2'</span>;
+        <span class="keyword">case</span> 9
+            tempFuncName = <span class="string">'DMOP3'</span>;
+        <span class="keyword">case</span> 10
+            tempFuncName = <span class="string">'HE2'</span>;
+        <span class="keyword">case</span> 11
+            tempFuncName = <span class="string">'HE7'</span>;
+        <span class="keyword">case</span> 12
+            tempFuncName = <span class="string">'HE9'</span>;
+    <span class="keyword">end</span>
+
+    tempPosition = T_paramiter(group,2)*T-1;
+    POF_Banchmark = importdata([<span class="string">'..\TruePOF\pof\measures\pof\'</span> <span class="string">'POF-nt'</span> num2str(T_paramiter(group,1)) <span class="string">'-taut'</span> num2str(T_paramiter(group,2)) <span class="string">'-'</span> tempFuncName <span class="string">'-'</span> num2str(tempPosition) <span class="string">'.txt'</span>]);
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+\n
+--></body></html>
+<a name="getFunc"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>getFunc</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="getFunc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">FDA4</a></li><li><a href="#4">FDA5</a></li><li><a href="#6">FDA5_iso</a></li><li><a href="#8">FDA5_dec</a></li><li><a href="#10">DIMP2   &lt;--- [-2,2]</a></li><li><a href="#12">dMOP2</a></li><li><a href="#14">dMOP2_iso</a></li><li><a href="#16">dMOP2_dec</a></li><li><a href="#18">dMOP3</a></li><li><a href="#20">HE2</a></li><li><a href="#22">HE7 &lt;---- [-1,1]</a></li><li><a href="#24">HE9</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [n, Fn, Ft] = getFunc( funcname )
+<span class="keyword">switch</span> funcname
+<span class="keyword">case</span> <span class="string">'FDA4'</span>
+</pre><h2>FDA4<a name="2"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    g = @(x,t)sum((x-G(t)).^2);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(x(1:M-1)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(x(1:M-2)*pi/2))*sin(x(M-1)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(x(1)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'FDA5'</span>
+</pre><h2>FDA5<a name="4"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    g = @(x,t)G(t)+sum((x-G(t)).^2);
+    F = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^F(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'FDA5_iso'</span>
+</pre><h2>FDA5_iso<a name="6"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = @(x,t)G(t)+sum((min(0, floor(x-B)).*(G(t)*(B-x)/B-min(0,floor(C-x))*(1-G(t)).*(x-C)/(1-C))).^2);
+    K = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^K(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'FDA5_dec'</span>
+</pre><h2>FDA5_dec<a name="8"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = @(x,t)G(t)+sum(((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1).^2);
+    K = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^K(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'DIMP2'</span>
+</pre><h2>DIMP2   &lt;--- [-2,2]<a name="10"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    G = @(i,t)sin(pi*t/2+2*pi*(i/(n+1))).^2;
+    f = @(x)x;
+    g = @(x, t)1+2*(n-1)+sum((4*x-2-G(2:n,t)).^2-2*cos(3*pi*(4*x-2-G(2:n,t))));
+    h = @(f,g)1-sqrt(f/g);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t))};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP2'</span>
+</pre><h2>dMOP2<a name="12"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x, t)1+9*sum((x-G(t)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP2_iso'</span>
+</pre><h2>dMOP2_iso<a name="14"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x,t)1+9*sum((min(0, floor(x-B)).*(G(t)*(B-x)/B-min(0,floor(C-x))*(1-G(t)).*(x-C)/(1-C))).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP2_dec'</span>
+</pre><h2>dMOP2_dec<a name="16"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+<span class="comment">%     g = @(x,t)1+9*sum(((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1).^2);</span>
+    g = @(x,t)1+9*sum((((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1)-G(t)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP3'</span>
+</pre><h2>dMOP3<a name="18"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x, t)1+9*sum((x-G(t)).^2);
+    h = @(f,g,t)1-sqrt(f/g);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'HE2'</span>
+</pre><h2>HE2<a name="20"></a></h2><pre class="codeinput">    n = 30;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    f = @(x)x;
+    g = @(x, t)1+9*sum(x)/(n-1);
+    h = @(f,g,t)1-sqrt(f/g)^H(t)-(f/g)^H(t)*sin(10*pi*f);
+
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+    F = @(x)Ft(x,t);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'HE7'</span>
+</pre><h2>HE7 &lt;---- [-1,1]<a name="22"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+     f = @(x)x(1)+2/numel(3:2:n)*sum((2*x(3:2:n)-1-(0.3*x(1)^2*cos(24*pi*x(1)+4*(3:2:n)*pi/n)+0.6*x(1)).*cos(6*pi*x(1)+(3:2:n)*pi/n)).^2);
+     g = @(x)2-sqrt(x(1))+2/numel(2:2:n)*sum((2*x(2:2:n)-1-(0.3*x(1)^2*cos(24*pi*x(1)+4*(2:2:n)*pi/n)+0.6*x(1)).*sin(6*pi*x(1)+(2:2:n)*pi/n)).^2);
+
+    h = @(f,g,t)1-(f/g)^H(t);
+
+    Fhandles = {@(x,t)f(x), <span class="keyword">...</span>
+        @(x,t)g(x)*h(f(x), g(x), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'HE9'</span>
+</pre><h2>HE9<a name="24"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    f = @(x)x(1)+2/numel(3:2:n)*sum((x(3:2:n)-sin(6*pi*x(1)+(3:2:n)*pi/n)).^2);
+    g = @(x)2-x(1)^2+2/numel(2:2:n)*sum((x(2:2:n)-sin(6*pi*x(1)+(2:2:n)*pi/n)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+
+    Fhandles = {@(x,t)f(x), <span class="keyword">...</span>
+        @(x,t)g(x)*h(f(x), g(x), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">otherwise</span>
+    disp([funcname <span class="string">' Not Found!'</span>])
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+\n
+--></body></html>
+<a name="getNewY"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>getNewY</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="getNewY.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> Y=getNewY(Xs, Xt, X, W, kind, p1, p2, p3)
+<span class="comment">%&#23545;&#26032;&#25968;&#25454;X&#36827;&#34892;&#26144;&#23556;(X&#21487;&#20197;&#20026;&#28304;&#22495;&#25110;&#30446;&#26631;&#22495;&#30340;&#26032;&#25968;&#25454;)</span>
+<span class="comment">%Xs&#65306;&#28304;&#22495;&#25968;&#25454;</span>
+<span class="comment">%Xt&#65306;&#30446;&#26631;&#22495;&#25968;&#25454;&#65292;&#19982;Xs&#34892;&#25968;&#30456;&#21516;</span>
+<span class="comment">%X&#65306;&#24453;&#21464;&#25442;&#21521;&#37327;&#65292;&#19982;Xs&#34892;&#25968;&#30456;&#21516;</span>
+<span class="comment">%W&#65306;&#21464;&#25442;&#30697;&#38453;n1+n2-&gt;k</span>
+<span class="comment">%kind&#65306;&#26680;&#20989;&#25968;&#36873;&#25321;:'Gaussian'&#12289;'Laplacian'&#12289;'Polynomial',&#20854;&#20182;&#19968;&#24459;&#36820;&#22238;-1</span>
+<span class="comment">%p1,p2,p3&#65306;&#26680;&#20989;&#25968;&#25152;&#35201;&#38468;&#24102;&#30340;&#21442;&#25968;</span>
+
+    n1 = size(Xs, 2);
+	n2 = size(Xt, 2);
+	n3 = size(X, 2);
+
+    <span class="keyword">for</span> j=1:n3
+        <span class="keyword">for</span> i=1:n1
+            K(i,j)=getKernel(Xs(:,i), X(:,j), kind, p1, p2, p3);
+        <span class="keyword">end</span>
+        <span class="keyword">for</span> i=1:n2
+            K(i+n1,j)=getKernel(Xt(:,i), X(:,j), kind, p1, p2, p3);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    Y=W'*K;
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+\n
+--></body></html>
+<a name="getW"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>getW</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="getW.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> [W, K, n1, n2]=getW(Xs, Xt, mu, lambda, dim, kind, p1, p2, p3)
+<span class="comment">%&#21407;TCA&#26041;&#27861;</span>
+<span class="comment">%Xs&#65306;&#28304;&#22495;&#25968;&#25454;</span>
+<span class="comment">%Xt&#65306;&#30446;&#26631;&#22495;&#25968;&#25454;&#65292;&#19982;Xs&#34892;&#25968;&#30456;&#21516;</span>
+<span class="comment">%mu&#65306;&#24179;&#34913;&#22240;&#23376;&#65292;&#36234;&#22823;&#36234;&#37325;&#35270;&#26144;&#23556;&#21518;&#30340;&#30456;&#20284;&#24230;&#65292;&#36234;&#23567;&#36234;&#37325;&#35270;W&#30340;&#22797;&#26434;&#24230;</span>
+<span class="comment">%lambda&#65306;&#26412;&#26041;&#27861;&#19981;&#20351;&#29992;&#35813;&#21442;&#25968;&#65292;&#21482;&#26159;&#20026;&#20102;&#24418;&#24335;&#30340;&#32479;&#19968;</span>
+<span class="comment">%dim&#65306;&#24403;dim&#20026;&#22823;&#20110;&#31561;&#20110;1&#30340;&#25972;&#25968;&#26102;&#65292;dim&#20026;&#38477;&#32500;&#30340;&#30446;&#26631;&#32500;&#25968;&#65307;</span>
+<span class="comment">%     &#24403;dim&#20026;&#22823;&#20110;0&#23567;&#20110;1&#30340;&#23567;&#25968;&#26102;&#65292;&#25152;&#21462;&#29305;&#24449;&#21521;&#37327;&#23545;&#24212;&#30340;&#29305;&#24449;&#20540;&#30340;&#21644;&gt;=&#20840;&#37096;&#29305;&#24449;&#20540;&#21152;&#21644;*dim</span>
+<span class="comment">%kind&#65306;&#26680;&#20989;&#25968;&#36873;&#25321;:'Gaussian'&#12289;'Laplacian'&#12289;'Polynomial',&#20854;&#20182;&#19968;&#24459;&#36820;&#22238;-1</span>
+<span class="comment">%p1,p2,p3&#65306;&#26680;&#20989;&#25968;&#25152;&#35201;&#38468;&#24102;&#30340;&#21442;&#25968;</span>
+<span class="comment">%W&#65306;&#21464;&#25442;&#30697;&#38453;n1+n2-&gt;dim</span>
+<span class="comment">%K&#65306;&#24453;&#21464;&#25442;&#30697;&#38453;</span>
+<span class="comment">%n1,n2&#65306;&#28304;&#25968;&#25454;&#65292;&#30446;&#26631;&#25968;&#25454;&#30340;&#25968;&#30446;</span>
+
+    n1 = size(Xs, 2);
+	n2 = size(Xt, 2);
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;K %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    X(:,1:n1)=Xs;
+    X(:,n1+1:n1+n2)=Xt;
+    <span class="keyword">for</span> i=1:n1+n2
+        <span class="keyword">for</span> j=1:n1+n2
+            K(i,j)=getKernel(X(:,i), X(:,j), kind, p1, p2, p3);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;L %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    L(1:n1, 1:n1)=ones(n1, n1)/(n1*n1);
+    L(n1+1:n1+n2, n1+1:n1+n2)=ones(n2, n2)/(n2*n2);
+    L(1:n1, n1+1:n1+n2)=ones(n1, n2)/(-n1*n2);
+    L(n1+1:n1+n2, 1:n1)=ones(n2, n1)/(-n1*n2);
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;H %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    H=eye(n1+n2)-ones(n1+n2, n1+n2)/(n1+n2);
+
+<span class="comment">%%%%%%%%%%% &#35745;&#31639;W %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    Temp=(eye(n1+n2)+mu*K*L*K)^(-1)*K*H*K;
+    [V,D]=eig(Temp);
+    V=real(V);
+    D=real(D);
+    D=diag(D);
+    [D,I]=sort(D,<span class="string">'descend'</span>);
+
+    <span class="keyword">if</span> dim&gt;0 &amp;&amp; dim&lt;1
+        count=0;
+        cur=0;
+        s=sum(D);
+        <span class="keyword">while</span> cur/s&lt;dim
+            count=count+1;
+            cur=cur+D(count);
+        <span class="keyword">end</span>
+    <span class="keyword">else</span>
+        count=dim;
+    <span class="keyword">end</span>
+
+    I=I(1:count,1);
+    W=V(:,I');
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+\n
+--></body></html>
+<a name="RMMEDA"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>RMMEDA</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="RMMEDA.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Step 0: define and set algorithm parameters</a></li><li><a href="#4">Step 1: initialize population</a></li><li><a href="#5">Step 2: main iterations</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> Pareto = RMMEDA( Problem, Generator, NIni, MaxIter, t, testfunc, group, T, TruePOF, init_population)
+</pre><p>Pareto = RMMEDA( Problem, Generator, NIni, MaxIter ) returns a   set of nondomianted solutions of Problem.FObj</p><pre>   Regularity Model based Multiobjective Estimation of Distribution
+   Algorithm (RM-MEDA), see Q. Zhang, A. Zhou, Y. Jin. 'Modelling the
+   Regularity in an Estimation of Distribution Algorithm for Continuous
+   Multiobjective Optimisation with Variable Linkages'
+   (http://cswww.essex.ac.uk/staff/qzhang/mypublication.htm) for more
+   details.</pre><pre>   Parameters:
+   Problem - define test probelm
+     Problem.FObj - objective functions
+                    [F, V] = FObj(X)
+                     X is decision vector,
+                     F is objective vector,
+                     V = |h1(X)|+ |h2(X)| + ... + |hk(X)| +
+                     max(0,hk+1(X)) + ... + max(0,hp(X) is constraint vialation
+                  - a mulit-objective problem must be the following fomulas
+                     Min   F(X) = (f1(X),f2(X),...,fm(X))
+                     s.t: hi(X) =  0 , i=1,2,...,k
+                          hj(X) &lt;= 0 , j=k+1,...,p
+     Problem.XLow - lower boundary of search space
+     Problem.XUpp - upper boundary of search space
+     Problem.NObj - number of objectives
+   Generator - method to create new trial solutions
+     Generator.Name - method name
+     Generator.NClu - number of clusters (used only for model based generators)
+     Generator.Iter - trainning steps in generator
+     Generator.Exte - extention ratio
+   NIni      - number of initial population defined by experimental design
+   MaxIter   - maximum iterations
+   Returns:
+   Pareto.X      - Pareto Set
+   Pareto.F      - Pareto Front
+   Pareto.V      - constraint vialation
+   Pareto.Neva   - number of function evaluations</pre><pre class="codeinput"><span class="comment">%	Copyright (c) Aimin Zhou (2006)</span>
+<span class="comment">%     Department of Computer Science</span>
+<span class="comment">%     University of Essex</span>
+<span class="comment">%     Colchester, U.K, CO4 3SQ</span>
+<span class="comment">%     amzhou@gmail.com</span>
+<span class="comment">%</span>
+<span class="comment">% History:</span>
+<span class="comment">%     13/10/2006 create</span>
+
+functions = {<span class="string">'FDA4'</span>, <span class="string">'FDA5'</span>, <span class="string">'FDA5_iso'</span>, <span class="string">'FDA5_dec'</span>, <span class="string">'DIMP2'</span>, <span class="string">'dMOP2'</span>, <span class="keyword">...</span>
+            <span class="string">'dMOP2_iso'</span>, <span class="string">'dMOP2_dec'</span>, <span class="string">'dMOP3'</span>, <span class="string">'HE2'</span>, <span class="string">'HE7'</span>, <span class="string">'HE9'</span>};
+</pre><h2>Step 0: define and set algorithm parameters<a name="3"></a></h2><pre class="codeinput">assert(nargin &gt;= 9);
+Pareto.Neva     = 0;                        <span class="comment">% function evaluations</span>
+DX              = size(Problem.XLow,1);     <span class="comment">% dimension of decision variables</span>
+PopF            = ones(Problem.NObj, NIni); <span class="comment">% population (F)</span>
+PopV            = ones(1, NIni);            <span class="comment">% constraint vialation</span>
+TriF            = ones(Problem.NObj, NIni); <span class="comment">% trial population (F)</span>
+TriV            = ones(1, NIni);            <span class="comment">% constraint vialation</span>
+DLat            = Problem.NObj-1;           <span class="comment">% dimension of latent variable space</span>
+LInd    = ones(DX,NIni);
+</pre><h2>Step 1: initialize population<a name="4"></a></h2><pre class="codeinput"><span class="keyword">if</span> nargin == 9
+    <span class="keyword">for</span> i=1:1:DX
+        LInd(i,:)   = randperm(NIni);
+    <span class="keyword">end</span>
+    PopX    = (LInd - rand(DX,NIni))/NIni .* ((Problem.XUpp-Problem.XLow)*ones(1,NIni)) + Problem.XLow*ones(1,NIni);
+    <span class="keyword">for</span> i=1:1:NIni
+        [PopF(:,i),PopV(:,i)] = Problem.FObj(PopX(:,i)',t);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> nargin == 10
+    <span class="keyword">if</span> size(init_population,1)&lt; NIni
+        newpop = addNoise(init_population, NIni, size(init_population,2));
+        PopX = [init_population' newpop'];
+    <span class="keyword">else</span>
+        PopX = init_population';
+    <span class="keyword">end</span>
+    <span class="keyword">for</span> i=1:1:size(PopX,2)
+        [PopF(:,i),PopV(:,i)] = Problem.FObj(PopX(:,i)',t);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+Pareto.Neva    = Pareto.Neva + NIni;
+clear <span class="string">LInd</span>;
+</pre><h2>Step 2: main iterations<a name="5"></a></h2><pre class="codeinput"><span class="keyword">for</span> iter=1:MaxIter
+    <span class="comment">% Step 2.1: generate new trial solutions</span>
+    TriX = LPCAGenerator(PopX, Problem.XLow, Problem.XUpp, NIni, DX, DLat, Generator.NClu, Generator.Iter, Generator.Exte);
+    <span class="comment">% Step 2.2: evaluate new trial solutions</span>
+    <span class="keyword">for</span> i=1:1:NIni
+        [TriF(:,i),TriV(:,i)] = Problem.FObj(TriX(:,i)',t);
+    <span class="keyword">end</span>
+    Pareto.Neva    = Pareto.Neva + NIni;
+    <span class="comment">% Step 2.3: selecte some points to be evaluated by the true objective</span>
+    F       = [PopF,TriF];
+    X       = [PopX,TriX];
+    V       = [PopV,TriV];
+    [PopF,PopX,PopV]   = MOSelector( F, X, V, NIni );
+    [Pareto.F,Pareto.X,Pareto.V] = ParetoFilter(PopF,PopX,PopV);
+    <span class="keyword">if</span> T ~=0
+        POF_iter = Pareto.F';
+        iterIGD(iter) = IGD(POF_iter,TruePOF);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> T ~=0
+    FILEPATH = [<span class="string">'.\Results\'</span> functions{testfunc} <span class="string">'\group'</span> num2str(group) <span class="string">'\'</span>];
+    filename = [<span class="string">'iterIGD-T'</span> num2str(T) <span class="string">'.txt'</span>];
+    save([FILEPATH,filename],<span class="string">'iterIGD'</span>,<span class="string">'-ascii'</span>);
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+\n
+--></body></html>

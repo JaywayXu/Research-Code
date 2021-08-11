@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/commons.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/functions.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/initialize.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/main.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/matrixOperations.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/solvers.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/transferOperations.cpp" charset="GBK" />
+  </component>
+</project>

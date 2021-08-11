@@ -1,0 +1,249 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Main</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="Main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">step 1. Initialize objective functions</a></li><li><a href="#4">step 2. Iterate through enviroment parameters</a></li><li><a href="#6">step 3. use RM-MEDA to get a POF at the initial moment with randomly generated population</a></li><li><a href="#7">step 4. use TCA to get the initial population at the next moment</a></li><li><a href="#8">step 5. use RM-MEDA to get the POF at every moment with the initial population</a></li></ul></div><p><h2>Main function for Tr-NSGA-II</h2></p><pre class="codeinput">clear
+clc
+
+functions = {<span class="string">'FDA4'</span>, <span class="string">'FDA5'</span>, <span class="string">'FDA5_iso'</span>, <span class="string">'FDA5_dec'</span>, <span class="string">'DIMP2'</span>, <span class="string">'dMOP2'</span>, <span class="keyword">...</span>
+    <span class="string">'dMOP2_iso'</span>, <span class="string">'dMOP2_dec'</span>, <span class="string">'dMOP3'</span>, <span class="string">'HE2'</span>, <span class="string">'HE7'</span>, <span class="string">'HE9'</span>};
+
+<span class="keyword">for</span> testfunc = 1:1
+</pre><pre class="codeinput">    clearvars <span class="string">-except</span> <span class="string">functions</span> <span class="string">testfunc</span>
+</pre><h2>step 1. Initialize objective functions<a name="3"></a></h2><pre class="codeinput">    T_paramiter = [10 5 100
+        10 10 200
+        10 25 500
+        10 50 1000
+        1 10 200
+        1 50 1000
+        20 10 200
+        20 50 1000];
+
+    ns = [12 12 12 12 10 10 10 10 10 30 10 10];
+    nobjs = [3 3 3 3 2 2 2 2 2 2 2 2];
+    Problem.Name = functions{testfunc}; <span class="comment">% name of test problem</span>
+    Problem.FObj = eval([<span class="string">'@testFunctions.'</span> Problem.Name]);
+
+    n = ns(testfunc);                   <span class="comment">%number of X</span>
+    Problem.NObj = nobjs(testfunc);     <span class="comment">% number of objectives</span>
+
+    Problem.XLow    = zeros(n,1);       <span class="comment">% lower boundary of decision variables</span>
+    Problem.XUpp    = ones(n,1);        <span class="comment">% upper boundary of decision variables</span>
+    [n, ~, Ft] = getFunc(functions{testfunc});
+    Generator.Name  = <span class="string">'LPCA'</span>;           <span class="comment">% name of generator</span>
+    Generator.NClu  = 5;                <span class="comment">% parameter of generator, the number of clusters(default)</span>
+    Generator.Iter  = 50;               <span class="comment">% maximum trainning steps in LPCA</span>
+    Generator.Exte  = 0.25;             <span class="comment">% parameter of generator, extension rate(default)</span>
+
+    NIni = 200;
+    IterMax = 200;
+</pre><h2>step 2. Iterate through enviroment parameters<a name="4"></a></h2><pre class="codeinput">    <span class="keyword">for</span> group =1:size(T_paramiter,1)
+</pre><pre class="codeinput">        mkdir([<span class="string">'.\Results\'</span> functions{testfunc} <span class="string">'\group'</span> num2str(group)]);
+        fprintf(<span class="string">'running %s \n'</span>,functions{testfunc});
+
+        t = 0;       <span class="comment">%the initial moment</span>
+        TruePOF = [];
+</pre><h2>step 3. use RM-MEDA to get a POF at the initial moment with randomly generated population<a name="6"></a></h2><pre class="codeinput">        Pareto = RMMEDA( Problem, Generator, NIni, IterMax, t, testfunc, group, 0, TruePOF);
+        POF = Pareto.F';
+        <span class="keyword">for</span> T = 1:T_paramiter(group,3)/T_paramiter(group,2)
+</pre><h2>step 4. use TCA to get the initial population at the next moment<a name="7"></a></h2><pre class="codeinput">            <span class="comment">% Initialize random populations</span>
+            sampleN = 400;
+            Xs = rand(sampleN, n);
+            <span class="keyword">for</span> i=1:1:sampleN
+                [Fs(:,i),~] = Problem.FObj(Xs(i,:),t);
+            <span class="keyword">end</span>
+            t= 1/T_paramiter(group,1)*(T-1);    <span class="comment">% next moment</span>
+            F = @(x)Ft(x, t);
+            Xt = rand(sampleN, n);
+            <span class="keyword">for</span> i=1:1:sampleN
+                [Fa(:,i),~] = Problem.FObj(Xt(i,:),t);
+            <span class="keyword">end</span>
+
+            <span class="comment">% Find the latent space of domain adaptation</span>
+            mu = 0.5;
+            lambda = <span class="string">'unused'</span>;
+            dim = 20;
+            kind = <span class="string">'Gaussian'</span>;
+            p1 = 1;
+            p2 = <span class="string">'unused'</span>;
+            p3 = <span class="string">'unused'</span>;
+            W = getW(Fs, Fa, mu, lambda, dim, kind, p1, p2, p3);
+            POF_deduced = getNewY(Fs, Fa, POF', W, kind, p1, p2, p3);
+
+            <span class="comment">% Get initial population by POF_deduced</span>
+            dis_px = @(p, x)sum((getNewY(Fs, Fa, F(x)', W, kind, p1, p2, p3) - p).^2);
+            initn = size(POF_deduced, 2);
+            init_population = zeros(initn, n);
+            <span class="keyword">for</span> i = 1:initn
+                init_population(i,:) = fmincon(@(x)dis_px(POF_deduced(:,i), x), rand(1,n), <span class="keyword">...</span>
+                    [], [], [], [], zeros(1,n), ones(1,n), [], optimset(<span class="string">'display'</span>, <span class="string">'off'</span>));
+            <span class="keyword">end</span>
+</pre><h2>step 5. use RM-MEDA to get the POF at every moment with the initial population<a name="8"></a></h2><pre class="codeinput">            TruePOF = getBenchmarkPOF(testfunc,group,T);
+            Pareto = RMMEDA( Problem, Generator, NIni, IterMax, t, testfunc, group, T, TruePOF, init_population);
+            POF = Pareto.F';
+</pre><pre class="codeinput">        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% <html><h2>Main function for Tr-NSGA-II</h2></html>
+
+clear
+clc
+
+functions = {'FDA4', 'FDA5', 'FDA5_iso', 'FDA5_dec', 'DIMP2', 'dMOP2', ...
+    'dMOP2_iso', 'dMOP2_dec', 'dMOP3', 'HE2', 'HE7', 'HE9'};
+
+for testfunc = 1:1
+    clearvars -except functions testfunc
+    
+    %% step 1. Initialize objective functions
+    T_paramiter = [10 5 100
+        10 10 200
+        10 25 500
+        10 50 1000
+        1 10 200
+        1 50 1000
+        20 10 200
+        20 50 1000];
+    
+    ns = [12 12 12 12 10 10 10 10 10 30 10 10];
+    nobjs = [3 3 3 3 2 2 2 2 2 2 2 2];
+    Problem.Name = functions{testfunc}; % name of test problem
+    Problem.FObj = eval(['@testFunctions.' Problem.Name]);
+    
+    n = ns(testfunc);                   %number of X
+    Problem.NObj = nobjs(testfunc);     % number of objectives
+    
+    Problem.XLow    = zeros(n,1);       % lower boundary of decision variables
+    Problem.XUpp    = ones(n,1);        % upper boundary of decision variables
+    [n, ~, Ft] = getFunc(functions{testfunc});
+    Generator.Name  = 'LPCA';           % name of generator
+    Generator.NClu  = 5;                % parameter of generator, the number of clusters(default)
+    Generator.Iter  = 50;               % maximum trainning steps in LPCA
+    Generator.Exte  = 0.25;             % parameter of generator, extension rate(default)
+    
+    NIni = 200;
+    IterMax = 200;
+    
+    %% step 2. Iterate through enviroment parameters
+    for group =1:size(T_paramiter,1)
+        mkdir(['.\Results\' functions{testfunc} '\group' num2str(group)]);
+        fprintf('running %s \n',functions{testfunc});
+        
+        t = 0;       %the initial moment
+        TruePOF = [];
+        
+        %% step 3. use RM-MEDA to get a POF at the initial moment with randomly generated population
+        Pareto = RMMEDA( Problem, Generator, NIni, IterMax, t, testfunc, group, 0, TruePOF);
+        POF = Pareto.F';
+        for T = 1:T_paramiter(group,3)/T_paramiter(group,2)
+            %% step 4. use TCA to get the initial population at the next moment
+            
+            % Initialize random populations
+            sampleN = 400;
+            Xs = rand(sampleN, n);
+            for i=1:1:sampleN
+                [Fs(:,i),~] = Problem.FObj(Xs(i,:),t);
+            end
+            t= 1/T_paramiter(group,1)*(T-1);    % next moment
+            F = @(x)Ft(x, t);
+            Xt = rand(sampleN, n);
+            for i=1:1:sampleN
+                [Fa(:,i),~] = Problem.FObj(Xt(i,:),t);
+            end
+            
+            % Find the latent space of domain adaptation
+            mu = 0.5;
+            lambda = 'unused';
+            dim = 20;
+            kind = 'Gaussian';
+            p1 = 1;
+            p2 = 'unused';
+            p3 = 'unused';
+            W = getW(Fs, Fa, mu, lambda, dim, kind, p1, p2, p3);
+            POF_deduced = getNewY(Fs, Fa, POF', W, kind, p1, p2, p3);
+            
+            % Get initial population by POF_deduced
+            dis_px = @(p, x)sum((getNewY(Fs, Fa, F(x)', W, kind, p1, p2, p3) - p).^2);
+            initn = size(POF_deduced, 2);
+            init_population = zeros(initn, n);
+            for i = 1:initn
+                init_population(i,:) = fmincon(@(x)dis_px(POF_deduced(:,i), x), rand(1,n), ...
+                    [], [], [], [], zeros(1,n), ones(1,n), [], optimset('display', 'off'));
+            end
+            
+            %% step 5. use RM-MEDA to get the POF at every moment with the initial population
+            TruePOF = getBenchmarkPOF(testfunc,group,T);
+            Pareto = RMMEDA( Problem, Generator, NIni, IterMax, t, testfunc, group, T, TruePOF, init_population);
+            POF = Pareto.F';
+        end
+    end
+end
+##### SOURCE END #####
+--></body></html>

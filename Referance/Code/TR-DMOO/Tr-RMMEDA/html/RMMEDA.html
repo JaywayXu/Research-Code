@@ -1,0 +1,285 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>RMMEDA</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="RMMEDA.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Step 0: define and set algorithm parameters</a></li><li><a href="#4">Step 1: initialize population</a></li><li><a href="#5">Step 2: main iterations</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> Pareto = RMMEDA( Problem, Generator, NIni, MaxIter, t, testfunc, group, T, TruePOF, init_population)
+</pre><p>Pareto = RMMEDA( Problem, Generator, NIni, MaxIter ) returns a   set of nondomianted solutions of Problem.FObj</p><pre>   Regularity Model based Multiobjective Estimation of Distribution
+   Algorithm (RM-MEDA), see Q. Zhang, A. Zhou, Y. Jin. 'Modelling the
+   Regularity in an Estimation of Distribution Algorithm for Continuous
+   Multiobjective Optimisation with Variable Linkages'
+   (http://cswww.essex.ac.uk/staff/qzhang/mypublication.htm) for more
+   details.</pre><pre>   Parameters:
+   Problem - define test probelm
+     Problem.FObj - objective functions
+                    [F, V] = FObj(X)
+                     X is decision vector,
+                     F is objective vector,
+                     V = |h1(X)|+ |h2(X)| + ... + |hk(X)| +
+                     max(0,hk+1(X)) + ... + max(0,hp(X) is constraint vialation
+                  - a mulit-objective problem must be the following fomulas
+                     Min   F(X) = (f1(X),f2(X),...,fm(X))
+                     s.t: hi(X) =  0 , i=1,2,...,k
+                          hj(X) &lt;= 0 , j=k+1,...,p
+     Problem.XLow - lower boundary of search space
+     Problem.XUpp - upper boundary of search space
+     Problem.NObj - number of objectives
+   Generator - method to create new trial solutions
+     Generator.Name - method name
+     Generator.NClu - number of clusters (used only for model based generators)
+     Generator.Iter - trainning steps in generator
+     Generator.Exte - extention ratio
+   NIni      - number of initial population defined by experimental design
+   MaxIter   - maximum iterations
+   Returns:
+   Pareto.X      - Pareto Set
+   Pareto.F      - Pareto Front
+   Pareto.V      - constraint vialation
+   Pareto.Neva   - number of function evaluations</pre><pre class="codeinput"><span class="comment">%	Copyright (c) Aimin Zhou (2006)</span>
+<span class="comment">%     Department of Computer Science</span>
+<span class="comment">%     University of Essex</span>
+<span class="comment">%     Colchester, U.K, CO4 3SQ</span>
+<span class="comment">%     amzhou@gmail.com</span>
+<span class="comment">%</span>
+<span class="comment">% History:</span>
+<span class="comment">%     13/10/2006 create</span>
+
+functions = {<span class="string">'FDA4'</span>, <span class="string">'FDA5'</span>, <span class="string">'FDA5_iso'</span>, <span class="string">'FDA5_dec'</span>, <span class="string">'DIMP2'</span>, <span class="string">'dMOP2'</span>, <span class="keyword">...</span>
+            <span class="string">'dMOP2_iso'</span>, <span class="string">'dMOP2_dec'</span>, <span class="string">'dMOP3'</span>, <span class="string">'HE2'</span>, <span class="string">'HE7'</span>, <span class="string">'HE9'</span>};
+</pre><h2>Step 0: define and set algorithm parameters<a name="3"></a></h2><pre class="codeinput">assert(nargin &gt;= 9);
+Pareto.Neva     = 0;                        <span class="comment">% function evaluations</span>
+DX              = size(Problem.XLow,1);     <span class="comment">% dimension of decision variables</span>
+PopF            = ones(Problem.NObj, NIni); <span class="comment">% population (F)</span>
+PopV            = ones(1, NIni);            <span class="comment">% constraint vialation</span>
+TriF            = ones(Problem.NObj, NIni); <span class="comment">% trial population (F)</span>
+TriV            = ones(1, NIni);            <span class="comment">% constraint vialation</span>
+DLat            = Problem.NObj-1;           <span class="comment">% dimension of latent variable space</span>
+LInd    = ones(DX,NIni);
+</pre><h2>Step 1: initialize population<a name="4"></a></h2><pre class="codeinput"><span class="keyword">if</span> nargin == 9
+    <span class="keyword">for</span> i=1:1:DX
+        LInd(i,:)   = randperm(NIni);
+    <span class="keyword">end</span>
+    PopX    = (LInd - rand(DX,NIni))/NIni .* ((Problem.XUpp-Problem.XLow)*ones(1,NIni)) + Problem.XLow*ones(1,NIni);
+    <span class="keyword">for</span> i=1:1:NIni
+        [PopF(:,i),PopV(:,i)] = Problem.FObj(PopX(:,i)',t);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> nargin == 10
+    <span class="keyword">if</span> size(init_population,1)&lt; NIni
+        newpop = addNoise(init_population, NIni, size(init_population,2));
+        PopX = [init_population' newpop'];
+    <span class="keyword">else</span>
+        PopX = init_population';
+    <span class="keyword">end</span>
+    <span class="keyword">for</span> i=1:1:size(PopX,2)
+        [PopF(:,i),PopV(:,i)] = Problem.FObj(PopX(:,i)',t);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+Pareto.Neva    = Pareto.Neva + NIni;
+clear <span class="string">LInd</span>;
+</pre><h2>Step 2: main iterations<a name="5"></a></h2><pre class="codeinput"><span class="keyword">for</span> iter=1:MaxIter
+    <span class="comment">% Step 2.1: generate new trial solutions</span>
+    TriX = LPCAGenerator(PopX, Problem.XLow, Problem.XUpp, NIni, DX, DLat, Generator.NClu, Generator.Iter, Generator.Exte);
+    <span class="comment">% Step 2.2: evaluate new trial solutions</span>
+    <span class="keyword">for</span> i=1:1:NIni
+        [TriF(:,i),TriV(:,i)] = Problem.FObj(TriX(:,i)',t);
+    <span class="keyword">end</span>
+    Pareto.Neva    = Pareto.Neva + NIni;
+    <span class="comment">% Step 2.3: selecte some points to be evaluated by the true objective</span>
+    F       = [PopF,TriF];
+    X       = [PopX,TriX];
+    V       = [PopV,TriV];
+    [PopF,PopX,PopV]   = MOSelector( F, X, V, NIni );
+    [Pareto.F,Pareto.X,Pareto.V] = ParetoFilter(PopF,PopX,PopV);
+    <span class="keyword">if</span> T ~=0
+        POF_iter = Pareto.F';
+        iterIGD(iter) = IGD(POF_iter,TruePOF);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> T ~=0
+    FILEPATH = [<span class="string">'.\Results\'</span> functions{testfunc} <span class="string">'\group'</span> num2str(group) <span class="string">'\'</span>];
+    filename = [<span class="string">'iterIGD-T'</span> num2str(T) <span class="string">'.txt'</span>];
+    save([FILEPATH,filename],<span class="string">'iterIGD'</span>,<span class="string">'-ascii'</span>);
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function Pareto = RMMEDA( Problem, Generator, NIni, MaxIter, t, testfunc, group, T, TruePOF, init_population)
+
+%%
+% Pareto = RMMEDA( Problem, Generator, NIni, MaxIter ) returns a
+%   set of nondomianted solutions of Problem.FObj
+%
+%     Regularity Model based Multiobjective Estimation of Distribution
+%     Algorithm (RM-MEDA), see Q. Zhang, A. Zhou, Y. Jin. 'Modelling the
+%     Regularity in an Estimation of Distribution Algorithm for Continuous 
+%     Multiobjective Optimisation with Variable Linkages'
+%     (http://cswww.essex.ac.uk/staff/qzhang/mypublication.htm) for more
+%     details.
+%
+%     Parameters:
+%     Problem - define test probelm
+%       Problem.FObj - objective functions 
+%                      [F, V] = FObj(X)
+%                       X is decision vector, 
+%                       F is objective vector, 
+%                       V = |h1(X)|+ |h2(X)| + ... + |hk(X)| +
+%                       max(0,hk+1(X)) + ... + max(0,hp(X) is constraint vialation 
+%                    - a mulit-objective problem must be the following fomulas
+%                       Min   F(X) = (f1(X),f2(X),...,fm(X))
+%                       s.t: hi(X) =  0 , i=1,2,...,k
+%                            hj(X) <= 0 , j=k+1,...,p
+%       Problem.XLow - lower boundary of search space
+%       Problem.XUpp - upper boundary of search space
+%       Problem.NObj - number of objectives
+%     Generator - method to create new trial solutions
+%       Generator.Name - method name
+%       Generator.NClu - number of clusters (used only for model based generators)
+%       Generator.Iter - trainning steps in generator
+%       Generator.Exte - extention ratio
+%     NIni      - number of initial population defined by experimental design
+%     MaxIter   - maximum iterations
+%     Returns:
+%     Pareto.X      - Pareto Set
+%     Pareto.F      - Pareto Front
+%     Pareto.V      - constraint vialation 
+%     Pareto.Neva   - number of function evaluations
+%
+%	Copyright (c) Aimin Zhou (2006)
+%     Department of Computer Science
+%     University of Essex
+%     Colchester, U.K, CO4 3SQ
+%     amzhou@gmail.com
+%
+% History:
+%     13/10/2006 create
+
+functions = {'FDA4', 'FDA5', 'FDA5_iso', 'FDA5_dec', 'DIMP2', 'dMOP2', ...
+            'dMOP2_iso', 'dMOP2_dec', 'dMOP3', 'HE2', 'HE7', 'HE9'};
+
+%% Step 0: define and set algorithm parameters
+assert(nargin >= 9);
+Pareto.Neva     = 0;                        % function evaluations
+DX              = size(Problem.XLow,1);     % dimension of decision variables
+PopF            = ones(Problem.NObj, NIni); % population (F)
+PopV            = ones(1, NIni);            % constraint vialation
+TriF            = ones(Problem.NObj, NIni); % trial population (F)
+TriV            = ones(1, NIni);            % constraint vialation
+DLat            = Problem.NObj-1;           % dimension of latent variable space
+LInd    = ones(DX,NIni);
+%% Step 1: initialize population
+if nargin == 9
+    for i=1:1:DX
+        LInd(i,:)   = randperm(NIni);
+    end
+    PopX    = (LInd - rand(DX,NIni))/NIni .* ((Problem.XUpp-Problem.XLow)*ones(1,NIni)) + Problem.XLow*ones(1,NIni);
+    for i=1:1:NIni
+        [PopF(:,i),PopV(:,i)] = Problem.FObj(PopX(:,i)',t);
+    end
+end
+if nargin == 10
+    if size(init_population,1)< NIni
+        newpop = addNoise(init_population, NIni, size(init_population,2));
+        PopX = [init_population' newpop'];
+    else
+        PopX = init_population';
+    end
+    for i=1:1:size(PopX,2)
+        [PopF(:,i),PopV(:,i)] = Problem.FObj(PopX(:,i)',t);
+    end    
+end
+
+Pareto.Neva    = Pareto.Neva + NIni;
+clear LInd;
+%% Step 2: main iterations
+for iter=1:MaxIter
+    % Step 2.1: generate new trial solutions
+    TriX = LPCAGenerator(PopX, Problem.XLow, Problem.XUpp, NIni, DX, DLat, Generator.NClu, Generator.Iter, Generator.Exte);   
+    % Step 2.2: evaluate new trial solutions
+    for i=1:1:NIni
+        [TriF(:,i),TriV(:,i)] = Problem.FObj(TriX(:,i)',t);
+    end
+    Pareto.Neva    = Pareto.Neva + NIni;
+    % Step 2.3: selecte some points to be evaluated by the true objective
+    F       = [PopF,TriF];
+    X       = [PopX,TriX];
+    V       = [PopV,TriV];
+    [PopF,PopX,PopV]   = MOSelector( F, X, V, NIni ); 
+    [Pareto.F,Pareto.X,Pareto.V] = ParetoFilter(PopF,PopX,PopV);
+    if T ~=0
+        POF_iter = Pareto.F';
+        iterIGD(iter) = IGD(POF_iter,TruePOF);
+    end    
+end
+
+if T ~=0
+    FILEPATH = ['.\Results\' functions{testfunc} '\group' num2str(group) '\'];
+    filename = ['iterIGD-T' num2str(T) '.txt'];
+    save([FILEPATH,filename],'iterIGD','-ascii');
+end
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,516 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cstdlib>
+#include <string>
+#include <cmath>
+#include <time.h>
+#include <armadillo>
+#include <algorithm>
+#include "functions.h"
+using namespace std;
+//using namespace arma;
+
+string input_files_A[30] = {
+    "benchmark\\A-VRP\\A-n32-k5.txt",
+    "benchmark\\A-VRP\\A-n33-k5.txt",
+    "benchmark\\A-VRP\\A-n33-k6.txt",
+    "benchmark\\A-VRP\\A-n34-k5.txt",
+    "benchmark\\A-VRP\\A-n36-k5.txt",
+    "benchmark\\A-VRP\\A-n37-k5.txt",
+    "benchmark\\A-VRP\\A-n37-k6.txt",
+    "benchmark\\A-VRP\\A-n38-k5.txt",
+    "benchmark\\A-VRP\\A-n39-k5.txt",
+    "benchmark\\A-VRP\\A-n39-k6.txt",
+    "benchmark\\A-VRP\\A-n44-k7.txt",
+    "benchmark\\A-VRP\\A-n45-k6.txt",
+    "benchmark\\A-VRP\\A-n45-k7.txt",
+    "benchmark\\A-VRP\\A-n46-k7.txt",
+    "benchmark\\A-VRP\\A-n48-k7.txt",
+    "benchmark\\A-VRP\\A-n53-k7.txt",
+    "benchmark\\A-VRP\\A-n54-k7.txt",
+    "benchmark\\A-VRP\\A-n55-k9.txt",
+    "benchmark\\A-VRP\\A-n60-k9.txt",
+    "benchmark\\A-VRP\\A-n61-k9.txt",
+    "benchmark\\A-VRP\\A-n62-k8.txt",
+    "benchmark\\A-VRP\\A-n63-k9.txt",
+    "benchmark\\A-VRP\\A-n63-k10.txt",
+    "benchmark\\A-VRP\\A-n64-k9.txt",
+    "benchmark\\A-VRP\\A-n65-k9.txt",
+    "benchmark\\A-VRP\\A-n69-k9.txt",
+    "benchmark\\A-VRP\\A-n80-k10.txt"
+};
+string input_files_AAAI[150] = {
+    "benchmark\\A-VRP\\A-n32-k5.txt",
+    "benchmark\\A-VRP\\A-n32-k5-1.txt",
+    "benchmark\\A-VRP\\A-n32-k5-2.txt",
+    "benchmark\\A-VRP\\A-n32-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n33-k5.txt",
+    "benchmark\\A-VRP\\A-n33-k5-1.txt",
+    "benchmark\\A-VRP\\A-n33-k5-2.txt",
+    "benchmark\\A-VRP\\A-n33-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n33-k6.txt",
+    "benchmark\\A-VRP\\A-n33-k6-1.txt",
+    "benchmark\\A-VRP\\A-n33-k6-2.txt",
+    "benchmark\\A-VRP\\A-n33-k6-3.txt",
+
+    "benchmark\\A-VRP\\A-n34-k5.txt",
+    "benchmark\\A-VRP\\A-n34-k5-1.txt",
+    "benchmark\\A-VRP\\A-n34-k5-2.txt",
+    "benchmark\\A-VRP\\A-n34-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n36-k5.txt",
+    "benchmark\\A-VRP\\A-n36-k5-1.txt",
+    "benchmark\\A-VRP\\A-n36-k5-2.txt",
+    "benchmark\\A-VRP\\A-n36-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n37-k5.txt",
+    "benchmark\\A-VRP\\A-n37-k5-1.txt",
+    "benchmark\\A-VRP\\A-n37-k5-2.txt",
+    "benchmark\\A-VRP\\A-n37-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n37-k6.txt",
+    "benchmark\\A-VRP\\A-n37-k6-1.txt",
+    "benchmark\\A-VRP\\A-n37-k6-2.txt",
+    "benchmark\\A-VRP\\A-n37-k6-3.txt",
+
+    "benchmark\\A-VRP\\A-n38-k5.txt",
+    "benchmark\\A-VRP\\A-n38-k5-1.txt",
+    "benchmark\\A-VRP\\A-n38-k5-2.txt",
+    "benchmark\\A-VRP\\A-n38-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n39-k5.txt",
+    "benchmark\\A-VRP\\A-n39-k5-1.txt",
+    "benchmark\\A-VRP\\A-n39-k5-2.txt",
+    "benchmark\\A-VRP\\A-n39-k5-3.txt",
+
+    "benchmark\\A-VRP\\A-n39-k6.txt",
+    "benchmark\\A-VRP\\A-n39-k6-1.txt",
+    "benchmark\\A-VRP\\A-n39-k6-2.txt",
+    "benchmark\\A-VRP\\A-n39-k6-3.txt",
+
+    "benchmark\\A-VRP\\A-n44-k7.txt",
+    "benchmark\\A-VRP\\A-n44-k7-1.txt",
+    "benchmark\\A-VRP\\A-n44-k7-2.txt",
+    "benchmark\\A-VRP\\A-n44-k7-3.txt",
+
+    "benchmark\\A-VRP\\A-n45-k6.txt",
+    "benchmark\\A-VRP\\A-n45-k6-1.txt",
+    "benchmark\\A-VRP\\A-n45-k6-2.txt",
+    "benchmark\\A-VRP\\A-n45-k6-3.txt",
+
+    "benchmark\\A-VRP\\A-n45-k7.txt",
+    "benchmark\\A-VRP\\A-n45-k7-1.txt",
+    "benchmark\\A-VRP\\A-n45-k7-2.txt",
+    "benchmark\\A-VRP\\A-n45-k7-3.txt",
+
+    "benchmark\\A-VRP\\A-n46-k7.txt",
+    "benchmark\\A-VRP\\A-n46-k7-1.txt",
+    "benchmark\\A-VRP\\A-n46-k7-2.txt",
+    "benchmark\\A-VRP\\A-n46-k7-3.txt",
+
+    "benchmark\\A-VRP\\A-n48-k7.txt",
+    "benchmark\\A-VRP\\A-n48-k7-1.txt",
+    "benchmark\\A-VRP\\A-n48-k7-2.txt",
+    "benchmark\\A-VRP\\A-n48-k7-3.txt",
+
+    "benchmark\\A-VRP\\A-n53-k7.txt",
+    "benchmark\\A-VRP\\A-n53-k7-1.txt",
+    "benchmark\\A-VRP\\A-n53-k7-2.txt",
+    "benchmark\\A-VRP\\A-n53-k7-3.txt",
+
+    "benchmark\\A-VRP\\A-n54-k7.txt",
+    "benchmark\\A-VRP\\A-n54-k7-1.txt",
+    "benchmark\\A-VRP\\A-n54-k7-2.txt",
+    "benchmark\\A-VRP\\A-n54-k7-3.txt",
+
+    "benchmark\\A-VRP\\A-n55-k9.txt",
+    "benchmark\\A-VRP\\A-n55-k9-1.txt",
+    "benchmark\\A-VRP\\A-n55-k9-2.txt",
+    "benchmark\\A-VRP\\A-n55-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n60-k9.txt",
+    "benchmark\\A-VRP\\A-n60-k9-1.txt",
+    "benchmark\\A-VRP\\A-n60-k9-2.txt",
+    "benchmark\\A-VRP\\A-n60-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n61-k9.txt",
+    "benchmark\\A-VRP\\A-n61-k9-1.txt",
+    "benchmark\\A-VRP\\A-n61-k9-2.txt",
+    "benchmark\\A-VRP\\A-n61-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n62-k8.txt",
+    "benchmark\\A-VRP\\A-n62-k8-1.txt",
+    "benchmark\\A-VRP\\A-n62-k8-2.txt",
+    "benchmark\\A-VRP\\A-n62-k8-3.txt",
+
+    "benchmark\\A-VRP\\A-n63-k9.txt",
+    "benchmark\\A-VRP\\A-n63-k9-1.txt",
+    "benchmark\\A-VRP\\A-n63-k9-2.txt",
+    "benchmark\\A-VRP\\A-n63-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n63-k10.txt",
+    "benchmark\\A-VRP\\A-n63-k10-1.txt",
+    "benchmark\\A-VRP\\A-n63-k10-2.txt",
+    "benchmark\\A-VRP\\A-n63-k10-3.txt",
+
+    "benchmark\\A-VRP\\A-n64-k9.txt",
+    "benchmark\\A-VRP\\A-n64-k9-1.txt",
+    "benchmark\\A-VRP\\A-n64-k9-2.txt",
+    "benchmark\\A-VRP\\A-n64-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n65-k9.txt",
+    "benchmark\\A-VRP\\A-n65-k9-1.txt",
+    "benchmark\\A-VRP\\A-n65-k9-2.txt",
+    "benchmark\\A-VRP\\A-n65-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n69-k9.txt",
+    "benchmark\\A-VRP\\A-n69-k9-1.txt",
+    "benchmark\\A-VRP\\A-n69-k9-2.txt",
+    "benchmark\\A-VRP\\A-n69-k9-3.txt",
+
+    "benchmark\\A-VRP\\A-n80-k10.txt",
+    "benchmark\\A-VRP\\A-n80-k10-1.txt",
+    "benchmark\\A-VRP\\A-n80-k10-2.txt",
+    "benchmark\\A-VRP\\A-n80-k10-3.txt"
+};
+string input_files_B[30] = {
+    "benchmark\\B-VRP\\B-n31-k5.txt",
+    "benchmark\\B-VRP\\B-n34-k5.txt",
+    "benchmark\\B-VRP\\B-n35-k5.txt",
+    "benchmark\\B-VRP\\B-n38-k6.txt",
+    "benchmark\\B-VRP\\B-n39-k5.txt",
+    "benchmark\\B-VRP\\B-n41-k6.txt",
+    "benchmark\\B-VRP\\B-n43-k6.txt",
+    "benchmark\\B-VRP\\B-n44-k7.txt",
+    "benchmark\\B-VRP\\B-n45-k5.txt",
+    "benchmark\\B-VRP\\B-n45-k6.txt",
+    "benchmark\\B-VRP\\B-n50-k7.txt",
+    "benchmark\\B-VRP\\B-n50-k8.txt",
+    "benchmark\\B-VRP\\B-n51-k7.txt",
+    "benchmark\\B-VRP\\B-n52-k7.txt",
+    "benchmark\\B-VRP\\B-n56-k7.txt",
+    "benchmark\\B-VRP\\B-n57-k7.txt",
+    "benchmark\\B-VRP\\B-n57-k9.txt",
+    "benchmark\\B-VRP\\B-n63-k10.txt",
+    "benchmark\\B-VRP\\B-n64-k9.txt",
+    "benchmark\\B-VRP\\B-n66-k9.txt",
+    "benchmark\\B-VRP\\B-n67-k10.txt",
+    "benchmark\\B-VRP\\B-n68-k9.txt",
+    "benchmark\\B-VRP\\B-n78-k10.txt"
+};
+string input_files_P[30] = {
+
+    "benchmark\\P-VRP\\P-n16-k8.txt",
+    "benchmark\\P-VRP\\P-n19-k2.txt",
+    "benchmark\\P-VRP\\P-n20-k2.txt",
+    "benchmark\\P-VRP\\P-n21-k2.txt",
+    "benchmark\\P-VRP\\P-n22-k2.txt",
+    "benchmark\\P-VRP\\P-n22-k8.txt",
+    "benchmark\\P-VRP\\P-n23-k8.txt",
+    "benchmark\\P-VRP\\P-n40-k5.txt",
+    "benchmark\\P-VRP\\P-n45-k5.txt",
+    "benchmark\\P-VRP\\P-n50-k7.txt",
+    "benchmark\\P-VRP\\P-n50-k8.txt",
+    "benchmark\\P-VRP\\P-n50-k10.txt",
+    "benchmark\\P-VRP\\P-n51-k10.txt",
+    "benchmark\\P-VRP\\P-n55-k7.txt",
+    "benchmark\\P-VRP\\P-n55-k8.txt",
+    "benchmark\\P-VRP\\P-n55-k10.txt",
+    "benchmark\\P-VRP\\P-n55-k15.txt",
+    "benchmark\\P-VRP\\P-n60-k10.txt",
+    "benchmark\\P-VRP\\P-n60-k15.txt",
+    "benchmark\\P-VRP\\P-n65-k10.txt",
+    "benchmark\\P-VRP\\P-n70-k10.txt",
+    "benchmark\\P-VRP\\P-n76-k4.txt",
+    "benchmark\\P-VRP\\P-n76-k5.txt"
+};
+
+void run_solver(string *input_files, string file_op, string run_id, int L, int R, int ls, int rand_insert, int do_km) {
+    for(int f_i = L; f_i < R; ++f_i) {
+        string input_file_name = input_files[f_i];
+        string output_file_name = file_op + "run_id_" + run_id + "_problem_" + nts(f_i+1);
+        cout << input_file_name << endl;
+        cout << output_file_name << endl;
+
+        Problem problem = initializer(input_file_name);
+        solver(problem, output_file_name, ls, rand_insert, do_km, 1);
+    }
+}
+
+void run_transfer(string *input_files, string file_op, string run_id, vector<pair<int, int> > &matches, int nls, int random_transfer) {
+    string output = file_op + "matches";
+    file_output_mathces(matches, output);
+    for(int i = 0; i < matches.size(); i++) {
+        int f_i = matches[i].first;
+        int f_j = matches[i].second;
+        string input_file_1 = input_files[f_i];
+        string input_file_2 = input_files[f_j];
+        Problem problem1 = initializer(input_file_1);
+        Problem problem2 = initializer(input_file_2);
+
+        string output_file_1 = file_op + "run_id_" + run_id + "_" + nts(f_i+1) + "-" + nts(f_j+1) + "_" + nts(f_i+1);
+        string output_file_2 = file_op + "run_id_" + run_id + "_" + nts(f_i+1) + "-" + nts(f_j+1) + "_" + nts(f_j+1);
+
+
+
+        cout << input_file_1 << endl;
+        cout << output_file_1 << endl;
+        cout << input_file_2 << endl;
+        cout << output_file_2 << endl;
+
+        transferSolver(problem1, problem2, output_file_1, output_file_2, nls, random_transfer, f_i, f_j);
+    }
+}
+
+void run_MFO(string *input_files, string file_op, string run_id, vector<pair<int, int> > &matches, int nls) {
+
+    string output = file_op + "matches";
+    file_output_mathces(matches, output);
+
+    for(int i = 0; i < matches.size(); i++) {
+        int f_i = matches[i].first;
+        int f_j = matches[i].second;
+        string input_file_1 = input_files[f_i];
+        string input_file_2 = input_files[f_j];
+        Problem problem1 = MFOproblem_initialize(input_file_1);
+        Problem problem2 = MFOproblem_initialize(input_file_2);
+
+        string output_file_1 = file_op + "run_id_" + run_id + "_" + nts(f_i+1) + "-" + nts(f_j+1) + "_" + nts(f_i+1);
+        string output_file_2 = file_op + "run_id_" + run_id + "_" + nts(f_i+1) + "-" + nts(f_j+1) + "_" + nts(f_j+1);
+
+        cout << input_file_1 << endl;
+        cout << output_file_1 << endl;
+        cout << input_file_2 << endl;
+        cout << output_file_2 << endl;
+        MFOSolver(problem1, problem2, output_file_1, output_file_2, nls);
+    }
+}
+void test_m(string *input_files, string file_op, vector<pair<int, int> > &matches) {
+    file_output_mathces(matches, file_op + "matches");
+
+    for(int i = 0; i < matches.size(); i++) {
+
+        int f_i = matches[i].first;
+        int f_j = matches[i].second;
+        string input_file_1 = input_files[f_i];
+        string input_file_2 = input_files[f_j];
+        Problem problem1 = initializer(input_file_1);
+        Problem problem2 = initializer(input_file_2);
+
+        int current_size = POP_SIZE;
+        vector <float> res;
+        for(int j = 0; j < POP_SIZE / 10; ++j) {
+            undelimiter_individual chromosome = kMeans(problem1.customer_mat, problem1.k_size, problem1.original_dist);
+            OPT(problem1, chromosome, current_size, "problem1", 0);
+        }
+        population_sorting(problem1.indi, current_size);
+        printf("file_%d k_means_val: %f\n", f_i, problem1.indi[0].fitness);
+        string k_means = "k_means_val_";
+        k_means += nts(f_i);
+        res.push_back(problem1.indi[0].fitness);
+        file_outputs(res, file_op + k_means);
+    }
+}
+void best_solution_transfer(string *input_files, string file_op, vector<pair<int, int> > &matches, string run_id, int ls1, int ls2) {
+
+    string base, random_base, kmeans_ps, best_transfer;
+    base = "base//";
+    random_base = "random_base//";
+    kmeans_ps = "kmeans_ps//";
+    best_transfer = "best_transfer//";
+    run_id = "_" + run_id;
+
+    for(int i_ = 0; i_ < matches.size(); ++i_) {
+        int L = matches[i_].first;
+        string input_file = input_files[L];
+        string f_nm = nts(L + 1);
+        Problem problem_base = initializer(input_file);
+        Problem problem_random_base = initializer(input_file);
+        Problem problem_kmeans_ps = initializer(input_file);
+
+//        puts("do problem_base");
+////         do base solver
+//        solver(problem_base, file_op + base + "problem_" + f_nm + run_id, ls1, 0, 0, 1);
+//
+//        puts("do problem_random_base");
+////         do base random solver
+//        solver(problem_random_base, file_op + random_base + "problem_" + f_nm + run_id, ls1, 1, 0, 1);
+
+        puts("do problem_kmeans_ps");
+//         do kmeans and pairwise sorting solver
+        solver(problem_kmeans_ps, file_op + kmeans_ps + "problem_" + f_nm + run_id, ls1, 1, 1, 1);
+    }
+
+//    for(int i_ = 0; i_ < matches.size(); ++i_) {
+//
+//        int L = matches[i_].first;
+//        int R = matches[i_].second;
+//
+//        string input_file = input_files[L];
+//
+//        string f_nm = nts(L + 1);
+//
+//        Problem problem_transfer = initializer(input_file);
+//
+//        Problem sub_sets[5];
+//        mat M[5];
+//        int all = 0;
+//        for(int i = L + 1; i < R; ++i) {
+//            // bugs
+//            sub_sets[all] = initializer(input_files[i]);
+//            M[all] = autoEncoder(sub_sets[all].customer_mat, problem_transfer.customer_mat);
+////            print_mat_float(M[all]);
+//
+////            system("pause");
+////            print_problem(sub_sets[i]);
+//            solver(sub_sets[all], "s", ls1, 0, 0, 0);
+//            all++;
+//        }
+////        for(int i = 0; i < all; ++i)
+////            print_problem(sub_sets[i]);
+//
+////        system("pause");
+//
+//
+//
+//
+//        puts("do best_transfer");
+////         do best transfer
+//        int OP = 1;
+//        int current_size = POP_SIZE;
+////        把所有individual按fitness排序
+//        population_sorting(problem_transfer.indi, current_size);
+//
+////        将individual转化为对应的chromesome
+//        for(int i = 0; i < current_size; ++i) {
+//            indi_to_chro(&problem_transfer.indi[i], &problem_transfer.chro[i]);
+//        }
+//        vector<float> res;
+//
+//        int generation = 0;
+////        防止陷入局部最优, 多初始化几次
+////        cout << "begin" << endl;
+//        for(int phase = 1; phase <= NP; ++phase) {
+//            int ita = 0;
+//            bool transfer = true;
+//            while(ita < ITA) {
+//                if(transfer) {
+//                    for(int i = 0; i < TRANSFER_SIZE; ++i) {
+//                        undelimiter_individual chromosome2;
+//                        int choice = rand() % all;
+//
+//                        chromosome2 = transferOperation(sub_sets[choice].indi[i], sub_sets[choice].customer_size, M[choice], problem_transfer.original_dist, problem_transfer.k_size);
+//
+////                        points_output(problem_transfer.customer_mat, "A//bst//points_source");
+////                        solution_output(&sub_sets[choice].indi[i], "A//bst//solution_source");
+////                        system("pause");
+//                        int _to_1 = OPT(problem_transfer, chromosome2, current_size, "problem_2", 0);
+//
+//                        if(_to_1) printf("transfer successful fitness: %d\n", _to_1);
+//                    }
+//                    transfer = false;
+//                }
+//                if(ita++ % POP_SIZE == 0) {
+//                    res.push_back(problem_transfer.indi[0].fitness);
+//                    generation++;
+//                    printf("generation: %d  p1 fitness: %f\n", generation, problem_transfer.indi[0].fitness);
+//                    if(generation % TRANSFER_SPEED == 0)
+//                        transfer = true;
+//                }
+//                operaitonProcess(problem_transfer, current_size, "problem_transfer", OP);
+//            }
+//            initializeProblem(problem_transfer, current_size);
+//        }
+//        file_outputs(res, file_op + best_transfer + "problem_" + f_nm + run_id);
+//        printf("problem_transfer fitness: %f\n", problem_transfer.indi[0].fitness);
+//        print_one_dim_array(problem_transfer.indi[0].sequence, problem_transfer.indi[0].count);
+//    }
+
+}
+int main() {
+    int run = 9;
+
+    int L = 40, R = 42;
+    string *input_files = input_files_AAAI;
+    int file_size = FILE_SIZE_A;
+    string file_op = "A\\";
+    vector <pair<int, int> > matches, problem_sets;
+
+//    for(int i = L; i < R; ++i) {
+//        string input_file_1 = input_files[i];
+//        Problem problem1 = read_data(input_file_1);
+//        int f_j = problem_match(problem1, i, input_files, file_size);
+//        matches.push_back(make_pair(i, f_j));
+//    }
+
+    // 0-4 * 28
+//    for(int i = 0; i < 27; ++i) {
+//        problem_sets.push_back(make_pair(i*4, i*4+4));
+//    }
+//    for(int i = 1; i <= 10; ++i)
+//        best_solution_transfer(input_files, file_op + "bst\\", problem_sets, nts(i), 1, 1);
+
+
+//    L = 0, R = 20;
+//    test_m(input_files, file_op + "test_m\\", matches_t);
+
+
+
+    matches.push_back(make_pair(40, 41));
+
+
+    // test 40th
+
+
+
+    while(++run <= RUN_TIME) {
+        string run_id = nts(run);
+//        // solver_ls1_nri
+//        run_solver(input_files, file_op + "result_ls1_nri\\", run_id, L, R, 1, 0, 0);
+//
+//        // solver_ls1_wri
+//        run_solver(input_files, file_op + "result_ls1_wri\\", run_id, L, R, 1, 1, 0);
+//
+//        // solver_ls1_wkm
+//        run_solver(input_files, file_op + "result_ls1_wkm\\", run_id, L, R, 1, 1, 1);
+//
+//
+//
+//        // solver_ls2_nri
+//        run_solver(input_files, file_op + "result_ls2_nri\\", run_id, L, R, 2, 0, 0);
+//
+//        // solver_ls2_wri
+//        run_solver(input_files, file_op + "result_ls2_wri\\", run_id, L, R, 2, 1, 0);
+//
+//        // solver_ls2_wkm
+//        run_solver(input_files, file_op + "result_ls2_wkm\\", run_id, L, R, 2, 1, 1);
+
+
+
+//        // solver_nls_nri
+//        run_solver(input_files, file_op + "result_nls_nri\\", run_id, L, R, 0, 0, 0);
+//
+//        // solver_nls_wri
+//        run_solver(input_files, file_op + "result_nls_wri\\", run_id, L, R, 0, 1, 0);
+//
+//        // solver_nls_wkm
+//        run_solver(input_files, file_op + "result_nls_wkm\\", run_id, L, R, 0, 1, 1);
+
+//         with ls2
+//        run_transfer(input_files, file_op + "transfer_ls1_ls2_rt\\", run_id, matches, 0, 1);
+        run_transfer(input_files, file_op + "transfer_ls1_ls2\\", run_id, matches, 0, 0);
+
+//         without ls2
+//        run_transfer(input_files, file_op + "transfer_ls1_nls_rt\\", run_id, matches, 1, 1);
+//        run_transfer(input_files, file_op + "transfer_ls1_nls\\", run_id, matches, 1, 0);
+//         mfo
+//        run_MFO(input_files, file_op + "mfo_ls1_ls2\\", run_id, matches, 0);
+//        run_MFO(input_files, file_op + "mfo_ls1_nls\\", run_id, matches, 1);
+
+    }
+    return 0;
+}

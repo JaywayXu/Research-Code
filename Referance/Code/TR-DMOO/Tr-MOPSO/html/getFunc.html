@@ -1,0 +1,417 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>getFunc</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-31"><meta name="DC.source" content="getFunc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">FDA4</a></li><li><a href="#4">FDA5</a></li><li><a href="#6">FDA5_iso</a></li><li><a href="#8">FDA5_dec</a></li><li><a href="#10">DIMP2   &lt;--- [-2,2]</a></li><li><a href="#12">dMOP2</a></li><li><a href="#14">dMOP2_iso</a></li><li><a href="#16">dMOP2_dec</a></li><li><a href="#18">dMOP3</a></li><li><a href="#20">HE2</a></li><li><a href="#22">HE7 &lt;---- [-1,1]</a></li><li><a href="#24">HE9</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [n, Fn, Ft] = getFunc( funcname )
+<span class="keyword">switch</span> funcname
+<span class="keyword">case</span> <span class="string">'FDA4'</span>
+</pre><h2>FDA4<a name="2"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    g = @(x,t)sum((x-G(t)).^2);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(x(1:M-1)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(x(1:M-2)*pi/2))*sin(x(M-1)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(x(1)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'FDA5'</span>
+</pre><h2>FDA5<a name="4"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    g = @(x,t)G(t)+sum((x-G(t)).^2);
+    F = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^F(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'FDA5_iso'</span>
+</pre><h2>FDA5_iso<a name="6"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = @(x,t)G(t)+sum((min(0, floor(x-B)).*(G(t)*(B-x)/B-min(0,floor(C-x))*(1-G(t)).*(x-C)/(1-C))).^2);
+    K = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^K(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'FDA5_dec'</span>
+</pre><h2>FDA5_dec<a name="8"></a></h2><pre class="codeinput">    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = @(x,t)G(t)+sum(((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1).^2);
+    K = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^K(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), <span class="keyword">...</span>
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'DIMP2'</span>
+</pre><h2>DIMP2   &lt;--- [-2,2]<a name="10"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    G = @(i,t)sin(pi*t/2+2*pi*(i/(n+1))).^2;
+    f = @(x)x;
+    g = @(x, t)1+2*(n-1)+sum((4*x-2-G(2:n,t)).^2-2*cos(3*pi*(4*x-2-G(2:n,t))));
+    h = @(f,g)1-sqrt(f/g);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t))};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP2'</span>
+</pre><h2>dMOP2<a name="12"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x, t)1+9*sum((x-G(t)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP2_iso'</span>
+</pre><h2>dMOP2_iso<a name="14"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x,t)1+9*sum((min(0, floor(x-B)).*(G(t)*(B-x)/B-min(0,floor(C-x))*(1-G(t)).*(x-C)/(1-C))).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP2_dec'</span>
+</pre><h2>dMOP2_dec<a name="16"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+<span class="comment">%     g = @(x,t)1+9*sum(((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1).^2);</span>
+    g = @(x,t)1+9*sum((((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1)-G(t)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'dMOP3'</span>
+</pre><h2>dMOP3<a name="18"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x, t)1+9*sum((x-G(t)).^2);
+    h = @(f,g,t)1-sqrt(f/g);
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'HE2'</span>
+</pre><h2>HE2<a name="20"></a></h2><pre class="codeinput">    n = 30;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    f = @(x)x;
+    g = @(x, t)1+9*sum(x)/(n-1);
+    h = @(f,g,t)1-sqrt(f/g)^H(t)-(f/g)^H(t)*sin(10*pi*f);
+
+    Fhandles = {@(x,t)f(x(1)), <span class="keyword">...</span>
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+    F = @(x)Ft(x,t);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'HE7'</span>
+</pre><h2>HE7 &lt;---- [-1,1]<a name="22"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+     f = @(x)x(1)+2/numel(3:2:n)*sum((2*x(3:2:n)-1-(0.3*x(1)^2*cos(24*pi*x(1)+4*(3:2:n)*pi/n)+0.6*x(1)).*cos(6*pi*x(1)+(3:2:n)*pi/n)).^2);
+     g = @(x)2-sqrt(x(1))+2/numel(2:2:n)*sum((2*x(2:2:n)-1-(0.3*x(1)^2*cos(24*pi*x(1)+4*(2:2:n)*pi/n)+0.6*x(1)).*sin(6*pi*x(1)+(2:2:n)*pi/n)).^2);
+
+    h = @(f,g,t)1-(f/g)^H(t);
+
+    Fhandles = {@(x,t)f(x), <span class="keyword">...</span>
+        @(x,t)g(x)*h(f(x), g(x), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">case</span> <span class="string">'HE9'</span>
+</pre><h2>HE9<a name="24"></a></h2><pre class="codeinput">    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    f = @(x)x(1)+2/numel(3:2:n)*sum((x(3:2:n)-sin(6*pi*x(1)+(3:2:n)*pi/n)).^2);
+    g = @(x)2-x(1)^2+2/numel(2:2:n)*sum((x(2:2:n)-sin(6*pi*x(1)+(2:2:n)*pi/n)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+
+    Fhandles = {@(x,t)f(x), <span class="keyword">...</span>
+        @(x,t)g(x)*h(f(x), g(x), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+</pre><pre class="codeinput"><span class="keyword">otherwise</span>
+    disp([funcname <span class="string">' Not Found!'</span>])
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function [n, Fn, Ft] = getFunc( funcname )
+switch funcname
+case 'FDA4'
+    %% FDA4
+    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    g = @(x,t)sum((x-G(t)).^2);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(x(1:M-1)*pi/2)), ...
+        @(x,t)(1+g(x(M:n),t))*prod(cos(x(1:M-2)*pi/2))*sin(x(M-1)*pi/2), ...
+        @(x,t)(1+g(x(M:n),t))*sin(x(1)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'FDA5'
+    %% FDA5
+    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    g = @(x,t)G(t)+sum((x-G(t)).^2);
+    F = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^F(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), ...
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), ...
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'FDA5_iso'
+    %% FDA5_iso
+    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = @(x,t)G(t)+sum((min(0, floor(x-B)).*(G(t)*(B-x)/B-min(0,floor(C-x))*(1-G(t)).*(x-C)/(1-C))).^2);
+    K = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^K(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), ...
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), ...
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'FDA5_dec'
+    %% FDA5_dec
+    n = 12;
+    Fn = 3;
+    M = 3;
+
+    G = @(t)abs(sin(pi*t/2));
+    B = .001;
+    C = .05;
+    g = @(x,t)G(t)+sum(((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1).^2);
+    K = @(t)1+100*sin(pi*t/2)^4;
+    y = @(x,t)x.^K(t);
+    Fhandles = {@(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-1), t)*pi/2)), ...
+        @(x,t)(1+g(x(M:n),t))*prod(cos(y(x(1:M-2), t)*pi/2))*sin(y(x(M-1), t)*pi/2), ...
+        @(x,t)(1+g(x(M:n),t))*sin(y(x(1),t)*pi/2)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'DIMP2'
+    %% DIMP2   <REPLACE_WITH_DASH_DASH- [-2,2]
+    n = 10;
+    Fn = 2;
+
+    G = @(i,t)sin(pi*t/2+2*pi*(i/(n+1))).^2;
+    f = @(x)x;
+    g = @(x, t)1+2*(n-1)+sum((4*x-2-G(2:n,t)).^2-2*cos(3*pi*(4*x-2-G(2:n,t))));
+    h = @(f,g)1-sqrt(f/g);
+    Fhandles = {@(x,t)f(x(1)), ...
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t))};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'dMOP2'
+    %% dMOP2
+    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x, t)1+9*sum((x-G(t)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), ...
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'dMOP2_iso'
+    %% dMOP2_iso
+    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x,t)1+9*sum((min(0, floor(x-B)).*(G(t)*(B-x)/B-min(0,floor(C-x))*(1-G(t)).*(x-C)/(1-C))).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), ...
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'dMOP2_dec'
+    %% dMOP2_dec
+    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    B = .001;
+    C = .05;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+%     g = @(x,t)1+9*sum(((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1).^2);
+    g = @(x,t)1+9*sum((((floor(x-G(t)+B)*(1-C+(G(t)-B)/B)/(G(t)-B)+1/B+floor(G(t)+B-x)*(1-C+(1-G(t)-B)/B)/(1-G(t)-B)).*(abs(x-G(t))-B)+1)-G(t)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+    Fhandles = {@(x,t)f(x(1)), ...
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'dMOP3'
+    %% dMOP3
+    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    G = @(t)sin(pi*t/2);
+    f = @(x)x;
+    g = @(x, t)1+9*sum((x-G(t)).^2);
+    h = @(f,g,t)1-sqrt(f/g);
+    Fhandles = {@(x,t)f(x(1)), ...
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'HE2'
+    %% HE2
+    n = 30;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    f = @(x)x;
+    g = @(x, t)1+9*sum(x)/(n-1);
+    h = @(f,g,t)1-sqrt(f/g)^H(t)-(f/g)^H(t)*sin(10*pi*f);
+
+    Fhandles = {@(x,t)f(x(1)), ...
+        @(x,t)g(x(2:end),t)*h(f(x(1)), g(x(2:end), t), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+    F = @(x)Ft(x,t);
+
+case 'HE7'
+    %% HE7 <REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH [-1,1]
+    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+     f = @(x)x(1)+2/numel(3:2:n)*sum((2*x(3:2:n)-1-(0.3*x(1)^2*cos(24*pi*x(1)+4*(3:2:n)*pi/n)+0.6*x(1)).*cos(6*pi*x(1)+(3:2:n)*pi/n)).^2);
+     g = @(x)2-sqrt(x(1))+2/numel(2:2:n)*sum((2*x(2:2:n)-1-(0.3*x(1)^2*cos(24*pi*x(1)+4*(2:2:n)*pi/n)+0.6*x(1)).*sin(6*pi*x(1)+(2:2:n)*pi/n)).^2);
+    
+    h = @(f,g,t)1-(f/g)^H(t);
+
+    Fhandles = {@(x,t)f(x), ...
+        @(x,t)g(x)*h(f(x), g(x), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+
+case 'HE9'
+    %% HE9
+    n = 10;
+    Fn = 2;
+
+    H = @(t)0.75*sin(pi*t/2)+1.25;
+    f = @(x)x(1)+2/numel(3:2:n)*sum((x(3:2:n)-sin(6*pi*x(1)+(3:2:n)*pi/n)).^2);
+    g = @(x)2-x(1)^2+2/numel(2:2:n)*sum((x(2:2:n)-sin(6*pi*x(1)+(2:2:n)*pi/n)).^2);
+    h = @(f,g,t)1-(f/g)^H(t);
+
+    Fhandles = {@(x,t)f(x), ...
+        @(x,t)g(x)*h(f(x), g(x), t)};
+    Ft = @(x,t)cellfun(@(c)c(x,t), Fhandles);
+otherwise
+    disp([funcname ' Not Found!'])
+end
+##### SOURCE END #####
+--></body></html>
