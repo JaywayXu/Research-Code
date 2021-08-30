@@ -1,0 +1,7 @@
+Population size: 200
+Random mating probability: 0.9
+simulated binary crossover probability: 0.9
+Polynomial mutation: 1/D (D is the dimensionality of the unified code representation)
+Distribution index for crossover: 20
+Distribution index for mutation: 20
+The number of function evaluations at every generation: 200
