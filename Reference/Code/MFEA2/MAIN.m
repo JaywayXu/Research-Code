@@ -20,7 +20,7 @@ pop_M = 200; % population size for multitasking
 gen = 100; % generation count
 selection_pressure = 'elitist'; % choose either 'elitist' or 'roulette wheel'
 p_il = 0; % probability of individual learning (BFGA quasi-Newton Algorithm) - local search (optional)
-reps = 5; % reps > 1 to compute mean rmp values
+reps = 30; % reps > 1 to compute mean rmp values
 
 problem_set = 1; % The desired problem sets can be chosen from the "benchmark.m" file
 Tasks = benchmark(problem_set);
