@@ -1,5 +1,5 @@
 pop_M = 100; % MF种群数量
-gen = 500; % 最大迭代次数
+gen = 10; % 最大迭代次数
 reps = 2; % 独立重复运行次数 30
 % evaNum_M = pop_M * gen; % MF最大评价次数
 evaNum_M = Inf;
@@ -47,7 +47,7 @@ if is_run
 
     end
 
-    disp(['\n本次实验共计用时: ', duration([0, 0, toc(tStart)])]);
+    disp(['本次实验共计用时: ', char(duration([0, 0, toc(tStart)]))]);
 
     mkdir('./Data/');
 
