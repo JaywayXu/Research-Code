@@ -103,6 +103,7 @@ function data_MFEA2 = MFEA2(Tasks, pop, gen, selection_process, p_il, reps)
             generation = generation +1;
 
             %Extract task specific data sets
+            % subpops(i).data表示父代第i个任务所有的个体基因
             for i = 1:no_of_tasks
                 subpops(i).data = [];
             end
@@ -247,7 +248,7 @@ function data_MFEA2 = MFEA2(Tasks, pop, gen, selection_process, p_il, reps)
             fnceval_calls(rep) = fnceval_calls(rep) + sum(calls_per_individual);
             TotalEvaluations(rep, generation) = fnceval_calls(rep);
 
-            rmpval(rep, generation) = rmp;
+            rmpval(rep, generation) = rmp; %
 
             intpopulation(1:pop) = population;
             intpopulation(pop + 1:2 * pop) = child;
