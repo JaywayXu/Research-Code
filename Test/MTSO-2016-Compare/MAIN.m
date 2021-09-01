@@ -1,6 +1,6 @@
 pop_M = 100; % MF种群数量
-gen = 10; % 最大迭代次数
-reps = 2; % 独立重复运行次数 30
+gen = 1000; % 最大迭代次数
+reps = 20; % 独立重复运行次数 30
 % evaNum_M = pop_M * gen; % MF最大评价次数
 evaNum_M = Inf;
 
@@ -17,7 +17,7 @@ for algo_i = 1:length(algoList)
     addpath([algoList{algo_i}, '/']);
 end
 
-algoList_test = {'MFEA', 'MFEA_AKT', 'MFEA2'};
+algoList_test = {'MFEA', 'MFGBO', 'MFDE', 'MFPSO', 'MFEA_AKT', 'MFEA2'};
 
 if is_run
     tStart = tic;
