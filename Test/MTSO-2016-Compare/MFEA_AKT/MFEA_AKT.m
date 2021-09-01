@@ -3,6 +3,8 @@ function data_MFEA = MFEA_AKT(Tasks, pop, gen, eva_num, selection_process, rmp, 
     %     clc
     tic
 
+    ncx = 8; % AKT
+
     p_il = 0;
 
     if mod(pop, 2) ~= 0
@@ -33,7 +35,7 @@ function data_MFEA = MFEA_AKT(Tasks, pop, gen, eva_num, selection_process, rmp, 
     bestobj = Inf(1, no_of_tasks);
 
     for rep = 1:reps
-        disp(['MFEA_AKT_', int2str(ncx), ': ', num2str(rep), ' test'])
+        disp(['MFEA_AKT: ', num2str(rep), ' test'])
 
         cfbRecord = zeros(gen, 1);
         cfRecord = zeros(gen, 6);
