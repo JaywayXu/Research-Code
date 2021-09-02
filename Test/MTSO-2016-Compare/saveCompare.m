@@ -64,6 +64,7 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
     % save data
     mkdir('./Results_Compare/')
     scoreFile = fopen('./Results_Compare/score.txt', 'wt');
+    fitnessFile = fopen('./Results_Compare/fitness.txt', 'wt');
     clockFile = fopen('./Results_Compare/clock.txt', 'wt');
 
     % save score
@@ -71,11 +72,14 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
 
         for algo_i = 1:length(algoNameList)
             % 每个算法数据
-            fprintf(scoreFile, '%f\t', scoreEnd(bench_i, algo_i));
-            fprintf(clockFile, '%f\t', clockData(bench_i, algo_i));
+            fprintf(scoreFile, '%.2f\t', scoreEnd(bench_i, algo_i));
+            fprintf(fitnessFile, '%.2f\t', convergence(bench_i, 1, algo_i, end));
+            fprintf(fitnessFile, '%.2f\t', convergence(bench_i, 2, algo_i, end));
+            fprintf(clockFile, '%.2f\t', clockData(bench_i, algo_i));
         end
 
         fprintf(scoreFile, '\n');
+        fprintf(fitnessFile, '\n');
         fprintf(clockFile, '\n');
 
     end
@@ -97,9 +101,9 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
             end
 
             % plot(reshape(score(bench_i, :, :), [algoNum, gen]))
-            title(benchNameList{bench_i})
+            title([benchNameList{bench_i}, ' Task', int2str(task_i)])
             xlabel('Generation')
-            ylabel('log(Score)')
+            ylabel('log(fitness)')
             legend(strrep(algoNameList, '_', '\_'))
 
             saveas(fig, ['./Results_Figure/', int2str(bench_i), '_', benchNameList{bench_i}, int2str(task_i), '.png']);
