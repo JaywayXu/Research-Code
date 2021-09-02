@@ -17,7 +17,7 @@ for algo_i = 1:length(algoList)
     addpath([algoList{algo_i}, '/']);
 end
 
-algoList_test = {'MFEA', 'MFGBO', 'MFDE', 'MFPSO', 'MFEA_AKT', 'MFEA2'};
+algoList_test = {'MFGBO', 'MFDE'};
 
 if is_run
     tStart = tic;
