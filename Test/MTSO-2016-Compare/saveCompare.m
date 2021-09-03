@@ -74,8 +74,14 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
             % 每个算法数据
             fprintf(scoreFile, '%.2f\t', scoreEnd(bench_i, algo_i));
             fprintf(fitnessFile, '%.2f\t', convergence(bench_i, 1, algo_i, end));
-            fprintf(fitnessFile, '%.2f\t', convergence(bench_i, 2, algo_i, end));
             fprintf(clockFile, '%.2f\t', clockData(bench_i, algo_i));
+        end
+
+        fprintf(fitnessFile, '\n');
+
+        for algo_i = 1:length(algoNameList)
+            % task2
+            fprintf(fitnessFile, '%.2f\t', convergence(bench_i, 2, algo_i, end));
         end
 
         fprintf(scoreFile, '\n');
