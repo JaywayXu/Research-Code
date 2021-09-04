@@ -8,13 +8,13 @@ benchNum = 9; % 测试集数量 9
 taskNum = 2; % 任务数量 2
 rmp = 0.3; % random mating probability
 
-is_run = 0; % 是否运行，false则直接读取mat文件
+is_run = 1; % 是否运行，false则直接读取mat文件
 
 benchNameList = {'CI-HS', 'CI-MS', 'CI-LS', 'PI-HS', 'PI-MS', 'PI-LS', 'NI-HS', 'NI-MS', 'NI-LS'};
 algoList = {'MFEA', 'MFGBO', 'MFDE', 'MFPSO', 'MFEA_AKT', 'MFEA2'};
 
 for algo_i = 1:length(algoList)
-    addpath([algoList{algo_i}, '/']);
+    addpath(['../Algorithm/', algoList{algo_i}, '/']);
 end
 
 algoList_test = {'MFEA', 'MFGBO', 'MFDE', 'MFPSO', 'MFEA_AKT', 'MFEA2'};
