@@ -7,6 +7,11 @@ classdef MFEA < Algorithm
 
     methods
 
+        function obj = setParameter(obj, rmp, selection_process)
+            obj.rmp = rmp;
+            obj.selection_process = selection_process;
+        end
+
         function data = run(obj, Tasks)
             rmp = obj.rmp;
             pop = obj.pop_size;
