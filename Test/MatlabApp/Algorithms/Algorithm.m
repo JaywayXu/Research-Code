@@ -1,3 +1,0 @@
-classdef (ClassAttributes) ClassName
-    
-end
