@@ -112,7 +112,7 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
             ylabel('log(fitness)')
             legend(strrep(algoNameList, '_', '\_'))
 
-            saveas(fig, ['./Results_Figure/', int2str(bench_i), '_', benchNameList{bench_i}, int2str(task_i), '.png']);
+            saveas(fig, ['./Results_Figure/', int2str(bench_i), '_', benchNameList{bench_i}, int2str(task_i), '.eps']);
         end
 
     end
