@@ -93,6 +93,8 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
     % draw convergence figure
     mkdir('./Results_Figure/')
 
+    color_list = {'b', 'g', 'y', 'r'};
+
     for bench_i = 1:benchNum
 
         for task_i = 1:taskNum
@@ -101,8 +103,8 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
 
             for algo_i = 1:length(algoNameList)
                 y = log(reshape(convergence(bench_i, task_i, algo_i, :), [1, gen]));
-                plot(x, y, ...
-                    'LineWidth', 1)
+                plot(x, y, [':', color_list{algo_i}], ...
+                    'LineWidth', 3)
                 hold on
             end
 
@@ -112,7 +114,7 @@ function saveCompare(algoNameList, benchNameList, reps, taskNum, gen)
             ylabel('log(fitness)')
             legend(strrep(algoNameList, '_', '\_'))
 
-            saveas(fig, ['./Results_Figure/', int2str(bench_i), '_', benchNameList{bench_i}, int2str(task_i), '.eps']);
+            saveas(fig, ['./Results_Figure/', int2str(bench_i), '_', benchNameList{bench_i}, int2str(task_i), '.eps'], 'psc2');
         end
 
     end
