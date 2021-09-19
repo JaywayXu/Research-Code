@@ -7,6 +7,14 @@ classdef MFEA < Algorithm
 
     methods
 
+        function parameter = getParameter(obj)
+            % parameter = {'rmp', num2str(obj.rmp), 'selection_process', obj.selection_process};
+            parameter(1).name = 'rmp';
+            parameter(1).value = obj.rmp;
+            parameter(2).name = 'selection_process';
+            parameter(2).value = obj.selection_process;
+        end
+
         function obj = setParameter(obj, rmp, selection_process)
             obj.rmp = rmp;
             obj.selection_process = selection_process;
