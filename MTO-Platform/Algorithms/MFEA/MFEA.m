@@ -15,12 +15,14 @@ classdef MFEA < Algorithm
             parameter(2).value = obj.selection_process;
         end
 
-        function obj = setParameter(obj, rmp, selection_process)
-            obj.rmp = rmp;
-            obj.selection_process = selection_process;
+        function obj = setParameter(obj, parameter_cell)
+            obj.rmp = str2double(parameter_cell{1});
+            obj.selection_process = parameter_cell{2};
         end
 
-        function data = run(obj, Tasks)
+        function data = run(obj, Tasks, pre_run_list)
+            obj.setPreRun(pre_run_list);
+
             rmp = obj.rmp;
             pop = obj.pop_size;
             gen = obj.iter_num;

@@ -9,11 +9,14 @@ classdef Algorithm < handle
 
     methods
 
-        function obj = Algorithm(name, pop_size, iter_num, eva_num)
+        function obj = Algorithm(name)
             obj.name = name;
-            obj.pop_size = pop_size;
-            obj.iter_num = iter_num;
-            obj.eva_num = eva_num;
+        end
+
+        function obj = setPreRun(obj, pre_run_list)
+            obj.pop_size = pre_run_list(1);
+            obj.iter_num = pre_run_list(2);
+            obj.eva_num = pre_run_list(3);
         end
 
         function name = getName(obj)
@@ -28,7 +31,7 @@ classdef Algorithm < handle
 
         end
 
-        function obj = setParameter(obj)
+        function obj = setParameter(obj, parameter_cell)
 
         end
 

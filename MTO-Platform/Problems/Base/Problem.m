@@ -18,6 +18,14 @@ classdef Problem < handle
             name = obj.name;
         end
 
+        function parameter = getParameter(obj)
+
+        end
+
+        function obj = setParameter(obj, parameter_cell)
+
+        end
+
         function Tasks = getTasks(obj)
 
         end
