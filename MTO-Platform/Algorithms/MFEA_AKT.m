@@ -182,7 +182,7 @@ classdef MFEA_AKT < Algorithm
                                         alpha = population(p2).cx_factor;
                                     end
 
-                                    cfRecord(generation, alpha) = cfRecord(generation, alpha) + 1;
+                                    % cfRecord(generation, alpha) = cfRecord(generation, alpha) + 1;
 
                                     child(count) = hyberCX(child(count), population(p1), population(p2), cf, alpha);
                                     child(count + 1) = hyberCX(child(count + 1), population(p2), population(p1), cf, alpha);
