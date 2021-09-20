@@ -2,6 +2,8 @@ classdef Problem < handle
 
     properties
         name
+        dims
+        tasks_name
     end
 
     methods
@@ -18,11 +20,24 @@ classdef Problem < handle
             name = obj.name;
         end
 
+        function num = getTasksNumber(obj)
+            num = length(obj.dims);
+        end
+
         function parameter = getParameter(obj)
+            parameter = {};
+
+            for i = 1:length(obj.tasks_name)
+                parameter = [parameter, [obj.tasks_name{i}, ' dim'], num2str(obj.dims(i))];
+            end
 
         end
 
         function obj = setParameter(obj, parameter_cell)
+
+            for i = 1:length(obj.dims)
+                obj.dims(i) = str2num(parameter_cell{i});
+            end
 
         end
 
