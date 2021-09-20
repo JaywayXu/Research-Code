@@ -138,7 +138,7 @@ classdef MFPSO < Algorithm
             ite = 1;
             noImpove = 0;
 
-            while ite <= gen && TotalEvaluations(ite) < eva_num
+            while ite < gen && TotalEvaluations(ite) < eva_num
 
                 if gen == inf
                     w1 = wmax -(wmax - wmin) * TotalEvaluations(ite) / eva_num;
