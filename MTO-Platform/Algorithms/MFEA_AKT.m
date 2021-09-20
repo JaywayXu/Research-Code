@@ -1,6 +1,7 @@
-classdef MFEA < Algorithm
+classdef MFEA_AKT < Algorithm
 
     properties (SetAccess = private)
+        rmp = 0.3
         selection_process = 'elitist'
         p_il = 0;
         mu = 2; % index of Simulated Binary Crossover (tunable)
@@ -10,21 +11,24 @@ classdef MFEA < Algorithm
     methods
 
         function parameter = getParameter(obj)
-            parameter = {'elitist / roulette wheel', obj.selection_process, ...
+            parameter = {'Random Mating Probability (rmp)', num2str(obj.rmp), ...
+                        'elitist / roulette wheel', obj.selection_process, ...
                         'Local Search Probability (p_il)', num2str(obj.p_il), ...
                         'SBX Crossover length (mu)', num2str(obj.mu), ...
                         'Ploy Mutation length (mum)', num2str(obj.mum)};
         end
 
         function obj = setParameter(obj, parameter_cell)
-            obj.selection_process = parameter_cell{1};
-            obj.p_il = str2double(parameter_cell{2});
-            obj.mu = str2num(parameter_cell{3});
-            obj.mum = str2num(parameter_cell{4});
+            obj.rmp = str2double(parameter_cell{1});
+            obj.selection_process = parameter_cell{2};
+            obj.p_il = str2double(parameter_cell{3});
+            obj.mu = str2num(parameter_cell{4});
+            obj.mum = str2num(parameter_cell{5});
         end
 
         function data = run(obj, Tasks, pre_run_list)
             obj.setPreRun(pre_run_list);
+            rmp = obj.rmp;
             pop = obj.pop_size;
             gen = obj.iter_num;
             eva_num = obj.eva_num;
@@ -62,8 +66,8 @@ classdef MFEA < Algorithm
             calls_per_individual = zeros(1, pop);
             bestobj = Inf(1, no_of_tasks);
 
-            cfbRecord = zeros(gen, 1);
-            cfRecord = zeros(gen, 6);
+            % cfbRecord = zeros(gen, 1);
+            % cfRecord = zeros(gen, 6);
 
             for i = 1:pop
                 population(i) = Chromosome_MFEA_AKT();
@@ -336,7 +340,7 @@ classdef MFEA < Algorithm
                         bestInd_data(i) = intpopulation(1);
                     end
 
-                    EvBestFitness(i), generation) = bestobj(i);
+                    EvBestFitness(i, generation) = bestobj(i);
                 end
 
                 for i = 1:2 * pop

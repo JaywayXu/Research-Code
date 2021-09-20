@@ -61,8 +61,6 @@ classdef MFDE < Algorithm
 
             fnceval_calls = zeros(1);
             calls_per_individual = zeros(1, pop);
-            % EvBestFitness = zeros(no_of_tasks * reps, gen); % best fitness found
-            % TotalEvaluations = zeros(reps, gen); % total number of task evaluations so fer
             bestobj = Inf(1, no_of_tasks);
             bestFncErrorValue = zeros(100, 60);
 

@@ -139,7 +139,12 @@ classdef MFPSO < Algorithm
             noImpove = 0;
 
             while ite <= gen && TotalEvaluations(ite) < eva_num
-                w1 = wmax - (wmax - wmin) * ite / gen;
+
+                if gen == inf
+                    w1 = wmax -(wmax - wmin) * TotalEvaluations(ite) / eva_num;
+                else
+                    w1 = wmax - (wmax - wmin) * ite / gen;
+                end
 
                 if ~mod(ite, 10) && noImpove >= 20
                     %restart
