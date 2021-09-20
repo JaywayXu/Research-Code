@@ -14,8 +14,8 @@ classdef drawFigure < handle
     methods
 
         function obj = setXY(obj, x_cell, y_cell)
-            obj.x_cell = x_cell
-            obj.y_cell = y_cell
+            obj.x_cell = x_cell;
+            obj.y_cell = y_cell;
         end
 
         function obj = setXYlabel(obj, xlabel_str, ylabel_str)
