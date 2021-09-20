@@ -3,36 +3,39 @@ classdef MFEA < Algorithm
     properties (SetAccess = private)
         rmp = 0.3
         selection_process = 'elitist'
-        mu = 10
-        sigma = 0.02
+        p_il = 0
+        mu = 10 % 模拟二进制交叉的染色体长度
+        sigma = 0.02 % 高斯变异的标准差
     end
 
     methods
 
         function parameter = getParameter(obj)
-            parameter = {'rmp', num2str(obj.rmp), ...
+            parameter = {'Random Mating Probability (rmp)', num2str(obj.rmp), ...
                         'elitist / roulette wheel', obj.selection_process, ...
-                        'mu', num2str(obj.mu), ...
-                        'sigma', num2str(obj.sigma)};
+                        'Local Search Probability (p_il)', num2str(obj.p_il), ...
+                        'SBX Crossover length (mu)', num2str(obj.mu), ...
+                        'Mutation Sigma (sigma)', num2str(obj.sigma)};
         end
 
         function obj = setParameter(obj, parameter_cell)
             obj.rmp = str2double(parameter_cell{1});
             obj.selection_process = parameter_cell{2};
-            obj.mu = str2double(parameter_cell{3});
-            obj.sigma = str2double(parameter_cell{4});
+            obj.p_il = str2double(parameter_cell{3});
+            obj.mu = str2num(parameter_cell{4});
+            obj.sigma = str2double(parameter_cell{5});
         end
 
         function data = run(obj, Tasks, pre_run_list)
             obj.setPreRun(pre_run_list);
-
             rmp = obj.rmp;
             pop = obj.pop_size;
             gen = obj.iter_num;
             eva_num = obj.eva_num;
             selection_process = obj.selection_process;
-            mu = obj.mu; % 模拟二进制交叉的染色体长度
-            sigma = obj.sigma; % 高斯变异的标准差
+            p_il = obj.p_il;
+            mu = obj.mu;
+            sigma = obj.sigma;
 
             tic % 计时开始
 
@@ -71,8 +74,8 @@ classdef MFEA < Algorithm
             end
 
             % 适应值评价
-            parfor i = 1:pop
-                [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, 0, no_of_tasks, options);
+            for i = 1:pop
+                [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
             end
 
             % 更新评价次数
@@ -129,7 +132,7 @@ classdef MFEA < Algorithm
 
             generation = 1;
 
-            while generation <= gen && TotalEvaluations(generation) < eva_num
+            while generation < gen && TotalEvaluations(generation) < eva_num
                 generation = generation + 1;
                 indorder = randperm(pop); % 随机排列
                 count = 1;
@@ -183,9 +186,9 @@ classdef MFEA < Algorithm
                     count = count + 2;
                 end
 
-                parfor i = 1:pop
+                for i = 1:pop
                     % 函数值评价
-                    [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, 0, no_of_tasks, options);
+                    [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
                 end
 
                 % 更新评价次数

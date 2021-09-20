@@ -3,6 +3,7 @@ classdef MFDE < Algorithm
     properties (SetAccess = private)
         rmp = 0.3
         selection_process = 'elitist'
+        p_il = 0
         F = 0.5
         pCR = 0.9
     end
@@ -10,17 +11,19 @@ classdef MFDE < Algorithm
     methods
 
         function parameter = getParameter(obj)
-            parameter = {'rmp', num2str(obj.rmp), ...
+            parameter = {'Random Mating Probability (rmp)', num2str(obj.rmp), ...
                         'elitist / roulette wheel', obj.selection_process, ...
-                        'F', num2str(obj.F), ...
-                        'pCR', num2str(obj.pCR)};
+                        'Local Search Probability (p_il)', num2str(obj.p_il), ...
+                        'Mutation Factor (F)', num2str(obj.F), ...
+                        'Crossover Probability (pCR)', num2str(obj.pCR)};
         end
 
         function obj = setParameter(obj, parameter_cell)
             obj.rmp = str2double(parameter_cell{1});
             obj.selection_process = parameter_cell{2};
-            obj.F = str2double(parameter_cell{3});
-            obj.pCR = str2double(parameter_cell{4});
+            obj.p_il = str2double(parameter_cell{3});
+            obj.F = str2double(parameter_cell{4});
+            obj.pCR = str2double(parameter_cell{5});
         end
 
         function data = run(obj, Tasks, pre_run_list)
@@ -31,6 +34,7 @@ classdef MFDE < Algorithm
             gen = obj.iter_num;
             eva_num = obj.eva_num;
             selection_process = obj.selection_process;
+            p_il = obj.p_il;
             F = obj.F;
             pCR = obj.pCR;
 
@@ -69,7 +73,7 @@ classdef MFDE < Algorithm
             end
 
             parfor i = 1:pop
-                [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, 0, no_of_tasks, options);
+                [population(i), calls_per_individual(i)] = evaluate(population(i), Tasks, p_il, no_of_tasks, options);
             end
 
             fnceval_calls = fnceval_calls + sum(calls_per_individual);
@@ -206,7 +210,7 @@ classdef MFDE < Algorithm
                 end
 
                 parfor i = 1:pop
-                    [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, 0, no_of_tasks, options);
+                    [child(i), calls_per_individual(i)] = evaluate(child(i), Tasks, p_il, no_of_tasks, options);
                 end
 
                 fnceval_calls = fnceval_calls + sum(calls_per_individual);
